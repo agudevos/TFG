@@ -42,8 +42,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
     rol = models.CharField(max_length=100, choices=ROL_CHOICES, default='client')
-    phone_number = models.PositiveIntegerField(validators=[RegexValidator(r'^[0-9]{6}', message="El número de teléfono debe contener solo dígitos y una longitud de 6 dígitos.")])
-    zipCode = models.PositiveIntegerField(validators=[RegexValidator(r'^[0-9]{5}$', message="El código postal debe contener 5 dígitos numéricos.")])
+    phone_number = models.PositiveIntegerField(default=123456789, validators=[RegexValidator(r'^[0-9]{6}', message="El número de teléfono debe contener solo dígitos y una longitud de 6 dígitos.")])
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
+    zipCode = models.PositiveIntegerField(default=12345, validators=[RegexValidator(r'^[0-9]{5}$', message="El código postal debe contener 5 dígitos numéricos.")])
     is_verified = models.BooleanField(default=False)
     groups = models.ManyToManyField(
         'auth.Group',

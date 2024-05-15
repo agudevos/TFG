@@ -2,7 +2,7 @@ from django.db import models
 from random import randint
 from user.models import CustomUser
 
-class Client(models.Models):
+class Client(models.Model):
 
     def random_id():
         return randint(100000, 999999)
@@ -20,7 +20,7 @@ class Client(models.Models):
     birthday = models.DateField()
     gender = models.CharField(max_length=50, choices=GENDER_CHOICE)
     description = models.CharField(max_length=100)
-    credits = models.IntegerField(max_length=100)
+    credits = models.IntegerField()
     preferences = models.CharField(max_length=100)
     
 
