@@ -12,5 +12,5 @@ class CustomUserAdmin(UserAdmin):
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
         (None, {'fields': ('email', 'rol',)}),
-    )
+    )   
 admin.site.register(CustomUser, CustomUserAdmin)

@@ -1,39 +1,47 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from .models import Bid
 from .serializers import BidSerializer
 
-def bid_list(request):
-    bids = Bid.objects.all()
-    return render(request, 'bid/bid_list.html', {'bids': bids})
+@permission_classes([IsAuthenticated])
+class BidListView(APIView):
+    def get(self, request):
+        bids = Bid.objects.all()
+        serializer = BidSerializer(bids, many=True)
+        return Response(serializer.data)
 
-def bid_detail(request, pk):
-    bid = get_object_or_404(Bid, pk=pk)
-    return render(request, 'bid/bid_detail.html', {'bid': bid})
-
-def bid_create(request):
-    if request.method == 'POST':
-        serializer = BidSerializer(request.POST)
+@permission_classes([IsAuthenticated])
+class BidCreateView(APIView):
+    def post(self, request):
+        serializer = BidSerializer(data=request.data)
         if serializer.is_valid():
             bid = serializer.save()
-            return redirect('bid_detail', pk=bid.pk)
-    else:
-        serializer = BidSerializer()
-    return render(request, 'bid/bid_serializer.html', {'serializer': serializer})
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
-def bid_update(request, pk):
-    bid = get_object_or_404(Bid, pk=pk)
-    if request.method == 'POST':
-        serializer = BidSerializer(request.POST, instance=bid)
+@permission_classes([IsAuthenticated])
+class BidDetailView(APIView):
+    def get(self, request, pk):
+        bid = get_object_or_404(Bid, pk=pk)
+        serializer = BidSerializer(bid)
+        return Response(serializer.data)
+
+@permission_classes([IsAuthenticated])
+class BidUpdateView(APIView):
+    def put(self, request, pk):
+        bid = get_object_or_404(Bid, pk=pk)
+        serializer = BidSerializer(bid, data=request.data, partial=True)
         if serializer.is_valid():
-            bid = serializer.save()
-            return redirect('bid_detail', pk=bid.pk)
-    else:
-        serializer = BidSerializer(instance=bid)
-    return render(request, 'bid/bid_serializer.html', {'serializer': serializer})
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
 
-def bid_delete(request, pk):
-    bid = get_object_or_404(Bid, pk=pk)
-    if request.method == 'POST':
+@permission_classes([IsAuthenticated])
+class BidDeleteView(APIView):
+    def delete(self, request, pk):
+        bid = get_object_or_404(Bid, pk=pk)
         bid.delete()
-        return redirect('bid_list')
-    return render(request, 'bid/bid_confirm_delete.html', {'bid': bid})
+        return Response(status=204)

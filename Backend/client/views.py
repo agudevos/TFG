@@ -1,41 +1,47 @@
-# views.py
 from django.shortcuts import render, redirect, get_object_or_404
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from .models import Client
 from .serializers import ClientSerializer
 
-def client_list(request):
-    clients = Client.objects.all()
-    return render(request, 'client/client_list.html', {'clients': clients})
+@permission_classes([IsAuthenticated])
+class ClientListView(APIView):
+    def get(self, request):
+        clients = Client.objects.all()
+        serializer = ClientSerializer(clients, many=True)
+        return Response(serializer.data)
 
-def client_detail(request, pk):
-    client = get_object_or_404(Client, pk=pk)
-    return render(request, 'client/client_detail.html', {'client': client})
-
-def client_create(request):
-    if request.method == 'POST':
-        serializer = ClientSerializer(request.POST)
+@permission_classes([IsAuthenticated])
+class ClientCreateView(APIView):
+    def post(self, request):
+        serializer = ClientSerializer(data=request.data)
         if serializer.is_valid():
             client = serializer.save()
-            return redirect('client_detail', pk=client.pk)
-    else:
-        serializer = ClientSerializer()
-    return render(request, 'client/client_serializer.html', {'serializer': serializer})
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
-def client_update(request, pk):
-    client = get_object_or_404(Client, pk=pk)
-    if request.method == 'POST':
-        serializer = ClientSerializer(request.POST, instance=client)
+@permission_classes([IsAuthenticated])
+class ClientDetailView(APIView):
+    def get(self, request, pk):
+        client = get_object_or_404(Client, pk=pk)
+        serializer = ClientSerializer(client)
+        return Response(serializer.data)
+
+@permission_classes([IsAuthenticated])
+class ClientUpdateView(APIView):
+    def put(self, request, pk):
+        client = get_object_or_404(Client, pk=pk)
+        serializer = ClientSerializer(client, data=request.data, partial=True)
         if serializer.is_valid():
-            client = serializer.save()
-            return redirect('client_detail', pk=client.pk)
-    else:
-        serializer = ClientSerializer(instance=client)
-    return render(request, 'client/client_serializer.html', {'serializer': serializer})
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
 
-def client_delete(request, pk):
-    client = get_object_or_404(Client, pk=pk)
-    if request.method == 'POST':
+@permission_classes([IsAuthenticated])
+class ClientDeleteView(APIView):
+    def delete(self, request, pk):
+        client = get_object_or_404(Client, pk=pk)
         client.delete()
-        return redirect('client_list')
-    return render(request, 'client/client_confirm_delete.html', {'client': client})
-
+        return Response(status=204)
