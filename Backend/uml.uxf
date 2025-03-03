@@ -1,0 +1,103 @@
+<diagram program="umletino" version="15.1"><zoom_level>5</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>565</x><y>75</y><w>105</w><h>110</h></coordinates><panel_attributes>&lt;Entidad&gt;&gt;
+User
+--
+- id: Integer 
+- username: Char 
+- name: Char
+- surname: Char
+- birthday: Date
+- gender: Char
+- mail: Email
+- rol: RolEnum
+- zipCode: Integer
+- phoneNumber: Integer</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>240</x><y>225</y><w>105</w><h>95</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
+Worker
+--
+- id: Integer
+- owner: Boolean
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>565</x><y>0</y><w>105</w><h>35</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
+RolEnum
+--
++ Worker
++ Client</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>240</x><y>395</y><w>105</w><h>95</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
+Establishment
+--
+- id: Integer
+- name: Char
+- description: Char
+- location: Char
+- owner: Worker
+- workers: List&lt;Worker&gt;
+- platforms: List&lt;Char&gt;
+- preferences: List&lt;Char&gt;
+- subscriptionPlan: Char
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>290</x><y>115</y><w>285</w><h>120</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=1
+&lt; Extends</panel_attributes><additional_attributes>10;220;10;20;550;20</additional_attributes></element><element><id>Relation</id><coordinates><x>290</x><y>315</y><w>55</w><h>90</h></coordinates><panel_attributes>lt=-&gt;
+m1=1..n
+m2=1..n
+owns/works &gt;</panel_attributes><additional_attributes>10;10;10;160</additional_attributes></element><element><id>Relation</id><coordinates><x>665</x><y>120</y><w>290</w><h>590</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=1
+&lt; Extends</panel_attributes><additional_attributes>510;1160;500;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>240</x><y>700</y><w>105</w><h>95</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
+Service
+--
+- id: Integer
+- name: Char
+- description: Char
+- establishment: Establishment
+- category: List&lt;Char&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>290</x><y>485</y><w>40</w><h>225</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=0..n
+offers &gt;</panel_attributes><additional_attributes>10;10;10;430</additional_attributes></element><element><id>UMLClass</id><coordinates><x>865</x><y>700</y><w>105</w><h>95</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
+Client
+--
+- id: Integer
+- credits: Integer
+- preferences: List&lt;Char&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>435</x><y>555</y><w>105</w><h>95</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
+Auction
+--
+- id: Integer
+- service: Service
+- startingDate: DateTime
+- endDate: DateTime
+- timeFrame: Integer
+- startingBid: Integer
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>665</x><y>555</y><w>105</w><h>95</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
+Bid
+--
+- id: Integer
+- sendDate: DateTime
+- event: Char
+- platform: Char
+- quantity: Integer 
+- winner: Boolean
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>560</x><y>865</y><w>105</w><h>95</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
+Reservation
+--
+- id: Integer
+- service: Service
+- startingDate: DateTime
+- endDate: DateTime
+- price: Integer
+- deposit: Integer
+- reservator: Client
+- closed: Boolean
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>290</x><y>790</y><w>280</w><h>140</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=0..n
+&lt; books </panel_attributes><additional_attributes>10;10;10;250;540;250</additional_attributes></element><element><id>Relation</id><coordinates><x>660</x><y>790</y><w>275</w><h>140</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=0..n
+&lt; does</panel_attributes><additional_attributes>520;10;520;250;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>715</x><y>645</y><w>160</w><h>120</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=0..n
+&lt;  sends</panel_attributes><additional_attributes>300;210;10;210;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>535</x><y>590</y><w>140</w><h>25</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=0..n
+&lt; associated to</panel_attributes><additional_attributes>10;20;260;20</additional_attributes></element><element><id>Relation</id><coordinates><x>340</x><y>645</y><w>165</w><h>120</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=0..n
+&lt;  controls</panel_attributes><additional_attributes>10;210;290;210;290;10</additional_attributes></element></diagram>
