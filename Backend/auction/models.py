@@ -1,7 +1,7 @@
 from django.db import models
 from random import randint
 from django.core.validators import MinLengthValidator, MaxLengthValidator, RegexValidator
-from bar.models import Bar
+from establishment.models import Establishment
 
 class Auction(models.Model):
 
@@ -14,4 +14,4 @@ class Auction(models.Model):
     endDate = models.DateTimeField()
     startingbid = models.IntegerField()
 
-    bar = models.ForeignKey(Bar, on_delete=models.CASCADE)
+    establishment = models.ForeignKey(Establishment, on_delete=models.CASCADE)

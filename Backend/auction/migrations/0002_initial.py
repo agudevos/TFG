@@ -10,13 +10,13 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('auction', '0001_initial'),
-        ('bar', '0001_initial'),
+        ('establishment', '0001_initial'),
     ]
 
     operations = [
         migrations.AddField(
             model_name='auction',
-            name='bar',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='bar.bar'),
+            name='establishment',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='establishment.establishment'),
         ),
     ]

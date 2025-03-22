@@ -3,7 +3,7 @@ from random import randint
 from user.models import CustomUser
 from django.core.validators import RegexValidator
 
-class Client(models.Model):
+class Worker(models.Model):
 
     def random_id():
         return randint(100000, 999999)

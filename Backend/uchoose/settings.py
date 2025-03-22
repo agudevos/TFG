@@ -39,10 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'auction',
-    'bar',
+    'establishment',
     'bid',
     'client',
     'user',
+    'worker',
 ]
 
 REST_FRAMEWORK = {

@@ -2,7 +2,7 @@ from django.db import models
 from random import randint
 from user.models import CustomUser
 
-class Bar(models.Model):
+class Establishment(models.Model):
 
     def random_id():
         return randint(100000, 999999)

@@ -1,27 +1,26 @@
-<diagram program="umletino" version="15.1"><zoom_level>13</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>1430</x><y>195</y><w>273</w><h>286</h></coordinates><panel_attributes>&lt;Entidad&gt;&gt;
+<diagram program="umletino" version="15.1"><zoom_level>2</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>506</x><y>119</y><w>42</w><h>44</h></coordinates><panel_attributes>&lt;Entidad&gt;&gt;
 User
 --
 - id: Integer 
 - username: Char 
 - name: Char
 - surname: Char
+- phoneNumber: Integer
 - birthday: Date
-- gender: Char
 - mail: Email
 - rol: RolEnum
-- zipCode: Integer
-- phoneNumber: Integer</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>585</x><y>585</y><w>273</w><h>247</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>376</x><y>179</y><w>42</w><h>38</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
 Worker
 --
 - id: Integer
 - rank: RankEnum
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1430</x><y>0</y><w>273</w><h>104</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>506</x><y>89</y><w>42</w><h>16</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
 RolEnum
 --
 + Worker
 + Client
 bg=green
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>585</x><y>1027</y><w>273</w><h>247</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>376</x><y>247</y><w>42</w><h>38</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
 Establishment
 --
 - id: Integer
@@ -33,16 +32,16 @@ Establishment
 - platforms: List&lt;Char&gt;
 - preferences: List&lt;Char&gt;
 - subscriptionPlan: Char
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>715</x><y>299</y><w>741</w><h>312</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>396</x><y>135</y><w>114</w><h>48</h></coordinates><panel_attributes>lt=&lt;-
 m1=1
 m2=1
-&lt; Extends</panel_attributes><additional_attributes>10;220;10;20;550;20</additional_attributes></element><element><id>Relation</id><coordinates><x>715</x><y>819</y><w>143</w><h>234</h></coordinates><panel_attributes>lt=-&gt;
+&lt; Extends</panel_attributes><additional_attributes>10;220;10;20;550;20</additional_attributes></element><element><id>Relation</id><coordinates><x>396</x><y>215</y><w>22</w><h>36</h></coordinates><panel_attributes>lt=-&gt;
 m1=1..n
 m2=1..n
-owns/works &gt;</panel_attributes><additional_attributes>10;10;10;160</additional_attributes></element><element><id>Relation</id><coordinates><x>1690</x><y>312</y><w>754</w><h>1534</h></coordinates><panel_attributes>lt=&lt;-
+owns/works &gt;</panel_attributes><additional_attributes>10;10;10;160</additional_attributes></element><element><id>Relation</id><coordinates><x>546</x><y>137</y><w>116</w><h>236</h></coordinates><panel_attributes>lt=&lt;-
 m1=1
 m2=1
-&lt; Extends</panel_attributes><additional_attributes>510;1160;500;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>585</x><y>1820</y><w>273</w><h>247</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
+&lt; Extends</panel_attributes><additional_attributes>510;1160;500;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>376</x><y>369</y><w>42</w><h>38</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
 Service
 --
 - id: Integer
@@ -52,15 +51,17 @@ Service
 - category: List&lt;Char&gt;
 - reservable: Boolean
 - price: Integer
-- maxReservation</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>715</x><y>1261</y><w>104</w><h>585</h></coordinates><panel_attributes>lt=&lt;-
+- maxReservation</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>396</x><y>283</y><w>16</w><h>90</h></coordinates><panel_attributes>lt=&lt;-
 m1=1
 m2=0..n
-offers &gt;</panel_attributes><additional_attributes>10;10;10;430</additional_attributes></element><element><id>UMLClass</id><coordinates><x>2210</x><y>1820</y><w>273</w><h>247</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
+offers &gt;</panel_attributes><additional_attributes>10;10;10;430</additional_attributes></element><element><id>UMLClass</id><coordinates><x>626</x><y>369</y><w>42</w><h>38</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
 Client
 --
 - id: Integer
 - credits: Integer
-- preferences: List&lt;Char&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1092</x><y>1443</y><w>273</w><h>247</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
+- zipCode: Integer
+- gender: Char
+- preferences: List&lt;Char&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>454</x><y>311</y><w>42</w><h>38</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
 Auction
 --
 - id: Integer
@@ -69,7 +70,7 @@ Auction
 - endDate: DateTime
 - timeFrame: Integer
 - startingBid: Integer
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1690</x><y>1443</y><w>273</w><h>247</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>546</x><y>311</y><w>42</w><h>38</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
 Bid
 --
 - id: Integer
@@ -78,7 +79,7 @@ Bid
 - platform: Char
 - quantity: Integer 
 - winner: Boolean
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1417</x><y>2249</y><w>273</w><h>247</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>504</x><y>435</y><w>42</w><h>38</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
 Reservation
 --
 - id: Integer
@@ -86,22 +87,22 @@ Reservation
 - startingDate: DateTime
 - endDate: DateTime
 - deposit: Integer
-- reservator: Client</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>715</x><y>2054</y><w>728</w><h>364</h></coordinates><panel_attributes>lt=&lt;-
+- reservator: Client</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>396</x><y>405</y><w>112</w><h>56</h></coordinates><panel_attributes>lt=&lt;-
 m1=1
 m2=0..n
-&lt; books </panel_attributes><additional_attributes>10;10;10;250;540;250</additional_attributes></element><element><id>Relation</id><coordinates><x>1677</x><y>2054</y><w>715</w><h>364</h></coordinates><panel_attributes>lt=&lt;-
+&lt; books </panel_attributes><additional_attributes>10;10;10;250;540;250</additional_attributes></element><element><id>Relation</id><coordinates><x>544</x><y>405</y><w>110</w><h>56</h></coordinates><panel_attributes>lt=&lt;-
 m1=1
 m2=0..n
-&lt; does</panel_attributes><additional_attributes>520;10;520;250;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>1820</x><y>1677</y><w>416</w><h>312</h></coordinates><panel_attributes>lt=&lt;-
+&lt; does</panel_attributes><additional_attributes>520;10;520;250;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>566</x><y>347</y><w>64</w><h>48</h></coordinates><panel_attributes>lt=&lt;-
 m1=1
 m2=0..n
-&lt;  sends</panel_attributes><additional_attributes>300;210;10;210;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1352</x><y>1534</y><w>364</w><h>65</h></coordinates><panel_attributes>lt=&lt;-
+&lt;  sends</panel_attributes><additional_attributes>300;210;10;210;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>494</x><y>325</y><w>56</w><h>10</h></coordinates><panel_attributes>lt=&lt;-
 m1=1
 m2=0..n
-&lt; associated to</panel_attributes><additional_attributes>10;20;260;20</additional_attributes></element><element><id>Relation</id><coordinates><x>845</x><y>1677</y><w>429</w><h>312</h></coordinates><panel_attributes>lt=&lt;-
+&lt; associated to</panel_attributes><additional_attributes>10;20;260;20</additional_attributes></element><element><id>Relation</id><coordinates><x>416</x><y>347</y><w>66</w><h>48</h></coordinates><panel_attributes>lt=&lt;-
 m1=1
 m2=0..n
-&lt;  controls</panel_attributes><additional_attributes>10;210;290;210;290;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>949</x><y>650</y><w>273</w><h>117</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
+&lt;  controls</panel_attributes><additional_attributes>10;210;290;210;290;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>432</x><y>189</y><w>42</w><h>18</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
 RolEnum
 --
 + Owner
@@ -109,7 +110,7 @@ RolEnum
 + Worker
 
 bg=green
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>1820</y><w>273</w><h>247</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>286</x><y>369</y><w>42</w><h>38</h></coordinates><panel_attributes>&lt;&lt;Entity&gt;&gt;
 Schedule
 --
 - id: Integer
@@ -119,10 +120,10 @@ Schedule
 - endTime: Time
 - stopStartTime: Time
 - stopEndTime: Time
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>260</x><y>1924</y><w>351</w><h>65</h></coordinates><panel_attributes>lt=&lt;-
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>326</x><y>385</y><w>54</w><h>10</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..1
 m2=1
-&lt; has</panel_attributes><additional_attributes>10;20;250;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>1508</y><w>273</w><h>195</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
+&lt; has</panel_attributes><additional_attributes>10;20;250;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>286</x><y>321</y><w>42</w><h>30</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
 RolEnum
 --
 + Lunes

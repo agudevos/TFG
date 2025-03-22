@@ -27,7 +27,7 @@ urlpatterns = [
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('', include('auction.urls')),
-    path('', include('bar.urls')),
+    path('', include('establishment.urls')),
     path('', include('bid.urls')),
     path('', include('client.urls')),
     path('', include('user.urls')),

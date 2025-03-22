@@ -24,7 +24,7 @@ export default defineConfig({
       manifest: {
         name: "UChoose",
         short_name: "UChoose",
-        description: "A new way for bar clients to choose their favorite events",
+        description: "A new way for establishment clients to choose their favorite events",
         theme_color: "#ffffff",
         icons: [
           {

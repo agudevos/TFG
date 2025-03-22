@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('username', models.CharField(error_messages={'unique': 'A user with that username already exists.'}, help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.', max_length=150, primary_key=True, serialize=False, unique=True, validators=[user.validators.UnicodeUsernameValidator()])),
                 ('email', models.EmailField(max_length=254, unique=True)),
                 ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
-                ('rol', models.CharField(choices=[('admin', 'Admin'), ('client', 'Client'), ('bar', 'Bar')], default='client', max_length=100)),
+                ('rol', models.CharField(choices=[('admin', 'Admin'), ('client', 'Client'), ('establishment', 'Establishment')], default='client', max_length=100)),
                 ('phone_number', models.PositiveIntegerField(validators=[django.core.validators.RegexValidator('^[0-9]{6}', message='El número de teléfono debe contener solo dígitos y una longitud de 6 dígitos.')])),
                 ('is_staff', models.BooleanField(default=False)),
                 ('is_active', models.BooleanField(default=False)),
