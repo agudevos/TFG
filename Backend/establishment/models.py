@@ -1,5 +1,6 @@
 from django.db import models
 from random import randint
+from worker.models import Worker
 from user.models import CustomUser
 
 class Establishment(models.Model):
@@ -22,4 +23,11 @@ class Establishment(models.Model):
     preferences = models.CharField(max_length=50, choices=SUBSCRIPTION_CHOICE, default='free', null = True)
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Worker, default=1, on_delete=models.CASCADE)
+    workers = models.ManyToManyField(
+        Worker,
+        related_name='establishment_workers',
+        blank=True,
+        verbose_name='workers',
+    )
 
