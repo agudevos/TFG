@@ -12,6 +12,7 @@ class Auction(models.Model):
 
     startingDate = models.DateTimeField()
     endDate = models.DateTimeField()
-    startingbid = models.IntegerField()
+    startingBid = models.IntegerField()
+    timeFrame = models.IntegerField()
 
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
