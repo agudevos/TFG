@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'client',
     'user',
     'worker',
+    'service',
+    'reservation',
 ]
 
 REST_FRAMEWORK = {

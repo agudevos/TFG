@@ -15,6 +15,7 @@ class Service(models.Model):
     reservable = models.BooleanField(default=True, blank=True, null=True)
     price = models.PositiveIntegerField()
     maxReservation = models.PositiveIntegerField()
+    price = models.PositiveIntegerField()
     
     establishment = models.ForeignKey(Establishment, on_delete=models.CASCADE)
 
