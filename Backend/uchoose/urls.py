@@ -31,4 +31,5 @@ urlpatterns = [
     path('', include('bid.urls')),
     path('', include('client.urls')),
     path('', include('user.urls')),
+    path('', include('service.urls')),
 ]
