@@ -10,8 +10,8 @@ class Reservation(models.Model):
         return randint(100000, 999999)
     
     id = models.PositiveIntegerField(primary_key=True, default=random_id, editable=False)
-    startingDate = models.DateTimeField()
-    endDate = models.DateTimeField()
+    starting_date = models.DateTimeField()
+    end_date = models.DateTimeField()
 
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)

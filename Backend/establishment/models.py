@@ -22,8 +22,7 @@ class Establishment(models.Model):
     platforms = models.CharField(max_length=100)
     preferences = models.CharField(max_length=50, choices=SUBSCRIPTION_CHOICE, default='free', null = True)
 
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    owner = models.ForeignKey(Worker, default=1, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Worker, on_delete=models.CASCADE)
     workers = models.ManyToManyField(
         Worker,
         related_name='establishment_workers',

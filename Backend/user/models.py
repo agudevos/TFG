@@ -39,15 +39,15 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         },
     )
     id = models.IntegerField(primary_key=False, auto_created=True,default=random_id, editable=False)
-    email = models.EmailField(default="a@gmail.com",unique=True)
-    name = models.CharField(default="a", max_length=75)
-    surname = models.CharField(default="a", max_length=75)
-    phone_number = models.PositiveIntegerField(default=123456789, validators=[RegexValidator(r'^[0-9]{6}', message="El número de teléfono debe contener solo dígitos y una longitud de 6 dígitos.")])
-    birthday = models.DateField(default=timezone.now)
+    email = models.EmailField(unique=True)
+    name = models.CharField(max_length=75)
+    surname = models.CharField(max_length=75)
+    phone_number = models.PositiveIntegerField(validators=[RegexValidator(r'^[0-9]{6}', message="El número de teléfono debe contener solo dígitos y una longitud de 6 dígitos.")])
+    birthday = models.DateField()
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
     rol = models.CharField(max_length=100, choices=ROL_CHOICES, default='client')
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_verified = models.BooleanField(default=False)
     groups = models.ManyToManyField(
         'auth.Group',

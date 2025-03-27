@@ -12,7 +12,7 @@ class Bid(models.Model):
     
     id = models.PositiveIntegerField(primary_key=True, default=random_id, editable=False)
 
-    sendDate = models.DateTimeField(default=datetime.now())
+    send_date = models.DateTimeField(default=datetime.now())
     event = models.CharField(max_length=100)
     platform = models.CharField(max_length=100)
     quantity = models.IntegerField()

@@ -17,7 +17,7 @@ class Client(models.Model):
     id = models.PositiveIntegerField(primary_key=True, default=random_id, editable=False)
 
     gender = models.CharField(max_length=50, choices=GENDER_CHOICE)
-    zipCode = models.PositiveIntegerField(default=12345, validators=[RegexValidator(r'^[0-9]{5}$', message="El código postal debe contener 5 dígitos numéricos.")])
+    zip_code = models.PositiveIntegerField(default=12345, validators=[RegexValidator(r'^[0-9]{5}$', message="El código postal debe contener 5 dígitos numéricos.")])
     credits = models.IntegerField()
     preferences = models.CharField(max_length=100)
     
