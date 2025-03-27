@@ -16,11 +16,18 @@ class BidListView(APIView):
 @permission_classes([IsAuthenticated])
 class BidCreateView(APIView):
     def post(self, request):
-        serializer = BidSerializer(data=request.data)
-        if serializer.is_valid():
-            bid = serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+        if (request.user.rol == "client"):
+            serializer = BidSerializer(data=request.data)
+            if serializer.is_valid():
+                bid = serializer.save()
+                return Response(serializer.data, status=201)
+            return Response(serializer.errors, status=400)
+        return Response(
+                    {
+                        "message": "Por favor inicie sesión como el cliente para realizar una puja"
+                    },
+                    status=403,
+                )
 
 @permission_classes([IsAuthenticated])
 class BidDetailView(APIView):
