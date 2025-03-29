@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .serializers import ServiceSerializer
 
-@permission_classes([IsAuthenticated])
+#@permission_classes([IsAuthenticated])
 class ServiceCreateView(APIView):
     def post(self, request):
         serializer = ServiceSerializer(data=request.data)
