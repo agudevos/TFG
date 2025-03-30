@@ -2,9 +2,11 @@ import Header from "../../components/Header/Header";
 import { Theme, Container } from "@radix-ui/themes";
 import Footer from "../../components/Footer/Footer";
 import { Outlet } from "react-router";
+import { AuthProvider } from "../../utils/context/AuthContext";
 
 const MainLayout = ({ children }) => {
   return (
+    <AuthProvider>
         <Theme>
           <div className="flex flex-col min-h-screen">
             <Header />
@@ -14,6 +16,7 @@ const MainLayout = ({ children }) => {
             <Footer className="mt-auto" />
           </div>
         </Theme>
+    </AuthProvider>
   );
 };
 

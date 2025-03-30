@@ -6,7 +6,9 @@ import App from "./App";
 import { Theme } from "@radix-ui/themes";
 import MainLayout from "./views/MainLayout/MainLayout";
 import CreateService from "./views/Services/CreateService"
+import CreateAuction from "./views/Auctions/CreateAuction";
 import "./index.css";
+import LoginPage from "./views/LoginPage/Login";
 
 const router = createBrowserRouter([
     {
@@ -20,6 +22,14 @@ const router = createBrowserRouter([
         {
           path:"/services/create",
           element: <CreateService />,
+        },
+        {
+          path:"/auctions/create",
+          element: <CreateAuction />,
+        },
+        {
+          path:"/login",
+          element:<LoginPage />
         }
       ]
     }])
