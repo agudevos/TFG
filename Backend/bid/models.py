@@ -12,11 +12,11 @@ class Bid(models.Model):
     
     id = models.PositiveIntegerField(primary_key=True, default=random_id, editable=False)
 
-    send_date = models.DateTimeField(default=datetime.now())
+    send_date = models.DateTimeField(default=datetime.now(), blank=True)
     event = models.CharField(max_length=100)
     platform = models.CharField(max_length=100)
     quantity = models.IntegerField()
-    winner = models.BooleanField(default=False)
+    winner = models.BooleanField(default=False, blank=True)
 
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)

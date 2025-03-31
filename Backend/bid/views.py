@@ -12,6 +12,13 @@ class BidListView(APIView):
         bids = Bid.objects.all()
         serializer = BidSerializer(bids, many=True)
         return Response(serializer.data)
+    
+@permission_classes([IsAuthenticated])
+class BidListByAuctionView(APIView):
+    def get(self, request, fk):
+        bids = Bid.objects.filter(auction = fk)
+        serializer = BidSerializer(bids, many=True)
+        return Response(serializer.data)
 
 @permission_classes([IsAuthenticated])
 class BidCreateView(APIView):
