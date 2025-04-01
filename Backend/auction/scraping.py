@@ -3,19 +3,19 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from datetime import datetime
 
-def obtener_programacion_eurosport(plataformas):
+def obtener_programacion(plataformas, end_date):
     # URL de la guía de programación (puede cambiar)
     events = {}
     lista = [item.strip() for item in plataformas.split(",")]
     for plataforma in lista:
         if plataforma == "movistar+":
-            url = "https://www.movistarplus.es/programacion-tv/mplus"
+            url = f"https://www.movistarplus.es/programacion-tv/mplus/{end_date.date()}"
         elif plataforma == "eurosport":
-            url = "https://www.movistarplus.es/programacion-tv/esp"
+            url = f"https://www.movistarplus.es/programacion-tv/esp/{end_date.date()}"
         elif plataforma == "dazn la liga":
-            url = "https://www.movistarplus.es/programacion-tv/daznli"
+            url = f"https://www.movistarplus.es/programacion-tv/daznli/{end_date.date()}"
         elif plataforma == "dazn f1":
-            url = "https://www.movistarplus.es/programacion-tv/mvf1"
+            url = f"https://www.movistarplus.es/programacion-tv/mvf1/{end_date.date()}"
         
     
         # Hacer la solicitud HTTP

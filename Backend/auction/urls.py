@@ -7,4 +7,5 @@ urlpatterns = [
     path('auctions/<int:pk>/', views.AuctionDetailView.as_view(), name='auction_detail'),
     path('auctions/<int:pk>/update/', views.AuctionUpdateView.as_view(), name='auction_update'),
     path('auctions/<int:pk>/delete/', views.AuctionDeleteView.as_view(), name='auction_delete'),
+    path('auctions/events/<int:pk>/', views.AuctionEventsView.as_view(), name='service_events')
 ]

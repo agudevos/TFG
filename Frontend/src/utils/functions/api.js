@@ -11,8 +11,8 @@ export function getFromApi(url) {
   });
 }
 
-export function postToApi(url, data) {
-  return fetch(`${BASE_URL}/${url}`, {
+export async function postToApi(url, data) {
+  const response = await fetch(`${BASE_URL}/${url}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -20,6 +20,13 @@ export function postToApi(url, data) {
     },
     body: JSON.stringify(data),
   });
+  const result = await response.json().catch(e => ({}));
+  
+  if (!response.ok) {
+    throw { status: response.status, message: result.error || "Error desconocido" };
+  }
+  
+  return result;
 }
 
 export function postFormToApi(url, formData) {

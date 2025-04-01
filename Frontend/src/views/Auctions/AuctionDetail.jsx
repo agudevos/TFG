@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getFromApi, postToApi } from "../../utils/functions/api";
+import { FormContainer } from "../../components/Form";
 
 
 const AuctionDetail =  () => {
@@ -9,6 +10,8 @@ const AuctionDetail =  () => {
     const [events, setEvents] = useState([])
     const [claveSeleccionada, setClaveSeleccionada] = useState('');
     const [subClaves, setSubClaves] = useState([]);
+    const [createSuccess, setCreateSuccess] = useState(false);
+    const [error, setError] = useState("");
 
     const [tiempoRestante, setTiempoRestante] = useState({
         porcentaje: 0,
@@ -25,26 +28,33 @@ const AuctionDetail =  () => {
             console.log("Auction data:",data.id)
             const serviceId = data.service
             if (serviceId) {
-              getFromApi(`services/events/${serviceId}/`)
-              .then((response) => response.json())
-              .then((data) => {
-                console.log("Events:",data)
-                setEvents(data)})
               getFromApi(`services/${serviceId}/`)
               .then((response) => response.json())
               .then((data) => setService(data))
             }
+        getFromApi(`auctions/events/353817/`)
+        .then((response) => response.json())
+        .then((data) => setEvents(data))
     });
         console.log("DATOS", auction)
     }, []);
 
 
     useEffect(() => {
-        getFromApi("bids/auction/353817")
+      const obtenerBids = async () => {
+        await getFromApi("bids/auction/353817")
         .then((response) => response.json())
         .then((data) => {
-          console.log("Auction data:",data)
           setBids(data)});
+        }
+
+        obtenerBids();
+  
+        // Configurar llamada periódica cada 5 segundos
+        const intervalo = setInterval(obtenerBids, 5000);
+        
+        // Limpiar el intervalo cuando el componente se desmonte
+        return () => clearInterval(intervalo);
     }, []);
 
 
@@ -170,11 +180,6 @@ const AuctionDetail =  () => {
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    console.log(auction.id)
-    setFormulario({
-      ...formulario,
-      [name]: value
-    });
 
     if (name === "platform") {
       if (value) {
@@ -185,12 +190,19 @@ const AuctionDetail =  () => {
         
         setFormulario({
           ...formulario,
+          ["platform"]: value,
           ["event"]: subClavesDisponibles[0].titulo
         });
       } else {
         setSubClaves([]);
       }
+    } else {
+      setFormulario({
+        ...formulario,
+        [name]: value
+      });
     }
+    console.log(formulario)
   };
   const [formulario, setFormulario] = useState({
     quantity: "",
@@ -213,13 +225,17 @@ const AuctionDetail =  () => {
             auction: formulario.auction,
             client: formulario.client,
             });
-    
-            console.log("Subasta agregado exitosamente", response);
+              setError("")
+              setCreateSuccess(true);
+              setTimeout(() => {
+                setCreateSuccess(false);
+              }, 3000);
                 
         // Opcional: redirigir después de crear el servicio
         // setTimeout(() => navigate('/services'), 2000);
         }catch (error) {
-            console.error("Error en el submit:", error);
+            setError(error.message)
+            console.error("Error en el submit:", error.message);
         }
   };
 
@@ -319,7 +335,17 @@ const AuctionDetail =  () => {
               </table>
             </div>
           </div>
-    
+        {createSuccess && (
+          <div className="flex justify-center">
+            <FormContainer role="alert" className="border-2 border-cyan-300 w-11/12">
+                <strong className="font-bold">Éxito!</strong>
+                <span className="block sm:inline">
+                  {" "}
+                  Se ha realizado la puja correctamente.
+                </span>
+            </FormContainer>
+          </div>
+        )}
           {/* Formulario estático - Parte inferior */}
           <div className="bg-white shadow-md rounded-md p-6 m-4">
             <h2 className="text-xl font-semibold mb-4">Realizar una puja</h2>
@@ -349,11 +375,12 @@ const AuctionDetail =  () => {
                     id="platform"
                     name="platform"
                     disabled= {tiempoRestante.porcentaje === 100}
-                    value={formulario.platform}
+                    value={formulario.platform || ""}
                     placeholder="-"
                     onChange={handleFormChange}
                     className="focus:ring-cyan-500 focus:border-cyan-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border"
                   >
+                    <option value="" disabled>Selecciona una plataforma</option>
                     {Object.keys(events).map((clave) => (
                         <option value={clave.toString()}>{clave}</option>
                     ))}
@@ -372,12 +399,23 @@ const AuctionDetail =  () => {
                     onChange={handleFormChange}
                     className="focus:ring-cyan-500 focus:border-cyan-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2 border"
                   >
+                    <option value="" disabled>Selecciona un evento</option>
                     {subClaves.map((event) => (
                         <option value={event.titulo}>{event.hora}-{event.titulo}</option>
                     ))}
                   </select>
                 </div>
               </div>
+              {error !== "" && (
+                <div className="flex justify-center">
+                  <FormContainer role="alert" className="border-2 border-red-300 w-11/12">
+                      <strong className="font-bold">Ups.. </strong>
+                      <span className="block sm:inline">
+                        {error}
+                      </span>
+                  </FormContainer>
+                </div>
+              )}
               
               <div className="flex justify-end mt-6">
                 <button

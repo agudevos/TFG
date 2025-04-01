@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import Auction
 from .serializers import AuctionSerializer
+from .scraping import obtener_programacion
 
 @permission_classes([IsAuthenticated])
 class AuctionListView(APIView):
@@ -46,3 +47,10 @@ class AuctionDeleteView(APIView):
         auction = get_object_or_404(Auction, pk=pk)
         auction.delete()
         return Response(status=204)
+    
+@permission_classes([IsAuthenticated])
+class AuctionEventsView(APIView):
+    def get(self, request, pk):
+        auction = get_object_or_404(Auction, pk=pk)
+        eventos = obtener_programacion(auction.service.establishment.platforms, auction.end_date)
+        return Response(eventos)

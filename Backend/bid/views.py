@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import Bid
 from .serializers import BidSerializer
+from datetime import datetime
 
 @permission_classes([IsAuthenticated])
 class BidListView(APIView):
@@ -26,9 +27,11 @@ class BidCreateView(APIView):
         if (request.user.rol == "client"):
             serializer = BidSerializer(data=request.data)
             if serializer.is_valid():
+                print(datetime.now())
                 bid = serializer.save()
                 return Response(serializer.data, status=201)
-            return Response(serializer.errors, status=400)
+            print(serializer.errors['non_field_errors'][0])
+            return Response({"error": serializer.errors['non_field_errors'][0]}, status=400)
         return Response(
                     {
                         "message": "Por favor inicie sesión como el cliente para realizar una puja"
