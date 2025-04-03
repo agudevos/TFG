@@ -2,11 +2,11 @@ name: "CodeQL Analysis"
 
 on:
   push:
-    branches: [ main, feat_development ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
   schedule:
-    - cron: '0 0 * * 6'  # Ejecutar cada domingo a medianoche
+    - cron: '0 0 * * 6'  # Sábados a medianoche
 
 jobs:
   analyze:
@@ -24,17 +24,44 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
+      with:
+        # Necesario para que CodeQL analice el historial completo
+        fetch-depth: 0
+
+    # Configuración del caché
+    - name: Setup CodeQL cache
+      uses: actions/cache@v4
+      with:
+        path: ~/.codeql/cache
+        key: ${{ runner.os }}-codeql-${{ hashFiles('**/*.py', '**/*.js', '**/*.jsx') }}
+        restore-keys: |
+          ${{ runner.os }}-codeql-
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      # Actualizado a v3
+      uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
         queries: security-and-quality
-
-    # Para proyectos que utilizan compilación (no necesario para Python ni JavaScript interpretado)
-    # - name: Autobuild
-    #   uses: github/codeql-action/autobuild@v2
+        # Usando la última versión de las herramientas para compatibilidad
+        tools: latest
+        # Optimizaciones para JavaScript
+        config: |
+          extraction:
+            javascript:
+              index:
+                exclude:
+                  - "**/node_modules/**"
+                  - "**/build/**"
+                  - "**/dist/**"
+                cache:
+                  force-rebuild: true
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      # Actualizado a v3
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:${{ matrix.language }}"
+        upload: true
+        wait-for-processing: true

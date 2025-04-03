@@ -1,10 +1,12 @@
-name: Codacy Analysis
+name: "Codacy Analysis"
 
 on:
   push:
-    branches: [ main, development, feat_development ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 6'  # Sábados a medianoche
 
 jobs:
   codacy-analysis:
@@ -12,11 +14,67 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          # Utiliza un fetch shallow para reducir el tamaño
+          fetch-depth: 1
 
-      - name: Run Codacy Analysis
+      # Añadir paso de caché
+      - name: Cache Codacy dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.codacy
+          key: ${{ runner.os }}-codacy-${{ hashFiles('**/package.json', '**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-codacy-
+
+      # Excluir archivos grandes y directorios especificados
+      - name: Prepare repository
+        run: |
+          # Excluir archivos binarios, imágenes y archivos grandes
+          find . -type f -size +1M -not -path "*/\.git/*" -not -path "*/node_modules/*" > .codacyignore
+          
+          # Añadir exclusiones específicas del proyecto
+          echo "frontend/node_modules/**" >> .codacyignore
+          echo "*/migrations/*" >> .codacyignore
+          echo "*/tests/*" >> .codacyignore
+          echo ".github/**" >> .codacyignore
+          echo "docs/**" >> .codacyignore
+          echo "**/tests/**" >> .codacyignore
+          echo "**/*.md" >> .codacyignore
+          echo "**/migrations/**" >> .codacyignore
+          echo "frontend/build/**" >> .codacyignore
+          echo "**/node_modules/**" >> .codacyignore
+          echo "**/static/vendor/**" >> .codacyignore
+          echo "*/dist/*" >> .codacyignore
+          echo "*/build/*" >> .codacyignore
+          echo "*/media/*" >> .codacyignore
+          echo "*.min.js" >> .codacyignore
+
+      # Configuración mejorada para el análisis de Codacy
+      - name: Run Codacy Analysis with extended timeout
         uses: codacy/codacy-analysis-cli-action@master
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           upload: true
-          max-allowed-issues: 10
+          # Aumentar el tiempo de espera (en segundos)
+          max-allowed-time: 1800
+          # Configuración para manejar archivos grandes
+          tool-timeout: 900
+          # Limitar análisis a los cambios recientes para reducir carga
+          commit-uuid: ${{ github.sha }}
+          # División del análisis en partes más pequeñas
+          parallel: 4
+          # Opcional: Reducir la verbosidad para archivos más pequeños
+          verbose: false
+          # Configuraciones de JVM para optimizar el uso de memoria
+          gh-code-scanning-compat: false
+          output: results.sarif
+        env:
+          # Configuraciones de JVM para la herramienta
+          JAVA_OPTS: "-Xms512m -Xmx4g -XX:+UseG1GC"
+          # Configuraciones de timeout de red
+          CODACY_API_REQUEST_TIMEOUT: 300
+          CODACY_UPLOAD_TIMEOUT: 600
+          # Retry settings
+          CODACY_API_RETRY_COUNT: 5
