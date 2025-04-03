@@ -16,8 +16,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          # Utiliza un fetch shallow para reducir el tamaño
-          fetch-depth: 1
+          # Usar fetch-depth: 0 para obtener todo el historial
+          fetch-depth: 0
 
       # Añadir paso de caché
       - name: Cache Codacy dependencies
@@ -28,51 +28,48 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-codacy-
 
-      # Excluir archivos grandes y directorios especificados
-      - name: Prepare repository
+      # Crear archivos de exclusión
+      - name: Create .codacyignore
         run: |
-          # Excluir archivos binarios, imágenes y archivos grandes
-          find . -type f -size +1M -not -path "*/\.git/*" -not -path "*/node_modules/*" > .codacyignore
-          
-          # Añadir exclusiones específicas del proyecto
-          echo "frontend/node_modules/**" >> .codacyignore
-          echo "*/migrations/*" >> .codacyignore
-          echo "*/tests/*" >> .codacyignore
-          echo ".github/**" >> .codacyignore
-          echo "docs/**" >> .codacyignore
-          echo "**/tests/**" >> .codacyignore
-          echo "**/*.md" >> .codacyignore
-          echo "**/migrations/**" >> .codacyignore
-          echo "frontend/build/**" >> .codacyignore
-          echo "**/node_modules/**" >> .codacyignore
-          echo "**/static/vendor/**" >> .codacyignore
-          echo "*/dist/*" >> .codacyignore
-          echo "*/build/*" >> .codacyignore
-          echo "*/media/*" >> .codacyignore
-          echo "*.min.js" >> .codacyignore
+          cat > .codacyignore << EOL
+          frontend/node_modules/**
+          */migrations/*
+          */tests/*
+          .github/**
+          docs/**
+          **/tests/**
+          **/*.md
+          **/migrations/**
+          frontend/build/**
+          **/node_modules/**
+          **/static/vendor/**
+          */dist/*
+          */build/*
+          */media/*
+          *.min.js
+          results.sarif
+          EOL
 
-      # Configuración mejorada para el análisis de Codacy
-      - name: Run Codacy Analysis with extended timeout
+      # Configuración mejorada para el análisis de Codacy - con flag para ignorar cambios no confirmados
+      - name: Run Codacy Analysis
         uses: codacy/codacy-analysis-cli-action@master
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           upload: true
+          # Ignorar cambios no confirmados - IMPORTANTE
+          allow-uncommitted-changes: true
           # Aumentar el tiempo de espera
           max-allowed-time: 30minutes
           # Configuración para manejar archivos grandes
           tool-timeout: 15minutes
-          # División del análisis en partes más pequeñas
+          # División del análisis en partes más pequeñas para mayor velocidad
           parallel: 4
-          # Opcional: Reducir la verbosidad para archivos más pequeños
-          verbose: false
-          # Configuraciones de JVM para optimizar el uso de memoria
-          gh-code-scanning-compat: false
           output: results.sarif
         env:
           # Configuraciones de JVM para la herramienta
           JAVA_OPTS: "-Xms512m -Xmx4g -XX:+UseG1GC"
           # Configuraciones de timeout de red
-          CODACY_API_REQUEST_TIMEOUT: 300
-          CODACY_UPLOAD_TIMEOUT: 600
+          CODACY_API_REQUEST_TIMEOUT: 5minutes
+          CODACY_UPLOAD_TIMEOUT: 10minutes
           # Retry settings
           CODACY_API_RETRY_COUNT: 5
