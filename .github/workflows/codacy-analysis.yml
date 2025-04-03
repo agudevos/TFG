@@ -1,8 +1,8 @@
-name: "Codacy Analysis"
+name: "Codacy Analysis con resultados guardados"
 
 on:
   push:
-    branches: [ main, develop, feat_development ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
   schedule:
@@ -16,60 +16,35 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          # Usar fetch-depth: 0 para obtener todo el historial
-          fetch-depth: 0
+          fetch-depth: 1
 
-      # Añadir paso de caché
-      - name: Cache Codacy dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.codacy
-          key: ${{ runner.os }}-codacy-${{ hashFiles('**/package.json', '**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-codacy-
-
-      # Crear archivos de exclusión
-      - name: Create .codacyignore
-        run: |
-          cat > .codacyignore << EOL
-          frontend/node_modules/**
-          */migrations/*
-          */tests/*
-          .github/**
-          docs/**
-          **/tests/**
-          **/*.md
-          **/migrations/**
-          frontend/build/**
-          **/node_modules/**
-          **/static/vendor/**
-          */dist/*
-          */build/*
-          */media/*
-          *.min.js
-          results.sarif
-          EOL
-
-      # Configuración mejorada para el análisis de Codacy - con flag para ignorar cambios no confirmados
+      # Ejecutar el análisis de Codacy con salida a archivo
       - name: Run Codacy Analysis
-        uses: codacy/codacy-analysis-cli-action@master
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          upload: true
-          # Ignorar cambios no confirmados - IMPORTANTE
-          allow-uncommitted-changes: true
-          # Aumentar el tiempo de espera
-          max-allowed-time: 30minutes
-          # Configuración para manejar archivos grandes
-          tool-timeout: 15minutes
-          # División del análisis en partes más pequeñas para mayor velocidad
-          parallel: 4
-          output: results.sarif
         env:
-          # Configuraciones de JVM para la herramienta
-          JAVA_OPTS: "-Xms512m -Xmx4g -XX:+UseG1GC"
-          # Configuraciones de timeout de red
-          CODACY_API_REQUEST_TIMEOUT: 5minutes
-          CODACY_UPLOAD_TIMEOUT: 10minutes
-          # Retry settings
-          CODACY_API_RETRY_COUNT: 5
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        run: |
+          # Crear directorio para resultados
+          mkdir -p codacy-results
+          
+          # Ejecutar Codacy con Docker y guardar resultados en archivo
+          docker run \
+            --rm \
+            -v $(pwd):/code \
+            -v $(pwd)/codacy-results:/results \
+            -e CODACY_PROJECT_TOKEN=$CODACY_PROJECT_TOKEN \
+            codacy/codacy-analysis-cli:latest \
+            analyze \
+            --directory /code \
+            --format json \
+            --output /results/codacy-result.json \
+            --verbose
+          
+          echo "Análisis completado. Resultados guardados en codacy-results/codacy-result.json"
+      
+      # Guardar resultados como artefacto
+      - name: Guardar resultados como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: codacy-analysis-results
+          path: codacy-results/
+          retention-days: 30
