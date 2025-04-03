@@ -2,7 +2,7 @@ name: "CodeQL Analysis"
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, feat_development ]
   pull_request:
     branches: [ main ]
   schedule:
