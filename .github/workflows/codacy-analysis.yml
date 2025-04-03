@@ -2,7 +2,7 @@ name: "Codacy Analysis con resultados guardados"
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop, feat_development ]
   pull_request:
     branches: [ main ]
   schedule:
