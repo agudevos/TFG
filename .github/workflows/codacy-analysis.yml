@@ -2,7 +2,7 @@ name: "Codacy Analysis"
 
 on:
   push:
-    branches: [ main, develop, feat_development ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
   schedule:
@@ -57,12 +57,10 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           upload: true
-          # Aumentar el tiempo de espera (en segundos)
-          max-allowed-time: 1800
+          # Aumentar el tiempo de espera
+          max-allowed-time: 30minutes
           # Configuración para manejar archivos grandes
-          tool-timeout: 900
-          # Limitar análisis a los cambios recientes para reducir carga
-          commit-uuid: ${{ github.sha }}
+          tool-timeout: 15minutes
           # División del análisis en partes más pequeñas
           parallel: 4
           # Opcional: Reducir la verbosidad para archivos más pequeños
