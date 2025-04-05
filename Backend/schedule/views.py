@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from django.shortcuts import render, get_object_or_404
 from .models import WeeklySchedule, GroupSchedule, SpecificSchedule, TimeSlot, SlotAssignment
 from .serializers import (
-    WeeklyScheduleSerializer, GroupScheduleSerializer, 
+    SlotAssignmentSerializer, WeeklyScheduleSerializer, GroupScheduleSerializer, 
     SpecificScheduleSerializer, TimeSlotSerializer
 )
 
@@ -373,3 +373,93 @@ class CreateSpecificScheduleFromView(APIView):
             "name": new_schedule.name
         })
 
+@permission_classes([IsAuthenticated])
+class SlotAssignmentListView(APIView):
+    """
+    List all slot assignments or create a new one
+    """
+    def get(self, request, format=None):
+        # Optional filtering by schedule type and id
+        weekly_id = request.query_params.get('weekly_schedule')
+        group_id = request.query_params.get('group_schedule')
+        specific_id = request.query_params.get('specific_schedule')
+        
+        assignments = SlotAssignment.objects.all()
+        
+        if weekly_id:
+            assignments = assignments.filter(weekly_schedule_id=weekly_id)
+        elif group_id:
+            assignments = assignments.filter(group_schedule_id=group_id)
+        elif specific_id:
+            assignments = assignments.filter(specific_schedule_id=specific_id)
+            
+        serializer = SlotAssignmentSerializer(assignments, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request, format=None):
+        serializer = SlotAssignmentSerializer(data=request.data)
+        if serializer.is_valid():
+            # Check if the time slot exists
+            time_slot_id = serializer.validated_data.get('time_slot').id
+            if not TimeSlot.objects.filter(id=time_slot_id).exists():
+                return Response(
+                    {"error": "Time slot does not exist"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+                
+            # Check if the selected schedule exists
+            if serializer.validated_data.get('weekly_schedule'):
+                schedule_id = serializer.validated_data.get('weekly_schedule').id
+                if not WeeklySchedule.objects.filter(id=schedule_id).exists():
+                    return Response(
+                        {"error": "Weekly schedule does not exist"},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+            elif serializer.validated_data.get('group_schedule'):
+                schedule_id = serializer.validated_data.get('group_schedule').id
+                if not GroupSchedule.objects.filter(id=schedule_id).exists():
+                    return Response(
+                        {"error": "Group schedule does not exist"},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+            elif serializer.validated_data.get('specific_schedule'):
+                schedule_id = serializer.validated_data.get('specific_schedule').id
+                if not SpecificSchedule.objects.filter(id=schedule_id).exists():
+                    return Response(
+                        {"error": "Specific schedule does not exist"},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+            
+            # Create the slot assignment
+            slot_assignment = serializer.save()
+            return Response(
+                SlotAssignmentSerializer(slot_assignment).data,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@permission_classes([IsAuthenticated])
+class SlotAssignmentDetailView(APIView):
+    """
+    Retrieve, update or delete a slot assignment
+    """
+    def get_object(self, pk):
+        return get_object_or_404(SlotAssignment, pk=pk)
+    
+    def get(self, request, pk, format=None):
+        assignment = self.get_object(pk)
+        serializer = SlotAssignmentSerializer(assignment)
+        return Response(serializer.data)
+    
+    def put(self, request, pk, format=None):
+        assignment = self.get_object(pk)
+        serializer = SlotAssignmentSerializer(assignment, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk, format=None):
+        assignment = self.get_object(pk)
+        assignment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

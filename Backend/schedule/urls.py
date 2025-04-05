@@ -21,4 +21,8 @@ urlpatterns = [
     path('schedules/specific-schedules/', views.SpecificScheduleListView.as_view(), name='specific-schedules-list'),
     path('schedules/specific-schedules/<int:pk>/', views.SpecificScheduleDetailView.as_view(), name='specific-schedules-detail'),
     path('schedules/specific-schedules/create-from/', views.CreateSpecificScheduleFromView.as_view(), name='specific-schedules-create-from'),
+
+    # Slot Assignment endpoints
+    path('schedules/slot-assignments/', views.SlotAssignmentListView.as_view(), name='slot-assignment-list'),
+    path('schedules/slot-assignments/<int:pk>/', views.SlotAssignmentDetailView.as_view(), name='slot-assignment-detail'),
 ]

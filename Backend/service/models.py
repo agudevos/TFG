@@ -25,3 +25,5 @@ class ServicePriceAssignment(models.Model):
 
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     time_slot = models.ForeignKey(SlotAssignment, on_delete=models.CASCADE)
+
+    unique_together = ['time_slot', 'service']

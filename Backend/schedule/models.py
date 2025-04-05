@@ -53,6 +53,7 @@ class SlotAssignment(models.Model):
     
     class Meta:
         ordering = ['order']
+        unique_together = ['weekly_schedule', 'time_slot']
 
 
 class WeeklySchedule(BaseSchedule):

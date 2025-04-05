@@ -10,6 +10,7 @@ import CreateAuction from "./views/Auctions/CreateAuction";
 import "./index.css";
 import LoginPage from "./views/LoginPage/Login";
 import AuctionDetail from "./views/Auctions/AuctionDetail";
+import ScheduleManagement from "./views/Schedule/ScheduleManagement";
 
 const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
         {
           path: "/auctions/:auctionId",
           element: <AuctionDetail />
+        },
+        {
+          path:"/schedules",
+          element: <ScheduleManagement />
         }
       ]
     }])

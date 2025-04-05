@@ -4,6 +4,7 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export function getFromApi(url) {
   return fetch(`${BASE_URL}/${url}`, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${JSON.parse(localStorage.getItem('authTokens'))?.access}`,

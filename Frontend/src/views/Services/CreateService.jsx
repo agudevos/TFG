@@ -54,17 +54,6 @@ const CreateService = () => {
             required: messages.req,
             minLength: { value: 3, message: "La categoría debe tener al menos 3 caracteres" }
           }
-        },
-        {
-          name: "price",
-          label: "Precio",
-          type: "number",
-          min: "0",
-          placeholder: "Ingrese el precio del servicio",
-          validation: {
-            required: messages.req,
-            min: { value: 0, message: "Debe ser mayor o igual a 0" }
-          }
         }
       ]
     },
@@ -103,7 +92,6 @@ const CreateService = () => {
     name: "",
     description: "",
     category: "",
-    price: "",
     max_reservation: "",
     deposit: ""
   };
@@ -117,10 +105,9 @@ const CreateService = () => {
       description: formData.description,
       category: formData.category,
       reservable: false,
-      price: parseInt(formData.price),
       max_reservation: parseInt(formData.max_reservation),
       deposit: parseInt(formData.deposit),
-      establishment: 388664,
+      establishment: 862691,
     });
 
     console.log("Servicio agregado exitosamente", response);
@@ -142,7 +129,7 @@ const CreateService = () => {
       finishButtonText="Finalizar"
       submitButtonText="Crear Servicio"
       backButtonText="Volver al formulario"
-      stepLabels={["Información Básica", "Categoría y Precio", "Restricciones"]}
+      stepLabels={["Información Básica", "Categoría", "Restricciones"]}
     />
   );
 };
