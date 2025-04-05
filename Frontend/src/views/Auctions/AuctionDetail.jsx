@@ -230,6 +230,10 @@ const AuctionDetail =  () => {
               setTimeout(() => {
                 setCreateSuccess(false);
               }, 3000);
+              setFormulario({
+                ...formulario,
+                ["quantity"]: ""
+              });
                 
         // Opcional: redirigir después de crear el servicio
         // setTimeout(() => navigate('/services'), 2000);
@@ -252,7 +256,7 @@ const AuctionDetail =  () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+    <div className="flex flex-col min-h-screen">
       {/* Detalles del objeto principal - Parte superior */}
       <div className="bg-white shadow-md rounded-md p-6 m-4">
         <div className="flex justify-between items-start">
@@ -337,7 +341,7 @@ const AuctionDetail =  () => {
           </div>
         {createSuccess && (
           <div className="flex justify-center">
-            <FormContainer role="alert" className="border-2 border-cyan-300 w-11/12">
+            <FormContainer role="alert" className="border-2 border-cyan-300 w-11/12 bg-white">
                 <strong className="font-bold">Éxito!</strong>
                 <span className="block sm:inline">
                   {" "}

@@ -1,135 +1,98 @@
 import { Button, Flex } from "@radix-ui/themes";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useCallback, useContext, useEffect } from "react";
-import { useState } from "react";
-import { IoMdMenu } from "react-icons/io";
-import {  } from "react-router-dom";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { IoMdMenu, IoMdClose } from "react-icons/io";
+import AuthContext from "../../utils/context/AuthContext";
+import HeaderLink from "./HeaderLink";
+import { FaUserNinja } from "react-icons/fa";
+import { IoMdExit } from "react-icons/io";
 
 const Header = () => {
+  const { user, logoutUser } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
-
   const [open, setOpen] = useState(false);
 
-    const handleMenu = useCallback(() => {
-      setOpen(!open)
-    }, [open])
+  const handleMenu = useCallback(() => {
+    setOpen(!open);
+  }, [open]);
 
-    useEffect(() => {
-      return navigate(location.pathname);
-    }, [location.pathname, navigate]);
+  useEffect(() => {
+    return navigate(location.pathname);
+  }, [location.pathname, navigate]);
 
-    useEffect(() => {
-      setOpen(false); 
-    }, [location]);
-
+  useEffect(() => {
+    setOpen(false);
+  }, [location]);
 
   return (
-    <header className="sticky top-0 shadow-md px-5 py-2 sm:px-10 bg-white font-sans min-h-[70px] z-10">
-      <div className="flex justify-between max-lg:flex-wrap items-center gap-4 my-auto">
-        {/* <Link
-          to={
-            {
-              owner: "/owner/home",
-              client: "/user/home",
-            }[user?.rol] || "/"
-          }
-        >
-          <Flex align="center">
-            <img
-              src="/MuscleMateLogo.svg"
-              alt="Logo"
-              className="mr-4 size-14"
-            />
-            <h1 className="text-xl font-bold">MuscleMate</h1>
-          </Flex>
-        </Link> */}
-
-        <button className={`lg:hidden`} onClick={handleMenu}>
-          <IoMdMenu className="size-8" />
-        </button>
-        <ul
+    <header className="sticky top-0 shadow-md bg-cyan-500 px-5 py-3 sm:px-10 font-sans min-h-[70px] z-10">
+      <div className="container mx-auto flex justify-between items-center">
+        <div className="flex items-center">
+          <Link to="/" className="text-white font-bold text-xl mr-4">
+            UChoose
+          </Link>
+          
+          <button 
+            className="lg:hidden text-white focus:outline-none"
+            onClick={handleMenu}
+            aria-label={open ? "Cerrar menú" : "Abrir menú"}
+          >
+            {open ? <IoMdClose className="size-7" /> : <IoMdMenu className="size-7" />}
+          </button>
+        </div>
+        
+        <div 
           className={`${
-            open ? "max-lg:block" : "max-lg:hidden"
-          } flex items-center max-lg:space-y-2 max-lg:w-full max-lg:mb-2`}
+            open ? "max-lg:flex" : "max-lg:hidden"
+          } flex-col lg:flex-row lg:flex items-center max-lg:absolute max-lg:top-[70px] max-lg:left-0 max-lg:right-0 max-lg:bg-white max-lg:shadow-md max-lg:px-5 max-lg:py-4 max-lg:space-y-3 lg:space-x-4 transition-all duration-300`}
         >
-          {/* {user?.rol === "owner" ? (
-            <>
-              <HeaderLink to="/owner/my-gyms">Mis Gimnasios</HeaderLink>
-              <HeaderLink to="/owner/equipments">Mis máquinas</HeaderLink>
-              <HeaderLink to="/owner/users">Usuarios</HeaderLink>
-              <HeaderLink to="/owner/tickets">Incidencias</HeaderLink>
-              {ownerSubscription.owner_plan === "premium" ? (
-                <HeaderLink to="/owner/events">Eventos</HeaderLink>
-                ) : null}
-              <HeaderLink to="/owner/pricing">Planes</HeaderLink>
-              <HeaderLink to="/owner/subscriptions">Suscripciones</HeaderLink>
-            </>
-          ) : user?.rol === "client" ? (
-            <>
-              <HeaderLink to="/user/routines">Rutinas</HeaderLink>
-              <HeaderLink to="/user/events">Eventos</HeaderLink>
-              <HeaderLink to="/user/statistics">Historial</HeaderLink>
-              <HeaderLink to="/user/equipmentsClient">
-                Máquinas del gimnasio
-              </HeaderLink>
-              <HeaderLink to="/user/add-tickets">Crear incidencia</HeaderLink>
-              <HeaderLink to="user/tickets">Mis Incidencias</HeaderLink>
-            </>
-          ) : user?.rol === "gym" ? (
-            <>
-              <HeaderLink to="/gym/equipments">Mis máquinas</HeaderLink>
-              <HeaderLink to="/gym/users">Usuarios</HeaderLink>
-              <HeaderLink to="/gym/tickets">Incidencias</HeaderLink>
-              <HeaderLink to="/gym/events">Eventos</HeaderLink>
-              {ownerSubscription.owner_plan === "premium" ? (
-                <HeaderLink to="/gym/stats">Estadísticas Globales</HeaderLink>
-              ) : null}
-            </>
-          ) : null} }
-          { {user ? (
-            <>
-              <li className="max-lg:py-2 px-3 flex gap-4 items-center">
-                <Link
-                  to={
-                    user.rol === "client"
-                      ? "/user/profile"
-                      : user.rol === "gym"
-                      ? "/gym/profile"
-                      : "/owner/profile"
-                  }
-                >
-                  <Button size="3" variant="surface" color="green">
-                    {user.username}
-                  </Button>
-                </Link>
-                <Link to="/">
-                  <Button
-                    size="3"
-                    variant="solid"
-                    color="green"
+          <ul className="flex max-lg:flex-col max-lg:w-full lg:items-center lg:mr-10 max-lg:space-y-2 lg:space-x-8">
+            {user?.rol === "worker" ? (
+              <>
+                <HeaderLink to="/auctions/create" className="text-white lg:hover:text-cyan-100 max-lg:text-cyan-700 max-lg:hover:text-cyan-900 transition-colors">Crear Puja</HeaderLink>
+                <HeaderLink to="/services/create" className="text-white lg:hover:text-cyan-100 max-lg:text-cyan-700 max-lg:hover:text-cyan-900 transition-colors">Crear Servicio</HeaderLink>
+              </>
+            ) : user?.rol === "client" ? (
+              <>
+                <HeaderLink to="/auctions/353817" className="text-white lg:hover:text-cyan-100 max-lg:text-cyan-700 max-lg:hover:text-cyan-900 transition-colors">Pujar</HeaderLink>
+                <HeaderLink to="/auctions/create" className="text-white lg:hover:text-cyan-100 max-lg:text-cyan-700 max-lg:hover:text-cyan-900 transition-colors">Crear Puja</HeaderLink>
+                <HeaderLink to="/services/create" className="text-white lg:hover:text-cyan-100 max-lg:text-cyan-700 max-lg:hover:text-cyan-900 transition-colors">Crear Servicio</HeaderLink>
+              </>
+            ) : null}
+          </ul>
+
+          <div className="flex max-lg:flex-col max-lg:w-full lg:items-center max-lg:space-y-3 lg:space-x-6">
+            {user ? (
+              <>
+                <div className="bg-cyan-600/30 px-6 py-2 rounded-lg flex items-center lg:mr-2">
+                  <FaUserNinja className="text-white font-medium"/> <span className="text-white font-medium ml-2  ">{user.username}</span>
+                </div>
+                <Link to="/" className="w-full lg:w-auto">
+                  <button
+                    className="bg-white text-cyan-700 hover:bg-cyan-50 transition-colors px-6 py-2 rounded-lg font-medium w-full lg:w-auto flex items-center justify-center shadow-sm"
                     onClick={logoutUser}
                   >
-                    Salir
-                  </Button>
+                    <IoMdExit className="mr-2"/>Salir
+                  </button>
                 </Link>
-              </li>
-            </>
-          ) : ( */
-            <li className="max-lg:py-2 px-3 flex gap-4 items-center">
-              <Link to="/login">
-                <Button size="2" variant="solid" color="green">
-                  Entrar
-                </Button>
-              </Link>
-              <Link to="/register-client">
-                <Button size="2" variant="surface" color="green">
-                  Registrarse
-                </Button>
-              </Link>
-            </li>
-        /*  )}*/}
-        </ul>
+              </>
+            ) : (
+              <div className="flex max-lg:flex-col lg:items-center max-lg:space-y-3 lg:space-x-6 w-full">
+                <Link to="/login" className="w-full lg:w-auto">
+                  <button className="bg-white text-cyan-700 hover:bg-cyan-50 transition-colors px-8 py-2 rounded-lg font-medium w-full shadow-sm">
+                    Entrar
+                  </button>
+                </Link>
+                <Link to="/register-client" className="w-full lg:w-auto">
+                  <button className="bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-colors px-8 py-2 rounded-lg font-medium w-full shadow-sm">
+                    Registrarse
+                  </button>
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </header>
   );
