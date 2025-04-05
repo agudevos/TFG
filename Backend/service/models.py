@@ -2,6 +2,7 @@ from django.db import models
 from random import randint
 from django.core.validators import MinLengthValidator, MaxLengthValidator, RegexValidator
 from establishment.models import Establishment
+from schedule.models import SlotAssignment
 
 class Service(models.Model):
 
@@ -12,10 +13,15 @@ class Service(models.Model):
     name = models.CharField(max_length=75)
     description = models.CharField(max_length=100)
     category = models.CharField(max_length=100)
-    reservable = models.BooleanField(default=True, blank=True, null=True)
-    price = models.PositiveIntegerField()
     max_reservation = models.PositiveIntegerField()
     deposit = models.PositiveIntegerField()
     
     establishment = models.ForeignKey(Establishment, on_delete=models.CASCADE)
 
+class ServicePriceAssignment(models.Model):
+    
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    bookable = models.BooleanField(default=False)
+
+    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    time_slot = models.ForeignKey(SlotAssignment, on_delete=models.CASCADE)

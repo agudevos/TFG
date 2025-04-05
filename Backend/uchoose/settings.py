@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'service',
     'reservation',
     'corsheaders',
-    'schedule'
+    'schedule',
 ]
 
 REST_FRAMEWORK = {

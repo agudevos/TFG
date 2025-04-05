@@ -13,7 +13,7 @@ class SlotAssignmentInline(admin.TabularInline):
 
 @admin.register(TimeSlot)
 class TimeSlotAdmin(admin.ModelAdmin):
-    list_display = ['name', 'start_time', 'end_time', 'price', 'bookable', 'color']
+    list_display = ['name', 'start_time', 'end_time', 'color']
     search_fields = ['name']
 
 

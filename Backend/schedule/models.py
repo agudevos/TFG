@@ -8,8 +8,6 @@ class TimeSlot(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     color = models.CharField(max_length=20, default="#3498db")
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    bookable = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.name} ({self.start_time} - {self.end_time})"
