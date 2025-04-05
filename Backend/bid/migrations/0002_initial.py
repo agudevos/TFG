@@ -9,14 +9,14 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('auction', '0001_initial'),
-        ('service', '0001_initial'),
+        ('bid', '0001_initial'),
+        ('client', '0001_initial'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='auction',
-            name='service',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='service.service'),
+            model_name='bid',
+            name='client',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='client.client'),
         ),
     ]
