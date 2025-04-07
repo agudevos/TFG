@@ -5,7 +5,6 @@ import MultiStepForm from "../../components/MultiStepForm";
 
 const CreateAuction = () => {
   const navigate = useNavigate();
-  
   // Definir mensajes de validación
   const messages = {
     req: "Este campo es obligatorio",
@@ -46,6 +45,11 @@ const CreateAuction = () => {
       title: "Puja Inicial",
       description: "Define una puja inicial mínima para la subasta.",
       fields: [
+        {
+          name: "recomendacion",
+          label: "puja",
+          type: "ia",
+        },
         {
           name: "starting_bid",
           label: "Puja inicial",

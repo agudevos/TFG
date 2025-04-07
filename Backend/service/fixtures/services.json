@@ -1,0 +1,182 @@
+[
+    {
+        "model": "service.service",
+        "pk": 457582,
+        "fields": {
+            "name": "Televisión Samsung QLED 55 pulgadas",
+            "description": "Ideal para eventos deportivos con amigos gracias a su amplio ángulo de visión y colores vibrantes.",
+            "category": "televisión, smart TV, QLED",
+            "max_reservation": 30,
+            "deposit": 20,
+            "establishment": 862691
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457583,
+        "fields": {
+            "name": "Televisión LG OLED 65 pulgadas",
+            "description": "Perfecta para maratones de series con negros puros. Experiencia inmersiva en el establecimiento.",
+            "category": "televisión, smart TV, OLED",
+            "max_reservation": 35,
+            "deposit": 25,
+            "establishment": 862691
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457584,
+        "fields": {
+            "name": "Televisión Sony Bravia 50 pulgadas",
+            "description": "Ideal para presentaciones o documentales. Conecta tu dispositivo y aprovecha sus aplicaciones.",
+            "category": "televisión, smart TV, LED",
+            "max_reservation": 28,
+            "deposit": 18,
+            "establishment": 862691
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457585,
+        "fields": {
+            "name": "Televisión Philips Ambilight 58 pulgadas",
+            "description": "Sistema Ambilight para crear ambiente en eventos sociales con luces que complementan el contenido.",
+            "category": "televisión, smart TV, Ambilight",
+            "max_reservation": 32,
+            "deposit": 22,
+            "establishment": 862691
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457586,
+        "fields": {
+            "name": "Televisión Hisense 4K 43 pulgadas",
+            "description": "Perfecta para uso individual en espacios reducidos. Calidad 4K para streaming sin ocupar mucho espacio.",
+            "category": "televisión, smart TV, 4K",
+            "max_reservation": 25,
+            "deposit": 15,
+            "establishment": 862691
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457587,
+        "fields": {
+            "name": "Televisión TCL QLED 75 pulgadas",
+            "description": "Pantalla gigante para eventos deportivos con grupos grandes. Modo deportes optimizado.",
+            "category": "televisión, smart TV, QLED, pantalla grande",
+            "max_reservation": 40,
+            "deposit": 30,
+            "establishment": 862691
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457588,
+        "fields": {
+            "name": "Televisión Panasonic 4K HDR 55 pulgadas",
+            "description": "Para cinéfilos que buscan calidad de cine. Procesador HCX ideal para noches temáticas de película.",
+            "category": "televisión, smart TV, 4K, HDR",
+            "max_reservation": 30,
+            "deposit": 20,
+            "establishment": 862691
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457589,
+        "fields": {
+            "name": "Televisión Samsung The Frame 50 pulgadas",
+            "description": "Para eventos elegantes donde la estética importa. Muestra obras de arte cuando no está en uso.",
+            "category": "televisión, smart TV, decorativa, lifestyle",
+            "max_reservation": 45,
+            "deposit": 35,
+            "establishment": 862691
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457590,
+        "fields": {
+            "name": "Televisión LG NanoCell 65 pulgadas",
+            "description": "Ideal para torneos de videojuegos con baja latencia y HDMI 2.1. Perfecta para gaming con amigos.",
+            "category": "televisión, smart TV, NanoCell, gaming",
+            "max_reservation": 35,
+            "deposit": 25,
+            "establishment": 862691
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457591,
+        "fields": {
+            "name": "Televisión Xiaomi Mi TV 4S 43 pulgadas",
+            "description": "Para presentaciones informales o contenido desde móvil con Chromecast integrado.",
+            "category": "televisión, smart TV, Android",
+            "max_reservation": 25,
+            "deposit": 15,
+            "establishment": 862691
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457592,
+        "fields": {
+            "name": "Televisión Samsung Neo QLED 8K 85 pulgadas",
+            "description": "Experiencia cinematográfica premium para ocasiones especiales. Calidad 8K en tamaño gigante.",
+            "category": "televisión, smart TV, QLED, 8K, premium",
+            "max_reservation": 50,
+            "deposit": 40,
+            "establishment": 862691
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457593,
+        "fields": {
+            "name": "Televisión Sony OLED A90J 77 pulgadas",
+            "description": "Para proyecciones profesionales con calibración perfecta. Ideal para eventos de alta gama.",
+            "category": "televisión, smart TV, OLED, profesional",
+            "max_reservation": 45,
+            "deposit": 35,
+            "establishment": 862691
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457594,
+        "fields": {
+            "name": "Televisión LG LED 32 pulgadas",
+            "description": "Para uso personal en espacios íntimos. Ideal para contenido privado sin distracciones.",
+            "category": "televisión, smart TV, compacta",
+            "max_reservation": 20,
+            "deposit": 10,
+            "establishment": 862691
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457595,
+        "fields": {
+            "name": "Televisión Philips The One 58 pulgadas",
+            "description": "Crea ambiente con Ambilight en tres lados. Perfecta para noches de película o eventos sociales.",
+            "category": "televisión, smart TV, Ambilight, 4K",
+            "max_reservation": 32,
+            "deposit": 22,
+            "establishment": 862691
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457596,
+        "fields": {
+            "name": "Televisión Samsung Lifestyle Serif 49 pulgadas",
+            "description": "Para eventos elegantes. Diseño único que añade toque artístico mientras disfrutas de contenido.",
+            "category": "televisión, smart TV, decorativa, lifestyle",
+            "max_reservation": 45,
+            "deposit": 30,
+            "establishment": 862691
+        }
+    }
+]

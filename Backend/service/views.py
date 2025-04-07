@@ -145,19 +145,18 @@ class ServicePriceForDateView(APIView):
     """
     Obtiene los precios de servicios disponibles para una fecha específica
     """
-    def get(self, request, format=None):
-        date_str = request.query_params.get('date')
-        service_id = request.query_params.get('service_id')
+    def get(self, date, service_id):
         
-        if not date_str:
+        if not date:
             return Response(
                 {"error": "Se requiere el parámetro 'date' (formato: YYYY-MM-DD)"},
                 status=status.HTTP_400_BAD_REQUEST
             )
         
         try:
-            date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
+            date_obj = datetime.strptime(date, "%Y-%m-%d").date()
         except ValueError:
+            print(date)
             return Response(
                 {"error": "Formato de fecha inválido. Use YYYY-MM-DD"},
                 status=status.HTTP_400_BAD_REQUEST

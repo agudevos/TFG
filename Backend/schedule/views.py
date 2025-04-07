@@ -107,8 +107,6 @@ class GetScheduleForDateView(APIView):
                         'start_time': f"{minute // 60:02d}:{minute % 60:02d}",
                         'end_time': None,
                         'color': slot_info['time_slot'].color,
-                        'price': float(slot_info['time_slot'].price),
-                        'bookable': slot_info['time_slot'].bookable,
                         'notes': slot_info['assignment'].notes or '',
                         'schedule_type': slot_info['type'],
                         'schedule': slot_info['schedule']
@@ -137,8 +135,6 @@ class GetScheduleForDateView(APIView):
                 'start_time': block['start_time'],
                 'end_time': block['end_time'],
                 'color': block['color'],
-                'price': block['price'],
-                'bookable': block['bookable'],
                 'notes': block['notes']
             })
         

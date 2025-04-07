@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, TextField, Dialog } from "@radix-ui/themes";
+import { LuBrainCircuit } from "react-icons/lu";
+import { getFromApi } from "../utils/functions/api";
 
 /**
  * MultiStepForm - Componente reutilizable para formularios de múltiples pasos
@@ -39,6 +41,8 @@ const MultiStepForm = ({
   const [errorMessage, setErrorMessage] = useState("");
   const [createSuccess, setCreateSuccess] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [range, setRange] = useState("")
+  const [rec, setRec] = useState("")
   
   const {
     register,
@@ -61,6 +65,7 @@ const MultiStepForm = ({
 
   // Función para ir al siguiente paso
   const nextStep = async (e) => {
+    console.log(formValues)
     e.preventDefault();
     
     // Validar campos del paso actual antes de avanzar
@@ -102,6 +107,41 @@ const MultiStepForm = ({
       setShowModal(true);
     }
   };
+
+  const handleStartingRequest = async () => {
+    console.log(formValues)
+    function sumarMinutos(fechaStr, duracion) {
+      // Asegurarse de que la duración sea tratada como número
+      const minutos = parseInt(duracion, 10);
+      
+      // Crear un objeto Date a partir del string de fecha
+      const fecha = new Date(fechaStr);
+      
+      // Verificar que la fecha sea válida
+      if (isNaN(fecha.getTime())) {
+        console.error("Fecha inválida:", fechaStr);
+        return null;
+      }
+      
+      // Sumar los minutos
+      fecha.setMinutes(fecha.getMinutes() + minutos);
+      
+      // Formatear la fecha de vuelta al formato original YYYY-MM-DDTHH:MM
+      const year = fecha.getFullYear();
+      const month = String(fecha.getMonth() + 1).padStart(2, '0');
+      const day = String(fecha.getDate()).padStart(2, '0');
+      
+      return `${year}-${month}-${day}`;
+    }
+    let end_date = sumarMinutos(formValues['starting_date'], formValues['duration'])
+    getFromApi(`auctions/price-recomendation/${end_date}/889103/`)
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              setRange(data['rango']);
+              setRec(data['optimo'])})
+
+  }
 
   // Renderizar el resumen para el modal
   const renderSummary = () => {
@@ -150,44 +190,75 @@ const MultiStepForm = ({
         <h3 className="mb-4 text-xl font-medium text-gray-700">{currentStep.title}</h3>
         <p className="mb-4 text-l font-small text-gray-500">{currentStep.description}</p>
         {currentStep.fields.map(field => (
-          <div key={field.name} className="flex flex-col space-y-2 w-full mb-4">
-            <label htmlFor={field.name} className="text-sm font-medium text-gray-800">
-              {field.label}
-            </label>
-            
-            {field.type === 'select' ? (
-              <select
-                {...register(field.name, field.validation)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                value={formValues[field.name] || ''}
-                onChange={(e) => setValue(field.name, e.target.value, { shouldValidate: true })}
-              >
-                <option value="">Seleccione...</option>
-                {field.options?.map(option => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+          <div>
+          {field.type === 'ia' ? (
+            <div>
+            {range === "" ? (
+              <div className="flex flex-row w-full max-w-md mx-auto">
+                <button
+                  type="button"
+                  onClick= {() => handleStartingRequest()}
+                  className="bg-gray-300 text-gray-800 py-2 px-4 rounded hover:bg-cyan-400"
+                >
+                <LuBrainCircuit /> 
+                </button> 
+                <p className="ml-3 pt-1">Generar con IA</p>
+              </div>
             ) : (
-              <TextField.Input
-                {...register(field.name, field.validation)}
-                type={field.type || "text"}
-                min={field.min}
-                placeholder={field.placeholder}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                value={formValues[field.name] || ''}
-                onChange={(e) => setValue(field.name, e.target.value, { shouldValidate: true })}
-              />
+              <div className="flex flex-col w-full max-w-xs mx-auto gap-4">
+                <div className="bg-cyan-500 p-4 text-white font-bold rounded-t-lg">
+                  Rango recomendado: {range}
+                </div>
+                <div className="bg-green-400 p-4 text-white font-bold rounded-b-lg">
+                  Valor óptimo {rec}
+                </div>
+              </div>
             )}
-            
-            {errors[field.name] && (
-              <p className="text-red-600 text-sm mt-1 pl-1">
-                {errors[field.name].message}
-              </p>
-            )}
-          </div>
-        ))}
+            </div>
+
+          ) : (
+          <div>
+            <div key={field.name} className="flex flex-col space-y-2 w-full mb-4">
+              <label htmlFor={field.name} className="text-sm font-medium text-gray-800">
+                {field.label}
+              </label>
+              
+              {field.type === 'select' ? (
+                <select
+                  {...register(field.name, field.validation)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  value={formValues[field.name] || ''}
+                  onChange={(e) => setValue(field.name, e.target.value, { shouldValidate: true })}
+                >
+                  <option value="">Seleccione...</option>
+                  {field.options?.map(option => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <TextField.Input
+                  {...register(field.name, field.validation)}
+                  type={field.type || "text"}
+                  min={field.min}
+                  placeholder={field.placeholder}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  value={formValues[field.name] || ''}
+                  onChange={(e) => setValue(field.name, e.target.value, { shouldValidate: true })}
+                />
+              )}
+              
+              {errors[field.name] && (
+                <p className="text-red-600 text-sm mt-1 pl-1">
+                  {errors[field.name].message}
+                </p>
+              )}
+            </div>
+          </div>)}</div>
+        )
+        
+        )}
       </>
     );
   };

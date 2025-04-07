@@ -11,7 +11,7 @@ class Service(models.Model):
     
     id = models.PositiveIntegerField(primary_key=True, default=random_id, editable=False)
     name = models.CharField(max_length=75)
-    description = models.CharField(max_length=100)
+    description = models.CharField(max_length=150)
     category = models.CharField(max_length=100)
     max_reservation = models.PositiveIntegerField()
     deposit = models.PositiveIntegerField()
