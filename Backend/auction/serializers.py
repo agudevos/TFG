@@ -10,7 +10,7 @@ class AuctionSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """
-        Comprobar que no hayan otras pujas activas para el mismo servicio a al vez
+        Comprobar que no hayan otras pujas activas para el mismo servicio a la vez
         """
 
         auctions = Auction.objects.filter(
