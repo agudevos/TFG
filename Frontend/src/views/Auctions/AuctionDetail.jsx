@@ -218,7 +218,7 @@ const AuctionDetail =  () => {
 
     console.log("Enviando datos:", formulario);
         try {
-            const response = await postToApi("bids/create/", {
+            await postToApi("bids/create/", {
             event: formulario.event,
             platform: formulario.platform,
             quantity: formulario.quantity,

@@ -1,6 +1,5 @@
 // src/components/scheduling/ServicePricingTab.jsx
 import React, { useState } from 'react';
-import axios from 'axios';
 import { format, parseISO } from 'date-fns';
 import { deleteFromApi, getFromApi, postToApi, putToApi } from '../../utils/functions/api';
 import { MdDeleteForever, MdOutlineModeEdit } from 'react-icons/md';

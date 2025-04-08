@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { deleteFromApi, postToApi, putToApi } from '../../utils/functions/api';
 import { MdOutlineModeEdit } from "react-icons/md";
 import { MdDeleteForever } from "react-icons/md";

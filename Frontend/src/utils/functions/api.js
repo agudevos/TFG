@@ -21,7 +21,7 @@ export async function postToApi(url, data) {
     },
     body: JSON.stringify(data),
   });
-  const result = await response.json().catch(e => ({}));
+  const result = await response.json().catch();
   
   if (!response.ok) {
     throw { status: response.status, message: result.error || "Error desconocido" };

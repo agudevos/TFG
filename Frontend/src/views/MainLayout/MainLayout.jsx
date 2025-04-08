@@ -5,7 +5,7 @@ import { Outlet } from "react-router";
 import { AuthProvider } from "../../utils/context/AuthContext";
 import backgroundImg from '../../assets/uchoose_background_Image-1.png';
 
-const MainLayout = ({ children }) => {
+const MainLayout = () => {
   return (
     <AuthProvider>
         <Theme>

@@ -1,6 +1,5 @@
 // src/components/scheduling/SpecificScheduleTab.jsx
 import React, { useState } from 'react';
-import axios from 'axios';
 import { format, parseISO } from 'date-fns';
 import SlotAssignmentModal from './SlotAssignmentModal';
 import { MdDeleteForever, MdOutlineDeleteForever, MdOutlineModeEdit } from 'react-icons/md';

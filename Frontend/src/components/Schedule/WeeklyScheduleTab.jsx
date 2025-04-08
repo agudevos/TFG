@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import SlotAssignmentModal from './SlotAssignmentModal';
 import { deleteFromApi, getFromApi, postToApi } from '../../utils/functions/api';
 import { MdDeleteForever } from 'react-icons/md';

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { postToApi } from "../../utils/functions/api";
 import { useNavigate } from "react-router-dom";
 import MultiStepForm from "../../components/MultiStepForm";

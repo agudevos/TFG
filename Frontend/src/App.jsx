@@ -1,6 +1,4 @@
-import { Link, Navigate } from "react-router-dom";
-import { Button, Flex } from "@radix-ui/themes";
-import { useContext } from "react";
+import { Flex } from "@radix-ui/themes";
 import { IoTv, IoStatsChart, IoCalendarSharp } from "react-icons/io5";
 
 
