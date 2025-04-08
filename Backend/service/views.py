@@ -1,14 +1,19 @@
 from datetime import datetime
+import os
 from django.shortcuts import get_object_or_404, render
+from dotenv import load_dotenv
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
+from schedule.serializers import SlotAssignmentSerializer
 from schedule.models import SlotAssignment
 from service.models import Service, ServicePriceAssignment
 from .serializers import ServicePriceAssignmentSerializer, ServiceSerializer
+
+from .recomendation import generate_service_price_recomendation
 
 from django.db.models import Q
 
@@ -145,7 +150,7 @@ class ServicePriceForDateView(APIView):
     """
     Obtiene los precios de servicios disponibles para una fecha específica
     """
-    def get(self, date, service_id):
+    def get(self, request, date, service_id):
         
         if not date:
             return Response(
@@ -187,3 +192,54 @@ class ServicePriceForDateView(APIView):
         serializer = ServicePriceAssignmentSerializer(service_prices, many=True)
         
         return Response(serializer.data)
+    
+@permission_classes([IsAuthenticated])
+class ServicePriceRecomendation(APIView):
+    """
+    Genera recomendaciones de precios para tramos horarios
+    """
+
+    def get(self, request, assing_id, service_id):
+        load_dotenv()
+
+        # Acceder a las variables
+        OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+        
+        ids = ServicePriceAssignment.objects.filter(bookable = True)
+        prices = ServicePriceAssignmentSerializer(ids, many=True)
+        data_list = []
+        for item in prices.data:
+            dict={}
+            dict['id'] = item['id']
+            dict['price'] = float(item['price'])
+            dict['category'] = item['service_details']['category']
+            dict['max_reservation'] = item['service_details']['max_reservation']
+            dict['start_time'] = item['time_slot_details']['start_time']
+            dict['end_time'] =  item['time_slot_details']['end_time']
+            dict['type'] = item['time_slot_details']['schedule_type']['type']
+            if (item['time_slot_details']['schedule_type']['type'] == 'weekly'):
+                dict['weekday'] = item['time_slot_details']['schedule_type']['weekday']
+            else:
+                dict['date']= item['time_slot_details']['schedule_type']['date']
+            data_list.append(dict)
+        
+        assign_object = get_object_or_404(SlotAssignment, pk=assing_id)
+        assing_data = SlotAssignmentSerializer(assign_object)
+        print("ASSIGN DATA:",assing_data.data)
+        service_object = get_object_or_404(Service, pk=service_id)
+        service_data = ServiceSerializer(service_object)
+        print("SERVICE DATA:",service_data.data)
+        print(data_list)
+        result = generate_service_price_recomendation(
+                api_key=OPENAI_API_KEY,
+                historical_data_list=data_list,
+                service=service_data.data,
+                slot=assing_data.data,
+            )
+        
+        
+        return Response(result)
+            
+        
+
+    

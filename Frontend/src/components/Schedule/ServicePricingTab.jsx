@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { format, parseISO } from 'date-fns';
-import { deleteFromApi, postToApi, putToApi } from '../../utils/functions/api';
+import { deleteFromApi, getFromApi, postToApi, putToApi } from '../../utils/functions/api';
 import { MdDeleteForever, MdOutlineModeEdit } from 'react-icons/md';
+import { LuBrainCircuit } from "react-icons/lu";
 
 const ServicePricingTab = ({ 
   services, 
@@ -18,6 +19,8 @@ const ServicePricingTab = ({
   console.log(servicePricing)
   const [selectedPricing, setSelectedPricing] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [range, setRange] = useState("");
+  const [rec, setRec] = useState("");
   
   const [newPricing, setNewPricing] = useState({
     service: '',
@@ -38,6 +41,10 @@ const ServicePricingTab = ({
             : value
       });
     } else {
+      if (name === "service" || "time_slot") {
+        setRange("");
+        setRec("");
+      }
       setNewPricing({
         ...newPricing,
         [name]: type === 'checkbox' 
@@ -94,6 +101,19 @@ const ServicePricingTab = ({
       console.error('Error deleting service pricing:', error);
     }
   };
+
+  const handlePriceRequest = async () => {
+    console.log("AQUI")
+    console.log(newPricing.time_slot)
+    console.log(newPricing.service)
+    getFromApi(`services/price-recomendation/${newPricing.time_slot}/${newPricing.service}/`)
+                .then((response) => response.json())
+                .then((data) => {
+                  console.log(data);
+                  setRange(data['rango']);
+                  setRec(data['optimo'])})
+    
+      }
 
   // Function to get service pricing details
   const getServicePricingDetails = (pricingId) => {
@@ -178,6 +198,28 @@ const ServicePricingTab = ({
           </div>
           
           <div>
+            <div>
+              {newPricing.time_slot === "" || newPricing.service === "" ? (<> </>) : (
+                <>
+                {range ==="" ? (
+                            <div className="flex flex-row w-full max-w-md mx-auto">
+                              <button
+                                type="button"
+                                onClick= {() => handlePriceRequest()}
+                                className="bg-gray-300 text-gray-800 py-2 px-4 rounded hover:bg-cyan-400"
+                              >
+                              <LuBrainCircuit /> 
+                              </button> 
+                              <p className="ml-3 pt-1">Generar recomendacion con IA</p>
+                            </div>
+                          ) : (
+                            <div className="flex flex-row items-center gap-4">
+                              <LuBrainCircuit />  <span className='ml-3 '>En base a datos anteriores te recomiendo establecer un valor entre <p className='text-cyan-500'>{range}€</p>, el precio más competitivo sería <p className='text-green-400'>{rec}€</p></span>
+                            </div>
+                          )}
+                  </>)}
+                        
+            </div>
             <label className="block text-sm font-medium mb-1">Precio</label>
             <div className="relative">
               <span className="absolute left-3 top-2 text-gray-500">€</span>
@@ -194,13 +236,13 @@ const ServicePricingTab = ({
             </div>
           </div>
 
-          <div className="flex items-center">
+          <div className="flex items-end">
             <input
               type="checkbox"
               name="bookable"
               checked={isEditing ? selectedPricing.active : newPricing.bookable}
               onChange={handlePricingChange}
-              className="mr-2"
+              className="mr-2 "
             />
             <label className="text-sm font-medium">Reservable</label>
           </div>

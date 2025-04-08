@@ -41,8 +41,8 @@ const MultiStepForm = ({
   const [errorMessage, setErrorMessage] = useState("");
   const [createSuccess, setCreateSuccess] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [range, setRange] = useState("")
-  const [rec, setRec] = useState("")
+  const [range, setRange] = useState("");
+  const [rec, setRec] = useState("");
   
   const {
     register,
@@ -202,7 +202,7 @@ const MultiStepForm = ({
                 >
                 <LuBrainCircuit /> 
                 </button> 
-                <p className="ml-3 pt-1">Generar con IA</p>
+                <p className="ml-3 pt-1">Generar recomendacion con IA</p>
               </div>
             ) : (
               <div className="flex flex-col w-full max-w-xs mx-auto gap-4">

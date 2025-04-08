@@ -104,7 +104,7 @@ class AuctionPriceRecomendation(APIView):
 
         service = get_object_or_404(Service, pk=service_id)
         view = ServicePriceForDateView()
-        response = ServicePriceForDateView.get(view, date=date,service_id=service_id).data
+        response = ServicePriceForDateView.get(view, request, date=date,service_id=service_id).data
         if response:
             estimated_value = response[0]['price']
         else:
