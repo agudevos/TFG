@@ -104,7 +104,6 @@ const CreateService = () => {
       name: formData.name,
       description: formData.description,
       category: formData.category,
-      reservable: false,
       max_reservation: parseInt(formData.max_reservation),
       deposit: parseInt(formData.deposit),
       establishment: 862691,

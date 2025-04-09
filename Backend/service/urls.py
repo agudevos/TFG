@@ -12,4 +12,6 @@ urlpatterns = [
     path('services/service-prices/by-service/<int:service_id>/', views.ServicePriceByServiceView.as_view(), name='service-price-by-service'),
     path('services/service-date-prices/<str:date>/<int:service_id>/', views.ServicePriceForDateView.as_view(), name='service-price-for-date'),
     path('services/price-recomendation/<int:assing_id>/<int:service_id>/', views.ServicePriceRecomendation.as_view(), name='price_recomendation'),
+
+    # Conversation endpoints
 ]

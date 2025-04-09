@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'reservation',
     'corsheaders',
     'schedule',
+    'conversation'
 ]
 
 REST_FRAMEWORK = {

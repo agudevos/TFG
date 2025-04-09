@@ -25,6 +25,7 @@ class ServiceCreateView(APIView):
         if serializer.is_valid():
             service = serializer.save()
             return Response(serializer.data, status=201)
+        print(serializer.errors)
         return Response(serializer.errors, status=400)
     
 @permission_classes([IsAuthenticated])

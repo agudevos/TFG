@@ -11,6 +11,7 @@ import "./index.css";
 import LoginPage from "./views/LoginPage/Login";
 import AuctionDetail from "./views/Auctions/AuctionDetail";
 import ScheduleManagement from "./views/Schedule/ScheduleManagement";
+import ConversationalService from "./views/Conversation/ConversationalService";
 
 const router = createBrowserRouter([
     {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
         {
           path:"/schedules",
           element: <ScheduleManagement />
+        },
+        {
+          path:"/conversations/service",
+          element: <ConversationalService />
         }
       ]
     }])
