@@ -34,8 +34,7 @@ const ConversationalService = () => {
     try {
       setIsLoading(true);
       const response = await postToApi('conversations/service/', {
-        message: ',', // Mensaje vacío para iniciar sesión
-        session_id:"2bd6e2bf-d7e0-4e59-85d5-82a830eb8286"
+        message: ','
       });
       console.log(response)
       

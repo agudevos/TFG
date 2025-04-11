@@ -5,7 +5,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import { Theme } from "@radix-ui/themes";
 import MainLayout from "./views/MainLayout/MainLayout";
-import CreateService from "./views/Services/CreateService"
+import CreateService from "./views/Services/CreateService";
+import ServiceList from "./views/Services/ServiceList";
 import CreateAuction from "./views/Auctions/CreateAuction";
 import "./index.css";
 import LoginPage from "./views/LoginPage/Login";
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
         {
           path:"/conversations/service",
           element: <ConversationalService />
+        },
+        {
+          path: "/services/list",
+          element: <ServiceList />
         }
       ]
     }])

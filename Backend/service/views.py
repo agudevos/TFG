@@ -42,6 +42,10 @@ class ServiceListByEstablishmentView(APIView):
         serializer = ServiceSerializer(services, many=True)
         return Response(serializer.data)
     
+@permission_classes([IsAuthenticated])
+class ServiceListRecomendations(APIView):
+    def get(self, request):
+        return
 
 @permission_classes([IsAuthenticated])
 class ServicePriceAssignmentListView(APIView):
@@ -146,6 +150,8 @@ class ServicePriceByServiceView(APIView):
         serializer = ServicePriceAssignmentSerializer(service_prices, many=True)
         return Response(serializer.data)
     
+    
+    
 @permission_classes([IsAuthenticated])
 class ServicePriceForDateView(APIView):
     """
@@ -185,7 +191,7 @@ class ServicePriceForDateView(APIView):
         query = Q(time_slot__in=specific_slots) | Q(time_slot__in=weekly_slots)
         
         # Filtrar por servicio si se proporciona
-        if service_id:
+        if service_id != 0:
             query &= Q(service_id=service_id)
             
         # Obtener los precios de servicios
@@ -241,6 +247,3 @@ class ServicePriceRecomendation(APIView):
         
         return Response(result)
             
-        
-
-    

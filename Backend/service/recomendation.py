@@ -91,7 +91,7 @@ def generate_service_price_recomendation(
     de un día festivo o laboral, entre semana o fin de semana, mañana medio día o tarde, y comparalo con el precio que suelen tener los servicios durante tramos 
     horarios similares en el análisis de datos historicos, es decir si el tramo horario es de tipo especific fijate en la media de precio unicamente para ese type, y igualmente
     para tramos horarios con type weekly te fijaras unicamente en la media de precio para weekly. Para mayor precisión analiza también la categoría del servicio a reservar y compara los precios 
-    de servicios unicamente con categorias similares en el análisis de datos historicos.
+    de servicios unicamente con categorias similares en el análisis de datos historicos.    
 
     1. Una recomendación de starting_bid óptimo (valor numérico)
     2. Un rango recomendado (mínimo y máximo)
