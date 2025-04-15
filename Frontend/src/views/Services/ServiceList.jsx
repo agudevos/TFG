@@ -33,6 +33,21 @@ const CombinedServiceView = () => {
   // Estado para manejar errores de la lista
   const [error, setError] = useState(null);
 
+  // Estado para los filtros
+  const [filters, setFilters] = useState({
+    date: '',
+    start_time: '',
+    end_time: '',
+    category: '',
+    sortBy: 'price' // Por defecto ordenar por precio
+  });
+
+  // Estado para controlar si los filtros manuales están activos
+  const [manualFiltersActive, setManualFiltersActive] = useState(false);
+
+  // Categorías disponibles
+  const categories = ['televisión', 'billar', 'futbolin', 'juego de mesa'];
+
   // Iniciar una nueva sesión cuando el componente se monta y cargar la lista de servicios
   useEffect(() => {
     startNewSession();
@@ -100,6 +115,11 @@ const CombinedServiceView = () => {
         ]);
         
         setServiceData(response);
+        
+        // Si el servicio está actualizando datos, desactivar los filtros manuales
+        if (response.date || response.category || response.start_time || response.end_time) {
+          setManualFiltersActive(false);
+        }
       }
       setIsLoadingChat(false);
     } catch (error) {
@@ -120,41 +140,66 @@ const CombinedServiceView = () => {
   
   // Función para obtener la lista de servicios desde la API
   useEffect(() => {
+    fetchServices();
+  }, [serviceData, manualFiltersActive, filters]);
+  
+  const fetchServices = async () => {
     try {
       setIsLoadingList(true);
-      const filters = {
+      
+      // Determinar qué filtros usar (manuales o de conversación)
+      const activeFilters = manualFiltersActive ? filters : {
         date: serviceData.date,
         start_time: serviceData.start_time,
         end_time: serviceData.end_time,
-        price: serviceData.price,
-        category: serviceData.category
-      } 
-      console.log(filters)
+        category: serviceData.category,
+        sortBy: filters.sortBy // Siempre usamos la opción de ordenación seleccionada manualmente
+      };
+      
+      console.log("Filtros activos:", activeFilters);
+      
       const params = new URLSearchParams();
   
       // Añadir cada parámetro no vacío
-      Object.entries(filters).forEach(([key, value]) => {
-        if (value !== undefined && value !== null && value !== '') {
+      Object.entries(activeFilters).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '' && key !== 'sortBy') {
           params.append(key, value);
         }
       });
-      getFromApi(`services/recomendations/?${params.toString()}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setServices(data)});
+      
+      const response = await getFromApi(`services/recomendations/?${params.toString()}`);
+      let data = await response.json();
+      console.log(data)
+      
+      // Ordenar resultados si es necesario
+      if (activeFilters.sortBy === 'price_asc') {
+        data = data.sort((a, b) => (a.price || 0) - (b.price || 0));
+      } else if (activeFilters.sortBy === 'price_desc') {
+        data = data.sort((a, b) => (b.price || 0) - (a.price || 0));
+      }
+      
+      setServices(data);
       setIsLoadingList(false);
     } catch (err) {
       console.error('Error al cargar los servicios:', err);
       setError('No se pudieron cargar los servicios. Por favor, intenta de nuevo más tarde.');
       setIsLoadingList(false);
     }
-  }, [serviceData]);
+  };
   
   // Función para reiniciar la sesión de chat
   const resetSession = () => {
     if (window.confirm('¿Estás seguro de que deseas iniciar una nueva conversación? Se perderán los datos actuales.')) {
       setMessages([]);
       startNewSession();
+      setManualFiltersActive(false);
+      setFilters({
+        date: '',
+        start_time: '',
+        end_time: '',
+        category: '',
+        sortBy: 'price'
+      });
     }
   };
   
@@ -163,6 +208,38 @@ const CombinedServiceView = () => {
     console.log('Servicio seleccionado:', service);
     // Aquí podrías navegar a una vista detallada o mostrar un modal
   };
+  
+  // Función para manejar cambios en los filtros
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Activar filtros manuales cuando el usuario cambia algo
+    setManualFiltersActive(true);
+  };
+  
+  // Función para limpiar todos los filtros
+  const clearFilters = () => {
+    setFilters({
+      date: '',
+      start_time: '',
+      end_time: '',
+      category: '',
+      sortBy: 'price'
+    });
+    setManualFiltersActive(true); // Mantener activos los filtros manuales pero vacíos
+  };
+  
+  // Función para volver a los filtros del chat
+  const useAIFilters = () => {
+    setManualFiltersActive(false);
+  };
+
+  // Obtener la fecha actual en formato YYYY-MM-DD para el valor mínimo del input date
+  const today = new Date().toISOString().split('T')[0];
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -173,13 +250,13 @@ const CombinedServiceView = () => {
       </h1>
       
       {/* Sección del chat */}
-      <div className="mb-16">
+      <div className="mb-12">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold text-white flex items-center">
             <svg className="w-6 h-6 mr-2 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
             </svg>
-            Crear Servicio por Chat
+            Asistente de Búsqueda
           </h2>
           <button 
             onClick={resetSession}
@@ -199,6 +276,134 @@ const CombinedServiceView = () => {
           isLoading={isLoadingChat}
         />
         
+      </div>
+      
+      {/* Barra de filtros */}
+      <div className="mb-8 bg-white rounded-xl shadow-md p-4">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-4">
+          <h3 className="text-lg font-medium text-gray-800 mb-2 md:mb-0">Filtros de búsqueda</h3>
+          <div className="flex space-x-2">
+            <button 
+              onClick={clearFilters}
+              className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded transition-colors"
+            >
+              Limpiar filtros
+            </button>
+            {manualFiltersActive && (
+              <button 
+                onClick={useAIFilters}
+                className="px-3 py-1 text-sm bg-cyan-500 hover:bg-cyan-600 text-white rounded transition-colors"
+              >
+                Usar recomendaciones AI
+              </button>
+            )}
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          {/* Filtro de fecha */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Día</label>
+            <input
+              type="date"
+              name="date"
+              value={manualFiltersActive ? filters.date : serviceData.date || ''}
+              onChange={handleFilterChange}
+              min={today}
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+            />
+          </div>
+          
+          {/* Filtro de hora inicio */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Hora inicio</label>
+            <input
+              type="time"
+              name="start_time"
+              value={manualFiltersActive ? filters.start_time : serviceData.start_time || ''}
+              onChange={handleFilterChange}
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+            />
+          </div>
+          
+          {/* Filtro de hora fin */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Hora fin</label>
+            <input
+              type="time"
+              name="end_time"
+              value={manualFiltersActive ? filters.end_time : serviceData.end_time || ''}
+              onChange={handleFilterChange}
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+            />
+          </div>
+          
+          {/* Filtro de categoría */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
+            <select
+              name="category"
+              value={manualFiltersActive ? filters.category : serviceData.category || ''}
+              onChange={handleFilterChange}
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+            >
+              <option value="">Todas las categorías</option>
+              {categories.map(category => (
+                <option key={category} value={category}>{category}</option>
+              ))}
+            </select>
+          </div>
+          
+          {/* Ordenar por precio */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Ordenar por</label>
+            <select
+              name="sortBy"
+              value={filters.sortBy}
+              onChange={handleFilterChange}
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+            >
+              <option value="price">Relevancia</option>
+              <option value="price_asc">Precio: más bajo primero</option>
+              <option value="price_desc">Precio: más alto primero</option>
+            </select>
+          </div>
+        </div>
+        
+        {/* Indicador de filtros activos */}
+        <div className="mt-4 flex flex-wrap gap-2">
+          {manualFiltersActive ? (
+            <div className="text-xs text-cyan-600 bg-cyan-50 rounded-full px-2 py-1">
+              Filtros manuales activos
+            </div>
+          ) : (
+            <div className="text-xs text-green-600 bg-green-50 rounded-full px-2 py-1">
+              Recomendaciones IA activas
+            </div>
+          )}
+          
+          {/* Mostrar filtros activos como etiquetas */}
+          {(manualFiltersActive ? filters : serviceData).date && (
+            <div className="text-xs text-gray-600 bg-gray-100 rounded-full px-2 py-1">
+              Día: {(manualFiltersActive ? filters : serviceData).date}
+            </div>
+          )}
+          {(manualFiltersActive ? filters : serviceData).start_time && (
+            <div className="text-xs text-gray-600 bg-gray-100 rounded-full px-2 py-1">
+              Desde: {(manualFiltersActive ? filters : serviceData).start_time}
+            </div>
+          )}
+          {(manualFiltersActive ? filters : serviceData).end_time && (
+            <div className="text-xs text-gray-600 bg-gray-100 rounded-full px-2 py-1">
+              Hasta: {(manualFiltersActive ? filters : serviceData).end_time}
+            </div>
+          )}
+          {(manualFiltersActive ? filters : serviceData).category && (
+            <div className="text-xs text-gray-600 bg-gray-100 rounded-full px-2 py-1">
+              Categoría: {(manualFiltersActive ? filters : serviceData).category}
+            </div>
+          )}
+        </div>
       </div>
       
       {/* Lista de servicios */}
@@ -225,9 +430,10 @@ const CombinedServiceView = () => {
             </svg>
             <h3 className="text-lg font-medium text-gray-900">No hay servicios disponibles</h3>
             {messages.length === 1 ? ( 
-              <p className="mt-2 text-gray-500"> Empieza una conversación para obtener recomendaciones</p> 
-                ) : (
-                  <p className="mt-2 text-gray-500">No hay servicios que cumplan tus condiciones.</p>)}
+              <p className="mt-2 text-gray-500">Empieza una conversación o selecciona filtros para obtener recomendaciones</p> 
+            ) : (
+              <p className="mt-2 text-gray-500">No hay servicios que cumplan los criterios seleccionados.</p>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -244,6 +450,5 @@ const CombinedServiceView = () => {
     </div>
   );
 };
-
 
 export default CombinedServiceView;

@@ -1,3 +1,4 @@
+from collections import defaultdict
 from datetime import datetime
 import os
 from django.shortcuts import get_object_or_404, render
@@ -45,54 +46,85 @@ class ServiceListByEstablishmentView(APIView):
 @permission_classes([IsAuthenticated])
 class ServiceListRecomendations(APIView):
     def get(self, request):
-        hora_inicio = request.query_params.get('start_time') if request.query_params.get('start_time') != "" else ""
-        hora_fin = request.query_params.get('end_time') if request.query_params.get('end_time') != "" else ""
         date = request.query_params.get('date') if request.query_params.get('date') != "" else ""
-        precio = float(request.query_params.get('price')) if request.query_params.get('price') != None else ""
-        categoria = request.query_params.get('category') if request.query_params.get('category') != "" else ""
+        
 
-        filtered = []
+        services_dict = {}
         if date != None:
             view = ServicePriceForDateView()
             response = ServicePriceForDateView.get(view, request, date=date,service_id=0).data
-            print(response)
             for item in response:
-                print(item)
-                start_time = item['time_slot_details']['start_time']
-                end_time = item['time_slot_details']['end_time']
-                price = float(item['price'])
-                category = item['service_details']['category']
-                
-                if not start_time or not end_time or not price:
-                    continue
+                check = self.check_filter(request, item)
+
+                if check:
                     
+
+                    service_id = item["service"]
+                    
+                    # Si es el primer item de este servicio, inicializar los detalles del servicio
+                    if service_id not in services_dict:
+                        services_dict[service_id] = {
+                            "service": service_id,
+                            "service_details": item["service_details"],
+                            "slots": []
+                        }
+                    
+                    # Añadir el time_slot a la lista de slots de este servicio
+                    slot = {
+                        "id": item["id"],
+                        "price": float(item["price"]) if isinstance(item["price"], str) else item["price"],
+                        "name": item["time_slot_details"]["name"],
+                        "start_time": item["time_slot_details"]["start_time"],
+                        "end_time": item["time_slot_details"]["end_time"],
+                        "schedule_type": item["time_slot_details"]["schedule_type"],
+                    }
+                    
+                    services_dict[service_id]["slots"].append(slot)
+                else: 
+                    continue
+        print(services_dict)
+        return Response(list(services_dict.values()))
+
+    def check_filter(self, request, item):
+        hora_inicio = request.query_params.get('start_time') if request.query_params.get('start_time') != "" else ""
+        hora_fin = request.query_params.get('end_time') if request.query_params.get('end_time') != "" else ""
+        precio = float(request.query_params.get('price')) if request.query_params.get('price') != None else ""
+        categoria = request.query_params.get('category') if request.query_params.get('category') != "" else ""
+
+        start_time = item['time_slot_details']['start_time']
+        end_time = item['time_slot_details']['end_time']
+        price = float(item['price'])
+        category = item['service_details']['category']
+    
+        if not start_time or not end_time or not price:
+            cumple_filtro = False
+            
+        
+        # Aplicar filtros
+        cumple_filtro = True
+        
+        if hora_inicio:
+            hora_inicio_obj = datetime.strptime(hora_inicio, "%H:%M").time()
+            if start_time > hora_inicio_obj:
+                cumple_filtro = False
                 
-                # Aplicar filtros
-                cumple_filtro = True
-                
-                if hora_inicio:
-                    hora_inicio_obj = datetime.strptime(hora_inicio, "%H:%M").time()
-                    if start_time > hora_inicio_obj:
-                        cumple_filtro = False
-                        
-                if hora_fin:
-                    hora_fin_obj = datetime.strptime(hora_fin, "%H:%M").time()
-                    if end_time < hora_fin_obj:
-                        cumple_filtro = False
+        if hora_fin:
+            hora_fin_obj = datetime.strptime(hora_fin, "%H:%M").time()
+            if end_time < hora_fin_obj:
+                cumple_filtro = False
 
-                if precio:
-                    if price > precio:
-                        cumple_filtro = False
+        if precio:
+            if price > precio:
+                cumple_filtro = False
 
-                if categoria:
-                    splited = categoria.split(",")
-                    if not any(x in category for x in splited):
-                        cumple_filtro = False
+        if categoria:
+            splited = categoria.split(",")
+            if not any(x in category for x in splited):
+                cumple_filtro = False
 
 
-                if cumple_filtro:
-                    filtered.append(item)
-        return Response(filtered)
+        return cumple_filtro
+
 @permission_classes([IsAuthenticated])
 class ServicePriceAssignmentListView(APIView):
     """
@@ -241,7 +273,7 @@ class ServicePriceForDateView(APIView):
             query &= Q(service_id=service_id)
             
         # Obtener los precios de servicios
-        service_prices = ServicePriceAssignment.objects.filter(query)
+        service_prices = ServicePriceAssignment.objects.filter(query, bookable= True)
         serializer = ServicePriceAssignmentSerializer(service_prices, many=True)
         
         return Response(serializer.data)
