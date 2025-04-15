@@ -12,24 +12,24 @@ const ServiceItem = ({ service, onClick }) => {
       onClick={() => onClick && onClick(service)}
     >
       <div className="bg-gradient-to-r from-cyan-500 to-cyan-600 px-4 py-2">
-        <h3 className="text-lg font-bold text-white truncate">{service.name}</h3>
+        <h3 className="text-lg font-bold text-white truncate">{service.service_details.name}</h3>
       </div>
-      <div className="p-6">
-        <p className="text-gray-600 mb-4 line-clamp-2">{service.description || service.descripcion}</p>
+      <div className="p-6"> 
+        <p className="text-gray-600 mb-4 line-clamp-2">{service.service_details.description}</p>
         <div className="flex justify-between items-center">
           <div className="bg-cyan-50 text-cyan-700 px-3 py-1 rounded-full text-sm font-medium">
-            {service.category}
+            {service.service_details.category}
           </div>
           <div className="font-bold text-gray-900">
-            {service.price || (service.deposit ? `${service.deposit} €` : 'Sin precio')}
+            {`${service.price} €`}
           </div>
         </div>
         <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between text-sm text-gray-500">
           <div>
-            <span className="font-medium">Máx. reserva:</span> {service.max_reservation || 'No definido'}
+            <span className="font-medium">Máx. reserva:</span> {service.service_details.max_reservation || 'No definido'}
           </div>
           <div>
-            <span className="font-medium">Fianza:</span> {service.deposit ? `${service.deposit} €` : 'N/A'}
+            <span className="font-medium">Fianza:</span> {service.service_details.deposit ? `${service.service_details.deposit} €` : 'N/A'}
           </div>
         </div>
       </div>

@@ -45,8 +45,54 @@ class ServiceListByEstablishmentView(APIView):
 @permission_classes([IsAuthenticated])
 class ServiceListRecomendations(APIView):
     def get(self, request):
-        return
+        hora_inicio = request.query_params.get('start_time') if request.query_params.get('start_time') != "" else ""
+        hora_fin = request.query_params.get('end_time') if request.query_params.get('end_time') != "" else ""
+        date = request.query_params.get('date') if request.query_params.get('date') != "" else ""
+        precio = float(request.query_params.get('price')) if request.query_params.get('price') != None else ""
+        categoria = request.query_params.get('category') if request.query_params.get('category') != "" else ""
 
+        filtered = []
+        if date != None:
+            view = ServicePriceForDateView()
+            response = ServicePriceForDateView.get(view, request, date=date,service_id=0).data
+            print(response)
+            for item in response:
+                print(item)
+                start_time = item['time_slot_details']['start_time']
+                end_time = item['time_slot_details']['end_time']
+                price = float(item['price'])
+                category = item['service_details']['category']
+                
+                if not start_time or not end_time or not price:
+                    continue
+                    
+                
+                # Aplicar filtros
+                cumple_filtro = True
+                
+                if hora_inicio:
+                    hora_inicio_obj = datetime.strptime(hora_inicio, "%H:%M").time()
+                    if start_time > hora_inicio_obj:
+                        cumple_filtro = False
+                        
+                if hora_fin:
+                    hora_fin_obj = datetime.strptime(hora_fin, "%H:%M").time()
+                    if end_time < hora_fin_obj:
+                        cumple_filtro = False
+
+                if precio:
+                    if price > precio:
+                        cumple_filtro = False
+
+                if categoria:
+                    splited = categoria.split(",")
+                    if not any(x in category for x in splited):
+                        cumple_filtro = False
+
+
+                if cumple_filtro:
+                    filtered.append(item)
+        return Response(filtered)
 @permission_classes([IsAuthenticated])
 class ServicePriceAssignmentListView(APIView):
     """

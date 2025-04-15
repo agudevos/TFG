@@ -64,6 +64,7 @@ const WeeklyScheduleTab = ({
       // Refresh the schedule with the new slot assignment
       const updatedScheduleResponse = await getFromApi(`schedules/weekly-schedules/${selectedSchedule.id}/`);
       onUpdate(updatedScheduleResponse.data);
+      
     } catch (error) {
       console.error('Error assigning slot to schedule:', error);
     }

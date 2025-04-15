@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import ChatComponent from '../../components/Conversation/ChatComponent';
 import ServiceItem from '../../components/Service/ServiceItem';
 import { getFromApi, postToApi } from '../../utils/functions/api';
@@ -37,7 +36,6 @@ const CombinedServiceView = () => {
   // Iniciar una nueva sesión cuando el componente se monta y cargar la lista de servicios
   useEffect(() => {
     startNewSession();
-    fetchServices();
   }, []);
   
   // Función para iniciar una nueva sesión de chat
@@ -49,16 +47,15 @@ const CombinedServiceView = () => {
       });
       
       // Asegurarse de que tenemos datos válidos antes de actualizar el estado
-      if (response.data) {
-        const data = response.data;
-        setServiceData(data);
-        setSessionId(data.session_id);
+      if (response) {
+        setServiceData(response);
+        setSessionId(response.session_id);
         
         // Agregar el mensaje inicial al chat
         setMessages([
           {
             role: 'assistant',
-            content: data.message,
+            content: response.message,
             timestamp: new Date().toLocaleTimeString()
           }
         ]);
@@ -91,26 +88,18 @@ const CombinedServiceView = () => {
         session_id: sessionId
       });
       
-      if (response.data) {
-        const data = response.data;
-        setServiceData(data);
-        
+      if (response) {
         // Agregar la respuesta del asistente al chat
         setMessages(prev => [
           ...prev,
           {
             role: 'assistant',
-            content: data.message,
+            content: response.message,
             timestamp: new Date().toLocaleTimeString()
           }
         ]);
         
-        // Si el servicio está completo, recargar la lista de servicios
-        if (data.finished) {
-          setTimeout(() => {
-            fetchServices();
-          }, 1000);
-        }
+        setServiceData(response);
       }
       setIsLoadingChat(false);
     } catch (error) {
@@ -130,18 +119,36 @@ const CombinedServiceView = () => {
   };
   
   // Función para obtener la lista de servicios desde la API
-  const fetchServices = async () => {
+  useEffect(() => {
     try {
       setIsLoadingList(true);
-      const response = await getFromApi('services/');
-      setServices(response.data);
+      const filters = {
+        date: serviceData.date,
+        start_time: serviceData.start_time,
+        end_time: serviceData.end_time,
+        price: serviceData.price,
+        category: serviceData.category
+      } 
+      console.log(filters)
+      const params = new URLSearchParams();
+  
+      // Añadir cada parámetro no vacío
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+          params.append(key, value);
+        }
+      });
+      getFromApi(`services/recomendations/?${params.toString()}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setServices(data)});
       setIsLoadingList(false);
     } catch (err) {
       console.error('Error al cargar los servicios:', err);
       setError('No se pudieron cargar los servicios. Por favor, intenta de nuevo más tarde.');
       setIsLoadingList(false);
     }
-  };
+  }, [serviceData]);
   
   // Función para reiniciar la sesión de chat
   const resetSession = () => {
@@ -168,7 +175,7 @@ const CombinedServiceView = () => {
       {/* Sección del chat */}
       <div className="mb-16">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800 flex items-center">
+          <h2 className="text-2xl font-semibold text-white flex items-center">
             <svg className="w-6 h-6 mr-2 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
             </svg>
@@ -196,7 +203,7 @@ const CombinedServiceView = () => {
       
       {/* Lista de servicios */}
       <div>
-        <h2 className="text-2xl font-semibold mb-6 text-gray-800 flex items-center">
+        <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
           <svg className="w-6 h-6 mr-2 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
           </svg>
@@ -217,7 +224,10 @@ const CombinedServiceView = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
             </svg>
             <h3 className="text-lg font-medium text-gray-900">No hay servicios disponibles</h3>
-            <p className="mt-2 text-gray-500">Crea tu primer servicio usando el chat de arriba.</p>
+            {messages.length === 1 ? ( 
+              <p className="mt-2 text-gray-500"> Empieza una conversación para obtener recomendaciones</p> 
+                ) : (
+                  <p className="mt-2 text-gray-500">No hay servicios que cumplan tus condiciones.</p>)}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

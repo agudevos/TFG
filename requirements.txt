@@ -6,3 +6,7 @@ djangorestframework-simplejwt
 psycopg2-binary
 environs
 coverage
+openai
+pandas
+requests
+bs4

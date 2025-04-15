@@ -14,7 +14,7 @@ const SlotAssignmentModal = ({
     order: 0,
     notes: ''
   });
-
+  console.log(schedule)
   const handleAssignmentChange = (e) => {
     const { name, value } = e.target;
     setNewAssignment({

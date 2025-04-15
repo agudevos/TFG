@@ -157,6 +157,7 @@ class ConversationServiceExtractor(APIView):
         if (request.user.rol == "client"):
 
             categorias = Service.objects.values_list('category', flat=True)
+            print(f"CATEGORIAS {categorias}")
 
             system_message = f"""
             Eres un planning assistant, especializado en identificar las necesidades del usuario y las opciones de mercado para darle sugerencias
@@ -169,7 +170,9 @@ class ConversationServiceExtractor(APIView):
             - price: precio máximo que el usuario está dispuesto a pagar
 
             No es necesario rellenar todos los campos, pero al menos 3 campos deben ser rellenados para tener sugerencias más fiables. Debes conseguir esta información
-            mediante preguntas sutiles al usuario. Las categorías disponibles actuales son: {categorias}
+            mediante preguntas sutiles al usuario. Las categorías disponibles actuales son: {categorias} debes guiar al usuario mediante preguntas 
+            sutiles para que elija una de las categorias disponibles. si decides que el usuario está refiriendo a más de una categoria recuerda ponerlas
+            todas en una sola cadena y separadas por comas.
 
             Si has asignado ya un valor a un atributo, lo puedes modificar si los nuevos mensajes del usuario te dan mas contexto permitiendote generar mejores datos.
             Sin embargo si no has recibido información suficiente para rellenar el campo, dejalo vacío. Si el cliente no especifica fecha asume date como la fecha de hoy
