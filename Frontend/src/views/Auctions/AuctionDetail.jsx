@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { getFromApi, postToApi } from "../../utils/functions/api";
 import { FormContainer } from "../../components/Form";
+import { useParams } from "react-router-dom";
 
 
-const AuctionDetail =  () => {
+const AuctionDetail =  ({}) => {
+    const { auctionId } = useParams();
     const [auction, setAuction] = useState([])
     const [service, setService] = useState([])
     const [bids, setBids] = useState([])
@@ -21,7 +23,7 @@ const AuctionDetail =  () => {
       });
 
     useEffect(() => {
-        getFromApi("auctions/353817/")
+        getFromApi(`auctions/${auctionId}/`)
         .then((response) => response.json())
         .then((data) => {
             setAuction(data)
@@ -32,7 +34,7 @@ const AuctionDetail =  () => {
               .then((response) => response.json())
               .then((data) => setService(data))
             }
-        getFromApi(`auctions/events/353817/`)
+        getFromApi(`auctions/events/${auctionId}/`)
         .then((response) => response.json())
         .then((data) => setEvents(data))
     });
@@ -42,7 +44,7 @@ const AuctionDetail =  () => {
 
     useEffect(() => {
       const obtenerBids = async () => {
-        await getFromApi("bids/auction/353817")
+        await getFromApi(`bids/auction/${auctionId}/`)
         .then((response) => response.json())
         .then((data) => {
           setBids(data)});
@@ -55,7 +57,7 @@ const AuctionDetail =  () => {
         
         // Limpiar el intervalo cuando el componente se desmonte
         return () => clearInterval(intervalo);
-    }, []);
+    }, [auctionId]);
 
 
 // Función para formatear números con ceros a la izquierda

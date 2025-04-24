@@ -12,7 +12,7 @@ const MainLayout = () => {
           <div className="flex flex-col min-h-screen ">
             <Header />
             <Container size="4" my="7" mx={{ md: "9", xs: "6", initial: "4" }} className="flex-grow ">
-              <div className="flex flex-col min-h-screen pt-10"
+              <div className="flex flex-col min-h-screen pt-10 pb-10"
                   style={{ 
                     backgroundImage: `url(${backgroundImg})`, 
                     backgroundSize: "cover",
