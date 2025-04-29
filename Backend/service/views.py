@@ -90,7 +90,7 @@ class ServiceListRecomendations(APIView):
         hora_fin = request.query_params.get('end_time') if request.query_params.get('end_time') != "" else ""
         precio = float(request.query_params.get('price')) if request.query_params.get('price') != None else ""
         categoria = request.query_params.get('category') if request.query_params.get('category') != "" else ""
-
+        print(f"PRECIO {precio}")
         start_time = item['time_slot_details']['start_time']
         end_time = item['time_slot_details']['end_time']
         price = float(item['price'])
@@ -105,7 +105,7 @@ class ServiceListRecomendations(APIView):
         
         if hora_inicio:
             hora_inicio_obj = datetime.strptime(hora_inicio, "%H:%M").time()
-            if start_time > hora_inicio_obj:
+            if start_time >= hora_inicio_obj or hora_inicio_obj <= end_time:
                 cumple_filtro = False
                 
         if hora_fin:

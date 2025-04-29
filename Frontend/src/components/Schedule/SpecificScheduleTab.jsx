@@ -40,12 +40,12 @@ const SpecificScheduleTab = ({
     try {
       if (isEditing) {
         const response = await putToApi(`schedules/specific-schedules/${selectedSchedule.id}/`, selectedSchedule);
-        onUpdate(response.data);
+        onUpdate(response);
         setSelectedSchedule(null);
         setIsEditing(false);
       } else {
         const response = await postToApi('schedules/specific-schedules/', newSchedule);
-        onAdd(response.data);
+        onAdd(response);
         setNewSchedule({
           name: '',
           date: format(new Date(), 'yyyy-MM-dd'),
@@ -89,7 +89,7 @@ const SpecificScheduleTab = ({
       
       // Refresh the schedule with the new slot assignment
       const updatedScheduleResponse = await getFromApi(`schedules/specific-schedules/${selectedSchedule.id}/`);
-      onUpdate(updatedScheduleResponse.data);
+      onUpdate(updatedScheduleResponse);
     } catch (error) {
       console.error('Error assigning slot to schedule:', error);
     }

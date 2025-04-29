@@ -50,14 +50,15 @@ const Header = () => {
           <ul className="flex max-lg:flex-col max-lg:w-full lg:items-center lg:mr-10 max-lg:space-y-2 lg:space-x-8">
             {user?.rol === "worker" ? (
               <>
-                <HeaderLink to="/auctions/create" className="text-white lg:hover:text-cyan-100 max-lg:text-cyan-700 max-lg:hover:text-cyan-900 transition-colors">Crear Puja</HeaderLink>
-                <HeaderLink to="/services/create" className="text-white lg:hover:text-cyan-100 max-lg:text-cyan-700 max-lg:hover:text-cyan-900 transition-colors">Crear Servicio</HeaderLink>
+                <HeaderLink to="/establishment/create" >Crear Establecimiento</HeaderLink>
+                <HeaderLink to="/auctions/create" >Crear Puja</HeaderLink>
+                <HeaderLink to="/services/create" >Crear Servicio</HeaderLink>
+                <HeaderLink to="/schedules/" >Horarios</HeaderLink>
               </>
             ) : user?.rol === "client" ? (
               <>
-                <HeaderLink to="/auctions/353817" className="text-white lg:hover:text-cyan-100 max-lg:text-cyan-700 max-lg:hover:text-cyan-900 transition-colors">Pujar</HeaderLink>
-                <HeaderLink to="/auctions/create" className="text-white lg:hover:text-cyan-100 max-lg:text-cyan-700 max-lg:hover:text-cyan-900 transition-colors">Crear Puja</HeaderLink>
-                <HeaderLink to="/services/create" className="text-white lg:hover:text-cyan-100 max-lg:text-cyan-700 max-lg:hover:text-cyan-900 transition-colors">Crear Servicio</HeaderLink>
+                <HeaderLink to="/auctions/353817" >Pujar</HeaderLink>
+                <HeaderLink to="/services/list" >Servicios</HeaderLink>
               </>
             ) : null}
           </ul>

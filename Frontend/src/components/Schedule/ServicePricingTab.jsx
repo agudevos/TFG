@@ -63,13 +63,13 @@ const ServicePricingTab = ({
           `services/service-prices/${selectedPricing.id}/`, 
           selectedPricing
         );
-        onUpdate(response.data);
+        onUpdate(response);
         setSelectedPricing(null);
         setIsEditing(false);
       } else {
         console.log(newPricing)
         const response = await postToApi('services/service-prices/', newPricing);
-        onAdd(response.data);
+        onAdd(response);
         setNewPricing({
           service: '',
           time_slot: '',

@@ -31,7 +31,7 @@ const WeeklyScheduleTab = ({
     e.preventDefault();
     try {
       const response = await postToApi('schedules/weekly-schedules/', newSchedule);
-      onAdd(response.data);
+      onAdd(response);
       setNewSchedule({
         name: '',
         weekday: 0,
@@ -57,13 +57,14 @@ const WeeklyScheduleTab = ({
         ...slotData,
         weekly_schedule: selectedSchedule.id,
       }
-      console.log(data)
+      
       const response = await postToApi('schedules/slot-assignments/', data);
       console.log("RESPONSE", response)
       
       // Refresh the schedule with the new slot assignment
       const updatedScheduleResponse = await getFromApi(`schedules/weekly-schedules/${selectedSchedule.id}/`);
-      onUpdate(updatedScheduleResponse.data);
+      console.log(updatedScheduleResponse)
+      onUpdate(updatedScheduleResponse);
       
     } catch (error) {
       console.error('Error assigning slot to schedule:', error);

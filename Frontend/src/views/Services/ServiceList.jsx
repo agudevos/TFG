@@ -39,6 +39,7 @@ const CombinedServiceView = () => {
     start_time: '',
     end_time: '',
     category: '',
+    price: '',
     sortBy: 'price' // Por defecto ordenar por precio
   });
 
@@ -153,6 +154,7 @@ const CombinedServiceView = () => {
         start_time: serviceData.start_time,
         end_time: serviceData.end_time,
         category: serviceData.category,
+        price: serviceData.price,
         sortBy: filters.sortBy // Siempre usamos la opción de ordenación seleccionada manualmente
       };
       
@@ -198,6 +200,7 @@ const CombinedServiceView = () => {
         start_time: '',
         end_time: '',
         category: '',
+        price: '',
         sortBy: 'price'
       });
     }

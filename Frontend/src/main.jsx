@@ -58,7 +58,7 @@ const router = createBrowserRouter([
           element: <CreateEstablishment />
         },
         {
-          path: "/establishment/stadistics",
+          path: "/establishment/statistics",
           element: <EstablishmentStats />
         }
       ]

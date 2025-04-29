@@ -34,13 +34,13 @@ const TimeSlotTab = ({ timeSlots, onAdd, onUpdate, onDelete }) => {
     try {
       if (isEditing && selectedTimeSlot) {
         const response = await putToApi(`schedules/time-slots/${selectedTimeSlot.id}/`, selectedTimeSlot);
-        onUpdate(response.data);
+        onUpdate(response);
         setSelectedTimeSlot(null);
         setIsEditing(false);
         window.location.reload(); 
       } else {
         const response = await postToApi('schedules/time-slots/', newTimeSlot);
-        onAdd(response.data);
+        onAdd(response);
         setNewTimeSlot({
           name: '',
           start_time: '09:00',
