@@ -37,6 +37,7 @@ export const AuthProvider = ({ children }) => {
             if (response.status === 200) {
                 setAuthTokens(data);
                 localStorage.setItem('authTokens', JSON.stringify(data));
+                console.log(data)
                 setUser(jwtDecode(data.access));
                 navigate('/');
             } else {
@@ -56,6 +57,7 @@ export const AuthProvider = ({ children }) => {
 
 
     let updateToken = async () => {
+        console.log("TOKEN INFO", authTokens?.refresh)
         let response = await fetch(`${VITE_BACKEND_URL}/token/refresh/`, {
             method: 'POST',
             headers: {
@@ -69,9 +71,12 @@ export const AuthProvider = ({ children }) => {
         if (response.status === 200) {
             setAuthTokens(data);
             setUser(jwtDecode(data.access));
-            localStorage.setItem('authTokens', JSON.stringify(data));
+            const authTokensString = localStorage.getItem('authTokens');
+            const authTokens = JSON.parse(authTokensString);
+            authTokens.access = data.access;
+            localStorage.setItem('authTokens', JSON.stringify(authTokens));
         } 
-        if (response.status === 401) {
+        if (response.status === 400) {
             logoutUser();
         }
         if (loading) {
