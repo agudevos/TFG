@@ -59,11 +59,11 @@ const WeeklyScheduleTab = ({
       }
       
       const response = await postToApi('schedules/slot-assignments/', data);
-      console.log("RESPONSE", response)
+      console.log("RESPONSE", response);
       
       // Refresh the schedule with the new slot assignment
       const updatedScheduleResponse = await getFromApi(`schedules/weekly-schedules/${selectedSchedule.id}/`);
-      console.log(updatedScheduleResponse)
+      console.log(updatedScheduleResponse);
       onUpdate(updatedScheduleResponse);
       
     } catch (error) {

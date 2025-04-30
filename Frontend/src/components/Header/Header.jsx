@@ -60,7 +60,11 @@ const Header = () => {
                 <HeaderLink to="/auctions/353817" >Pujar</HeaderLink>
                 <HeaderLink to="/services/list" >Servicios</HeaderLink>
               </>
-            ) : null}
+            ) : (
+              <>
+              <HeaderLink to="/services/list" >Servicios</HeaderLink>
+              </>
+            )}
           </ul>
 
           <div className="flex max-lg:flex-col max-lg:w-full lg:items-center max-lg:space-y-3 lg:space-x-6">

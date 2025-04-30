@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react';
 import AuthContext from "../../utils/context/AuthContext";
+import { Flex } from '@radix-ui/themes';
+import backgroundImg from '../../assets/LogoUchoose-white1.png';
 
 const LoginPage = () => {
   const { loginUser, error } = useContext(AuthContext);
@@ -23,9 +25,16 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center">
       <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
-        <div className="text-center mb-8">
+      <Flex align="center">
+          <img
+            src= {backgroundImg}
+            alt="Logo"
+            className="mr-4 mb-4 sm:mb-0"
+          />
+        </Flex>
+        <div className="text-center mb-8 mt-2">
           <h1 className="text-2xl font-bold text-gray-800">Iniciar Sesión</h1>
           <p className="text-gray-600 mt-2">Ingresa tus credenciales para acceder</p>
         </div>

@@ -15,7 +15,43 @@ import ScheduleManagement from "./views/Schedule/ScheduleManagement";
 import ConversationalService from "./views/Conversation/ConversationalService";
 import CreateEstablishment from "./views/Establishment/CreateEstablishment";
 import EstablishmentStats from "./views/Establishment/EstablishmentStats";
+import WorkerRoute from "./components/WorkerRoute";
+import ClientRoute from "./components/ClientRoute";
 
+
+const workerRoutes = [
+  {
+    path:"services/create",
+    element: <CreateService />,
+  },
+  {
+    path:"auctions/create",
+    element: <CreateAuction />,
+  },
+  {
+    path:"schedules",
+    element: <ScheduleManagement />
+  },
+  {
+    path:"conversations/service",
+    element: <ConversationalService />
+  },
+  {
+    path: "establishment/create",
+    element: <CreateEstablishment />
+  },
+  {
+    path: "establishment/statistics",
+    element: <EstablishmentStats />
+  }
+]
+
+const clientRoutes = [
+  {
+    path: "auctions/:auctionId",
+    element: <AuctionDetail />
+  },
+]
 const router = createBrowserRouter([
     {
       path: "/",
@@ -26,41 +62,24 @@ const router = createBrowserRouter([
           element: <App />,
         },
         {
-          path:"/services/create",
-          element: <CreateService />,
-        },
-        {
-          path:"/auctions/create",
-          element: <CreateAuction />,
-        },
-        {
           path:"/login",
           element:<LoginPage />
         },
         {
-          path: "/auctions/:auctionId",
-          element: <AuctionDetail />
+          path: "/worker",
+          element: <WorkerRoute />,
+          children: workerRoutes,
         },
         {
-          path:"/schedules",
-          element: <ScheduleManagement />
-        },
-        {
-          path:"/conversations/service",
-          element: <ConversationalService />
+          path: "/client",
+          element: <ClientRoute />,
+          children: clientRoutes,
         },
         {
           path: "/services/list",
           element: <ServiceList />
         },
-        {
-          path: "/establishment/create",
-          element: <CreateEstablishment />
-        },
-        {
-          path: "/establishment/statistics",
-          element: <EstablishmentStats />
-        }
+        
       ]
     }])
 
