@@ -5,8 +5,8 @@ from django.shortcuts import get_object_or_404, render
 from dotenv import load_dotenv
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
 
 from schedule.serializers import SlotAssignmentSerializer
@@ -43,7 +43,8 @@ class ServiceListByEstablishmentView(APIView):
         serializer = ServiceSerializer(services, many=True)
         return Response(serializer.data)
     
-@permission_classes([IsAuthenticated])
+@authentication_classes([])  # Desactiva la autenticación
+@permission_classes([AllowAny])
 class ServiceListRecomendations(APIView):
     def get(self, request):
         date = request.query_params.get('date') if request.query_params.get('date') != "" else ""
@@ -90,7 +91,6 @@ class ServiceListRecomendations(APIView):
         hora_fin = request.query_params.get('end_time') if request.query_params.get('end_time') != "" else ""
         precio = float(request.query_params.get('price')) if request.query_params.get('price') != None else ""
         categoria = request.query_params.get('category') if request.query_params.get('category') != "" else ""
-        print(f"PRECIO {precio}")
         start_time = item['time_slot_details']['start_time']
         end_time = item['time_slot_details']['end_time']
         price = float(item['price'])
@@ -105,12 +105,12 @@ class ServiceListRecomendations(APIView):
         
         if hora_inicio:
             hora_inicio_obj = datetime.strptime(hora_inicio, "%H:%M").time()
-            if start_time >= hora_inicio_obj or hora_inicio_obj <= end_time:
+            if not (start_time <= hora_inicio_obj and end_time > hora_inicio_obj):
                 cumple_filtro = False
                 
         if hora_fin:
             hora_fin_obj = datetime.strptime(hora_fin, "%H:%M").time()
-            if end_time < hora_fin_obj:
+            if not (start_time < hora_fin_obj and end_time >= hora_fin_obj):
                 cumple_filtro = False
 
         if precio:

@@ -1,10 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ChatComponent from '../../components/Conversation/ChatComponent';
 import ServiceItem from '../../components/Service/ServiceItem';
 import { getFromApi, postToApi } from '../../utils/functions/api';
+import AuthContext from "../../utils/context/AuthContext";
 
 const CombinedServiceView = () => {
-  // Estado para el servicio actual (chat)
+  const { user } = useContext(AuthContext);
+  const fechaActual = new Date();
+  // Obtener componentes individuales
+  const dia = fechaActual.getDate();
+  const mes = fechaActual.getMonth() + 1; // Los meses en JS van de 0-11
+  const año = fechaActual.getFullYear();
+  const hora = fechaActual.getHours();
+  const minutos = fechaActual.getMinutes();
+
+  // Formatear la fecha en formato DD/MM/AAAA
+  const fechaFormateada = `${año}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
+
+  // Formatear la hora en formato HH:MM:SS
+  const horaFormateada = `${hora.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}`;
+
   const [serviceData, setServiceData] = useState({
     message: '',
     date: '',
@@ -35,8 +50,8 @@ const CombinedServiceView = () => {
 
   // Estado para los filtros
   const [filters, setFilters] = useState({
-    date: '',
-    start_time: '',
+    date: fechaFormateada,
+    start_time: horaFormateada,
     end_time: '',
     category: '',
     price: '',
@@ -44,7 +59,7 @@ const CombinedServiceView = () => {
   });
 
   // Estado para controlar si los filtros manuales están activos
-  const [manualFiltersActive, setManualFiltersActive] = useState(false);
+  const [manualFiltersActive, setManualFiltersActive] = useState(true);
 
   // Categorías disponibles
   const categories = ['televisión', 'billar', 'futbolin', 'juego de mesa'];
@@ -246,40 +261,43 @@ const CombinedServiceView = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-center mb-8">
-        <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-cyan-600">
-          Recomendación de Servicios con IA
-        </span>
-      </h1>
-      
-      {/* Sección del chat */}
-      <div className="mb-12">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold text-white flex items-center">
-            <svg className="w-6 h-6 mr-2 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
-            </svg>
-            Asistente de Búsqueda
-          </h2>
-          <button 
-            onClick={resetSession}
-            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-300 flex items-center"
-          >
-            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-            </svg>
-            Nueva Conversación
-          </button>
+      {user && 
+      <div>
+        <h1 className="text-3xl font-bold text-center mb-8">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-cyan-600">
+            Recomendación de Servicios con IA
+          </span>
+        </h1>
+        
+        {/* Sección del chat */}
+        <div className="mb-12">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-semibold text-white flex items-center">
+              <svg className="w-6 h-6 mr-2 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+              </svg>
+              Asistente de Búsqueda
+            </h2>
+            <button 
+              onClick={resetSession}
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-300 flex items-center"
+            >
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+              Nueva Conversación
+            </button>
+          </div>
+          
+          {/* Componente de Chat */}
+          <ChatComponent 
+            messages={messages}
+            onSendMessage={sendMessage}
+            isLoading={isLoadingChat}
+          />
+          
         </div>
-        
-        {/* Componente de Chat */}
-        <ChatComponent 
-          messages={messages}
-          onSendMessage={sendMessage}
-          isLoading={isLoadingChat}
-        />
-        
-      </div>
+      </div>}
       
       {/* Barra de filtros */}
       <div className="mb-8 bg-white rounded-xl shadow-md p-4">
