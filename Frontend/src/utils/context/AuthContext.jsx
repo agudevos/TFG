@@ -39,7 +39,12 @@ export const AuthProvider = ({ children }) => {
                 localStorage.setItem('authTokens', JSON.stringify(data));
                 console.log(data)
                 setUser(jwtDecode(data.access));
-                navigate('/');
+                if (user.rol === "worker"){
+                    navigate('worker/establishment/select')
+                } else {
+                    navigate('/');
+                }
+                
             } else {
                 setError('Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.');
             }

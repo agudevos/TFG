@@ -186,7 +186,7 @@ const MultiStepForm = ({
     const currentStep = steps[step - 1];
     
     return (
-      <>
+      <div className="mt-4">
         <h3 className="mb-4 text-xl font-medium text-gray-700">{currentStep.title}</h3>
         <p className="mb-4 text-l font-small text-gray-500">{currentStep.description}</p>
         {currentStep.fields.map(field => (
@@ -259,14 +259,14 @@ const MultiStepForm = ({
         )
         
         )}
-      </>
+      </ div>
     );
   };
 
   // Renderizar indicador de progreso
   const renderProgress = () => {
     return (
-      <div className="mb-6">
+      <>
         <div className="flex justify-between mb-2">
           {Array.from({ length: totalSteps }).map((_, index) => (
             <div 
@@ -293,12 +293,12 @@ const MultiStepForm = ({
             ))}
           </div>
         )}
-      </div>
+      </>
     );
   };
 
   return (
-    <div className="max-w-xl mx-auto">
+    <div className="max-w-xl mx-auto mt-10">
       {createSuccess && (
         <div role="alert" className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
           <strong className="font-bold">Éxito! </strong>

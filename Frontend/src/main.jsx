@@ -17,6 +17,9 @@ import CreateEstablishment from "./views/Establishment/CreateEstablishment";
 import EstablishmentStats from "./views/Establishment/EstablishmentStats";
 import WorkerRoute from "./components/WorkerRoute";
 import ClientRoute from "./components/ClientRoute";
+import PricingPage from "./views/Pricing/PricingPage";
+import EstablishmentSelector from "./views/Establishment/SelectEstablishment";
+import SuccessPage from "./views/Pricing/SuccessPage";
 
 
 const workerRoutes = [
@@ -43,6 +46,18 @@ const workerRoutes = [
   {
     path: "establishment/statistics",
     element: <EstablishmentStats />
+  },
+  {
+    path: "pricing",
+    element: <PricingPage />
+  },
+  {
+    path: "establishment/select",
+    element: <EstablishmentSelector />
+  },
+  {
+    path: "success",
+    element: <SuccessPage />
   }
 ]
 

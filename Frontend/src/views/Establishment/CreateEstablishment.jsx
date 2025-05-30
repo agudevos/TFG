@@ -112,7 +112,7 @@ const CreateEstablishment = () => {
   return (
     <MultiStepForm
       steps={formSteps}
-      title="Crear Nueva Plataforma"
+      title="Registrar Nuevo Establecimiento"
       onSubmit={handleSubmit}
       defaultValues={defaultValues}
       messages={messages}

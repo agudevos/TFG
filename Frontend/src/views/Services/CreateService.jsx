@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { postToApi } from "../../utils/functions/api";
 import { useNavigate } from "react-router-dom";
 import MultiStepForm from "../../components/MultiStepForm";
+import EstablishmentContext from "../../utils/context/EstablishmentContext";
 
 const CreateService = () => {
   const navigate = useNavigate();
+  const {selectedEstablishment } = useContext(EstablishmentContext);
   
   // Definir mensajes de validación
   const messages = {
@@ -106,7 +108,7 @@ const CreateService = () => {
       category: formData.category,
       max_reservation: parseInt(formData.max_reservation),
       deposit: parseInt(formData.deposit),
-      establishment: 862691,
+      establishment: selectedEstablishment.id,
     });
 
     console.log("Servicio agregado exitosamente", response);

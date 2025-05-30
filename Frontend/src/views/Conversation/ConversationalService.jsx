@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ChatComponent from '../../components/Conversation/ChatComponent';
 import { postToApi } from '../../utils/functions/api';
 import { Button } from '@radix-ui/themes';
+import EstablishmentContext from "../../utils/context/EstablishmentContext";
 
 const ConversationalService = () => {
+  const {selectedEstablishment } = useContext(EstablishmentContext);
   // Estado para el servicio actual (inicializado con valores por defecto)
   const [serviceData, setServiceData] = useState({
     message: '',
@@ -36,11 +38,9 @@ const ConversationalService = () => {
       const response = await postToApi('conversations/service/', {
         message: ','
       });
-      console.log(response)
       
       // Asegurarse de que tenemos datos válidos antes de actualizar el estado
       if (response) {
-        console.log(response)
         setServiceData(response);
         setSessionId(response.session_id);
         
@@ -112,16 +112,6 @@ const ConversationalService = () => {
   };
 
   const handleServiceSubmit = async (e) => {  
-    const data =  {
-      name: "hola",
-      description: serviceData.description,
-      category: serviceData.category,
-      max_reservation: parseInt(serviceData.max_reservation),
-      deposit: parseInt(serviceData.deposit),
-      establishment: 862691,
-    }
-    console.log("DATa", serviceData.description)
-    console.log("SERVICE DATA", data)
     try {
       const response = await postToApi("services/create/", {
         name: serviceData.name,
@@ -129,7 +119,7 @@ const ConversationalService = () => {
         category: serviceData.category,
         max_reservation: parseInt(serviceData.max_reservation),
         deposit: parseInt(serviceData.deposit),
-        establishment: 862691
+        establishment: selectedEstablishment.id
       });
   
       console.log("Servicio agregado exitosamente", response);
@@ -150,7 +140,7 @@ const ConversationalService = () => {
   // Determinar el estado de cada campo - CORREGIDO PARA MANEJAR VALORES UNDEFINED
   const getFieldStatus = (field) => {
     // Verificar que serviceData existe y tiene la propiedad antes de acceder a ella
-    if (!serviceData || !serviceData[field]) return 'empty';
+    if (!serviceData || serviceData[field] === "") return 'empty';
     return 'filled';
   };
   

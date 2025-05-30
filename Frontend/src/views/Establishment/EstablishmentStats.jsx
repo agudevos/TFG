@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { getFromApi } from '../../utils/functions/api';
 import { FaDollarSign } from 'react-icons/fa';
 import { RiAuctionFill } from "react-icons/ri";
 import { BiDonateHeart } from "react-icons/bi";
+import EstablishmentContext from '../../utils/context/EstablishmentContext';
 
 const EstablishmentStats = () => {
+  const { selectedEstablishment } = useContext(EstablishmentContext)
   const [estadisticas, setEstadisticas] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,7 +15,8 @@ const EstablishmentStats = () => {
   useEffect(() => {
     const fetchEstadisticas = async () => {
       try {
-        await getFromApi("establishments/stadistics/862691/")
+        console.log(selectedEstablishment);
+        await getFromApi(`establishments/stadistics/${selectedEstablishment.id}/`)
         .then((response) => response.json())
         .then((data) => setEstadisticas(data))
       } catch (err) {

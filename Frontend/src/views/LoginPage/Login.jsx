@@ -12,7 +12,6 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validación básica
     if (!username || !password) {
       setError('Por favor ingresa nombre de usuario y contraseña');
       return;

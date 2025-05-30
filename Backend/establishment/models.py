@@ -9,9 +9,8 @@ class Establishment(models.Model):
         return randint(100000, 999999)
     
     SUBSCRIPTION_CHOICE = (
-        ('standard', 'Standard'),
-        ('premium', 'Premium'),
-        ('free', 'Free')
+        ('free', 'Free'),
+        ('premium', 'Premium')
     )
 
     id = models.PositiveIntegerField(primary_key=True, default=random_id, editable=False)
@@ -20,7 +19,8 @@ class Establishment(models.Model):
     description = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
     platforms = models.CharField(max_length=100)
-    preferences = models.CharField(max_length=50, choices=SUBSCRIPTION_CHOICE, default='free', null = True)
+    subscription = models.CharField(max_length=50, choices=SUBSCRIPTION_CHOICE, default='free', null = True)
+    customer_id = models.CharField(max_length=50, unique=True, null = True, default=None, blank=True)
 
     owner = models.ForeignKey(Worker, on_delete=models.CASCADE)
     workers = models.ManyToManyField(
