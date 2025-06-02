@@ -13,7 +13,7 @@ function PricingPage() {
       try {
         setLoading(true);
         const response = await GetPricingPlans();
-        setPlans(response.data.slice(0, 2));
+        setPlans(response.data.filter(plan => plan.default_price.id !== "price_1RVCT8PB8XNLsDsu66gFfTAH").slice(0, 2));
       } catch (error) {
         console.error("Error fetching pricing plans:", error);
       } finally {

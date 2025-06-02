@@ -3,6 +3,7 @@ import ChatComponent from '../../components/Conversation/ChatComponent';
 import ServiceItem from '../../components/Service/ServiceItem';
 import { getFromApi, postToApi } from '../../utils/functions/api';
 import AuthContext from "../../utils/context/AuthContext";
+import { useNavigate } from 'react-router-dom';
 
 const CombinedServiceView = () => {
   const { user } = useContext(AuthContext);
@@ -13,6 +14,7 @@ const CombinedServiceView = () => {
   const año = fechaActual.getFullYear();
   const hora = fechaActual.getHours();
   const minutos = fechaActual.getMinutes();
+  const navigate = useNavigate();
 
   // Formatear la fecha en formato DD/MM/AAAA
   const fechaFormateada = `${año}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
@@ -223,8 +225,11 @@ const CombinedServiceView = () => {
   
   // Función para manejar el clic en un servicio
   const handleServiceClick = (service) => {
-    console.log('Servicio seleccionado:', service);
-    // Aquí podrías navegar a una vista detallada o mostrar un modal
+    if (user?.rol !== 'client') {
+      alert('Solo los clientes pueden ver los detalles de los servicios.');
+    } else { 
+      navigate(`/client/services/${service.service}`);
+    }
   };
   
   // Función para manejar cambios en los filtros
@@ -261,7 +266,7 @@ const CombinedServiceView = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {user && 
+      {user?.rol && 
       <div>
         <h1 className="text-3xl font-bold text-center mb-8">
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-cyan-600">

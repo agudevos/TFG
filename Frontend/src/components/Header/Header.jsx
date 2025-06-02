@@ -53,7 +53,7 @@ const Header = () => {
             {user?.rol === "worker" && selectedEstablishment ? (
               <>
                 <HeaderLink to="worker/auctions/create" >Crear Puja</HeaderLink>
-                <HeaderLink to="worker/services/create" >Crear Servicio</HeaderLink>
+                <HeaderLink to="worker/my-services" >Mis Servicios</HeaderLink>
                 <HeaderLink to="worker/schedules/" >Horarios</HeaderLink>
                 {/* Dropdown */}
                 <li className="relative group">
@@ -81,6 +81,7 @@ const Header = () => {
               <>
                 <HeaderLink to="client/auctions/353817" >Pujar</HeaderLink>
                 <HeaderLink to="services/list" >Servicios</HeaderLink>
+                <HeaderLink to="client/reservations/list" >Reservas</HeaderLink>
               </>
             ) : (
               <>

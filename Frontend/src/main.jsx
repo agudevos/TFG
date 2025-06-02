@@ -20,6 +20,10 @@ import ClientRoute from "./components/ClientRoute";
 import PricingPage from "./views/Pricing/PricingPage";
 import EstablishmentSelector from "./views/Establishment/SelectEstablishment";
 import SuccessPage from "./views/Pricing/SuccessPage";
+import EstablishmentServicesList from "./views/Services/EstablishmentServiceList";
+import EstablishmentServiceDetail from "./views/Services/EstablishmentServiceDetail";
+import ClientReservationsList from "./views/Reservation/ClientReservationList";
+import SuccessCreditPayment from "./views/Pricing/SuccesCreditPayment";
 
 
 const workerRoutes = [
@@ -58,13 +62,29 @@ const workerRoutes = [
   {
     path: "success",
     element: <SuccessPage />
+  },
+  {
+    path: "my-services",
+    element: <EstablishmentServicesList />
+  },
+  {
+    path: "services/:serviceId",
+    element: <EstablishmentServiceDetail />
   }
 ]
 
 const clientRoutes = [
   {
-    path: "auctions/:auctionId",
-    element: <AuctionDetail />
+    path: "services/:serviceId",
+    element: <EstablishmentServiceDetail />
+  },
+  {
+    path: "reservations/list",
+    element: <ClientReservationsList />
+  },
+  {
+    path: "success",
+    element: <SuccessCreditPayment />
   },
 ]
 const router = createBrowserRouter([
@@ -89,6 +109,10 @@ const router = createBrowserRouter([
           path: "/client",
           element: <ClientRoute />,
           children: clientRoutes,
+        },
+        {
+          path: "auctions/:auctionId",
+          element: <AuctionDetail />
         },
         {
           path: "/services/list",

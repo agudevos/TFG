@@ -34,4 +34,5 @@ urlpatterns = [
     path('', include('service.urls')),
     path('', include('schedule.urls')),
     path('', include('conversation.urls')),
+    path('', include('reservation.urls')),
 ]

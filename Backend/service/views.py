@@ -1,5 +1,5 @@
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, time
 import os
 from django.shortcuts import get_object_or_404, render
 from dotenv import load_dotenv
@@ -9,6 +9,8 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
 
+from user.models import CustomUser
+from worker.models import Worker
 from schedule.serializers import SlotAssignmentSerializer
 from schedule.models import SlotAssignment
 from service.models import Service, ServicePriceAssignment
@@ -37,25 +39,74 @@ class ServiceDetailView(APIView):
         return Response(serializer.data)
     
 @permission_classes([IsAuthenticated])
+class ServiceDeleteView(APIView):
+    def delete(self, request, pk):
+        user=CustomUser.objects.get(username=request.user)
+        if (user.rol == "worker"):
+            worker= Worker.objects.get(user=user)
+            service = get_object_or_404(Service, pk=pk)
+            if (worker.rol == "owner" and service.establishment.owner == worker):
+                service.delete()
+            else:
+                return Response("Inicia sesión como dueño para eliminar un servicio", status=403)
+        else:
+            return Response("Inicia sesión como dueño para eliminar un servicio", status=403)
+        return Response(status=204)
+
+    
+@permission_classes([IsAuthenticated])
 class ServiceListByEstablishmentView(APIView):
     def get(self, request, fk):
         services = Service.objects.filter(establishment = fk)
         serializer = ServiceSerializer(services, many=True)
         return Response(serializer.data)
-    
+
+def to_time(val):
+    if isinstance(val, time):
+        return val
+    return datetime.strptime(val, "%H:%M:%S").time()
+
+def split_slot(slot, overlap):
+    """
+    slot: dict con 'start_time' y 'end_time'
+    overlap: dict con 'start_time' y 'end_time'
+    Devuelve lista de slots (dict) no solapados con overlap.
+    """
+    s_start = slot["start_time"]
+    s_end = slot["end_time"]
+    o_start = overlap["start_time"]
+    o_end = overlap["end_time"]
+    result = []
+    # Antes del solapamiento
+    if s_start < o_start:
+        new_slot = slot.copy()
+        new_slot["end_time"] = o_start
+        result.append(new_slot)
+    # Después del solapamiento
+    if o_end < s_end:
+        new_slot = slot.copy()
+        new_slot["start_time"] = o_end
+        result.append(new_slot)
+
+    return result
+
 @authentication_classes([])  # Desactiva la autenticación
 @permission_classes([AllowAny])
 class ServiceListRecomendations(APIView):
     def get(self, request):
         date = request.query_params.get('date') if request.query_params.get('date') != "" else ""
         
+        
 
         services_dict = {}
         if date != None:
+            service_id = int(request.query_params.get('service')) if request.query_params.get('service') != None else 0
             view = ServicePriceForDateView()
-            response = ServicePriceForDateView.get(view, request, date=date,service_id=0).data
+            response = ServicePriceForDateView.get(view, request, date=date,service_id=service_id).data
             for item in response:
                 check = self.check_filter(request, item)
+                if item["time_slot_details"]["schedule_type"] == "specific":
+                    break
 
                 if check:
                     
@@ -77,13 +128,35 @@ class ServiceListRecomendations(APIView):
                         "name": item["time_slot_details"]["name"],
                         "start_time": item["time_slot_details"]["start_time"],
                         "end_time": item["time_slot_details"]["end_time"],
+                        "color": item["time_slot_details"]["color"],
                         "schedule_type": item["time_slot_details"]["schedule_type"],
                     }
-                    
-                    services_dict[service_id]["slots"].append(slot)
+                    slots = services_dict[service_id]["slots"]
+                    solapado = False
+                    for existing in slots[:]:
+                        # Comprobar solapamiento
+                        s_start = slot["start_time"]
+                        s_end = slot["end_time"]
+                        e_start = existing["start_time"]
+                        e_end = existing["end_time"]
+                        if not (s_end <= e_start or s_start >= e_end):
+                            solapado = True
+                            # Partir el slot a añadir en los huecos que no solapan
+                            slots.remove(existing)
+                            nuevos = split_slot(existing, slot)
+                            for n in nuevos:
+                                slots.append(n)
+
+                            if slot["id"] not in [x["id"] for x in slots]:
+                                slots.append(slot)
+                    if not solapado:
+                        slots.append(slot)
                 else: 
                     continue
-        print(services_dict)
+        for s in services_dict.values():
+            s["slots"].sort(key=lambda x: x["start_time"])  
+
+        print("SERVICES DICT:", services_dict.values())
         return Response(list(services_dict.values()))
 
     def check_filter(self, request, item):

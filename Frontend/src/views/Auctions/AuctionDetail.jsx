@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { getFromApi, postToApi } from "../../utils/functions/api";
 import { FormContainer } from "../../components/Form";
 import { useParams } from "react-router-dom";
+import AuthContext from "../../utils/context/AuthContext";
 
 
 const AuctionDetail =  ({}) => {
+    const { user } = useContext(AuthContext);
     const { auctionId } = useParams();
     const [auction, setAuction] = useState([])
     const [service, setService] = useState([])
@@ -353,7 +355,7 @@ const AuctionDetail =  ({}) => {
           </div>
         )}
           {/* Formulario estático - Parte inferior */}
-          <div className="bg-white shadow-md rounded-md p-6 m-4">
+          {user.rol === "client" && <div className="bg-white shadow-md rounded-md p-6 m-4">
             <h2 className="text-xl font-semibold mb-4">Realizar una puja</h2>
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -446,7 +448,7 @@ const AuctionDetail =  ({}) => {
                 </button>
               </div>
             </form>
-          </div>
+          </div>}
         </div>
       );
 }

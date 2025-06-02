@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
  * Puede ser reutilizado en diferentes vistas
  */
 const ServiceItem = ({ service, onClick }) => {
+  console.log('ServiceItem renderizado con servicio:', service);
   return (
     <div 
       className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"

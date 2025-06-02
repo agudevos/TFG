@@ -33,6 +33,7 @@ class ServicePriceAssignmentSerializer(serializers.ModelSerializer):
                 'name': time_slot.name,
                 'start_time': time_slot.start_time,
                 'end_time': time_slot.end_time,
+                'color': time_slot.color,
                 'schedule_type': self._get_schedule_type(obj.time_slot)
             }
         return None

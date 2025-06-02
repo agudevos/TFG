@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+
+from user.models import CustomUser
 from .models import Client
 from .serializers import ClientSerializer
 
@@ -24,9 +26,14 @@ class ClientCreateView(APIView):
 
 @permission_classes([IsAuthenticated])
 class ClientDetailView(APIView):
-    def get(self, request, pk):
-        client = get_object_or_404(Client, pk=pk)
-        serializer = ClientSerializer(client)
+    def get(self, request):
+        user = CustomUser.objects.get(username=request.user)
+        if user.rol == "client":
+            client = Client.objects.get(user=user)
+            client = get_object_or_404(Client, pk=client.id)
+            serializer = ClientSerializer(client)
+        else:
+            return Response("Inicia sesión como cliente para ver tus datos", status=403)
         return Response(serializer.data)
 
 @permission_classes([IsAuthenticated])
