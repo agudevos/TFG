@@ -1,11 +1,13 @@
 from rest_framework import serializers
 from .models import Bid
 from datetime import datetime
+from auction.serializers import AuctionSerializer
 
 class BidSerializer(serializers.ModelSerializer):
+    auction_details = AuctionSerializer(source='auction', read_only=True)
     class Meta:
         model = Bid
-        fields = '__all__'
+        fields = ['id', 'send_date', 'event', 'platform', 'quantity', 'winner', 'auction', 'client', 'auction_details']
 
     def validate(self, data):
         """

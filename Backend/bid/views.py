@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+
+from client.models import Client
 from .models import Bid
 from .serializers import BidSerializer
 from datetime import datetime
@@ -25,13 +27,16 @@ class BidListByAuctionView(APIView):
 class BidCreateView(APIView):
     def post(self, request):
         if (request.user.rol == "client"):
+            client = Client.objects.get(user=request.user)
+            request.data['client'] = client.id
+            request.data['send_date'] = datetime.now()
             serializer = BidSerializer(data=request.data)
             if serializer.is_valid():
                 print(datetime.now())
                 bid = serializer.save()
                 return Response(serializer.data, status=201)
-            print(serializer.errors['non_field_errors'][0])
-            return Response({"error": serializer.errors['non_field_errors'][0]}, status=400)
+            print(serializer.errors)
+            return Response({"error": serializer.errors}, status=400)
         return Response(
                     {
                         "message": "Por favor inicie sesión como el cliente para realizar una puja"

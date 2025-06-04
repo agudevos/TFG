@@ -4,11 +4,12 @@ import { getFromApi, putToApi, postToApi } from '../../utils/functions/api';
 import AuthContext from "../../utils/context/AuthContext";
 import TimeSlotGrid from '../../components/Reservation/CreateReservation';
 import WorkerReservationByServiceList from '../Reservation/WorkerReservationByServiceList';
+import WorkerAuctionByServiceList from '../Auctions/AuctionByServiceList';
 
 const ServiceDetail = () => {
   const { user } = useContext(AuthContext);
   const { serviceId } = useParams();
-  const [selectedOption, setSelectedOption] = useState(''); 
+  const [selectedOption, setSelectedOption] = useState('reservas'); 
   const navigate = useNavigate();
   
   // Estado para almacenar los datos del servicio
@@ -76,7 +77,7 @@ const ServiceDetail = () => {
   // Función para volver atrás
   const handleBack = () => {
     if (user.rol === 'client') {
-      navigate('client/services/list'); 
+      navigate('/services/list'); 
     } else if (user.rol === 'worker') {
       navigate('/worker/my-services'); 
     }
@@ -276,50 +277,47 @@ const ServiceDetail = () => {
           </div>
         </div>
       )}
-      {user.rol === 'client' && (
-        <TimeSlotGrid
-          serviceId={serviceId}
-          serviceName={service.name}
-          establishmentId={service.establishment}
-        />
-          )}
-      {user.rol === 'worker' && (
         <div>
-          <div className="flex gap-4 my-8">
-            <button
-              className={`px-4 py-2 rounded-lg font-semibold transition-colors duration-200 ${
-                selectedOption === 'reservas'
-                  ? 'bg-cyan-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-cyan-100'
-              }`}
-              onClick={() => setSelectedOption('reservas')}
-            >
-              Reservas
-            </button>
-            <button
-              className={`px-4 py-2 rounded-lg font-semibold transition-colors duration-200 ${
-                selectedOption === 'pujas'
-                  ? 'bg-cyan-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-cyan-100'
-              }`}
-              onClick={() => setSelectedOption('pujas')}
-            >
-              Pujas
-            </button>
-          </div>
-          {selectedOption === 'reservas' ? (
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <WorkerReservationByServiceList serviceId={serviceId} />
-            </div>
-          ) : (
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-semibold mb-4">Pujas del Servicio</h2>
-              
-              <p>Aquí se mostrarán las pujas del servicio.</p>
-            </div>
-          )}
+        <div className="flex gap-4 my-8">
+          <button
+            className={`px-4 py-2 rounded-lg font-semibold transition-colors duration-200 ${
+              selectedOption === 'reservas'
+                ? 'bg-cyan-600 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-cyan-100'
+            }`}
+            onClick={() => setSelectedOption('reservas')}
+          >
+            Reservas
+          </button>
+          <button
+            className={`px-4 py-2 rounded-lg font-semibold transition-colors duration-200 ${
+              selectedOption === 'pujas'
+                ? 'bg-cyan-600 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-cyan-100'
+            }`}
+            onClick={() => setSelectedOption('pujas')}
+          >
+            Pujas
+          </button>
         </div>
-      )}
+        {selectedOption === 'reservas' ? (
+          <div className="bg-white rounded-lg shadow-md p-6">
+            {user.rol ==="worker" ? (
+              <WorkerReservationByServiceList serviceId={serviceId} />
+            ) : (
+              <TimeSlotGrid
+                serviceId={serviceId}
+                serviceName={service.name}
+                establishmentId={service.establishment}
+              />
+            )}
+          </div>
+        ) : (
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <WorkerAuctionByServiceList serviceId={serviceId} serviceInfo={false} isClient={user.rol === "client"}/>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

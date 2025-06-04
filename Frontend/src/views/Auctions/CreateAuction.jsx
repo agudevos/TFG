@@ -1,10 +1,19 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { postToApi } from "../../utils/functions/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import MultiStepForm from "../../components/MultiStepForm";
+
 
 const CreateAuction = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [serviceId, setServiceId] = React.useState(null);
+  let counter = 0;
+  useEffect(() => {
+      if (counter > 0) return;
+      counter++;
+      setServiceId(searchParams.get('serviceId'));
+  }, []);
   // Definir mensajes de validación
   const messages = {
     req: "Este campo es obligatorio",
@@ -126,13 +135,11 @@ const CreateAuction = () => {
         duration: formData.duration,
         starting_bid: formData.starting_bid,
         time_frame: formData.time_frame,
-        service: 305406,
+        service: serviceId,
         });
 
         console.log("Subasta agregado exitosamente", response);
-            
-    // Opcional: redirigir después de crear el servicio
-    // setTimeout(() => navigate('/services'), 2000);
+        navigate(`/worker/services/${serviceId}`);        
     }catch (error) {
         console.error("Error en el submit:", error);
         setErrorMessage(

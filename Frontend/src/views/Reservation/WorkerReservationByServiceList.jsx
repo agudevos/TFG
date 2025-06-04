@@ -69,7 +69,7 @@ const WorkerReservationByServiceList = ( serviceId ) => {
         <div className="flex items-center">
           <div>
             <h2 className="flex items-center flex-wrap text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-grey-700">
-              <RiContactsBookFill className='text-cyan-500 mr-2'/> <span className="truncate">Tus Reservas</span>
+              <RiContactsBookFill className='text-cyan-500 mr-2'/> <span className="truncate">Reservas</span>
             </h2>
           </div>
         </div>

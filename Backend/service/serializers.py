@@ -1,10 +1,13 @@
 from rest_framework import serializers
 from .models import Service, ServicePriceAssignment
+from establishment.serializers import EstablishmentSerializer
 
 class ServiceSerializer(serializers.ModelSerializer):
+    establishment_details = EstablishmentSerializer(source='establishment', read_only=True)
     class Meta:
         model = Service
-        fields = '__all__'
+        fields = ['id', 'name', 'description', 'category', 'max_reservation', 'deposit', 
+                  'establishment', 'establishment_details']
 
 class ServicePriceAssignmentSerializer(serializers.ModelSerializer):
     service_details = ServiceSerializer(source='service', read_only=True)

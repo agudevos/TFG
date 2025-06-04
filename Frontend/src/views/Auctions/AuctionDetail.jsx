@@ -212,8 +212,7 @@ const AuctionDetail =  ({}) => {
     quantity: "",
     platform: "", 
     event: "",
-    auction: 353817,
-    client: 588662,
+    auction: auctionId,
   });
 
   // Manejador de envío del formulario
@@ -226,8 +225,7 @@ const AuctionDetail =  ({}) => {
             event: formulario.event,
             platform: formulario.platform,
             quantity: formulario.quantity,
-            auction: formulario.auction,
-            client: formulario.client,
+            auction: formulario.auction
             });
               setError("")
               setCreateSuccess(true);
@@ -326,18 +324,20 @@ const AuctionDetail =  ({}) => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  { bids.length===0 ? (
-                    <p>Todavía no hay pujas.</p>
-                  ):(
-                    <div className="flex flex-col" style={{ width: "100%" }}>
-                        {bids.map((objeto) => (
-                            <tr key={objeto.id}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{objeto.event}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{objeto.platform}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{objeto.quantity}</td>
-                            </tr>
-                        ))}
-                        </div>
+                  {bids.length === 0 ? (
+                    <tr>
+                      <td colSpan="3" className="px-6 py-4 text-center text-sm text-gray-500">
+                        Todavía no hay pujas.
+                      </td>
+                    </tr>
+                  ) : (
+                    bids.map((objeto) => (
+                      <tr key={objeto.id}>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{objeto.event}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{objeto.platform}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{objeto.quantity}</td>
+                      </tr>
+                    ))
                   )}
                 </tbody>
               </table>

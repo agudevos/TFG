@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 from urllib.request import Request
 from django.shortcuts import render, redirect, get_object_or_404
@@ -7,6 +8,10 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
+from bid.serializers import BidSerializer
+from bid.models import Bid
+from client.models import Client
+from user.models import CustomUser
 from auction.recomendation import generate_starting_bid_recommendation
 from service.models import Service
 from service.views import ServicePriceForDateView
@@ -62,6 +67,47 @@ class AuctionEventsView(APIView):
         auction = get_object_or_404(Auction, pk=pk)
         eventos = obtener_programacion(auction.service.establishment.platforms, auction.end_date)
         return Response(eventos)
+    
+@permission_classes([IsAuthenticated])
+class AuctionListByServiceView(APIView):
+    def get(self, request, fk):
+        auctions = Auction.objects.filter(service=fk).order_by('-starting_date')
+        serializer = AuctionSerializer(auctions, many=True)
+        return Response(serializer.data)
+    
+
+@permission_classes([IsAuthenticated])
+class AuctionActiveListView(APIView):
+    def get(self, request):
+        moment_helper = datetime.now()
+        auctions = Auction.objects.filter(
+            starting_date__lte=moment_helper,
+            end_date__gt=moment_helper
+        ).order_by('-starting_date')
+        serializer = AuctionSerializer(auctions, many=True)
+        return Response(serializer.data)
+    
+@permission_classes([IsAuthenticated])
+class AuctionBidListView(APIView):
+    def get(self, request):
+        user=CustomUser.objects.get(username=request.user)
+        if (user.rol == "client"):
+            active = request.query_params.get('active') if request.query_params.get('active') is not None else False
+            client= Client.objects.get(user=user)
+            moment_helper = datetime.now()
+            print(moment_helper)
+            auctions = Auction.objects.filter(
+                starting_date__lte=moment_helper,
+                end_date__gt=moment_helper
+            ).order_by('-starting_date')
+            bids = Bid.objects.filter(client=client, auction__in=auctions)
+            serializer = BidSerializer(bids, many=True)
+            print(serializer.data)
+            
+        else:
+                return Response("Inicia sesión como client para ver tus pujas activas", status=403)
+        return Response(serializer.data)
+
     
 @permission_classes([IsAuthenticated])
 class AuctionPriceRecomendation(APIView):

@@ -11,6 +11,7 @@ from service.models import Service
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from service.serializers import ServiceSerializer
+from datetime import datetime
 from .serializers import (
     ConversationSessionSerializer,
     ChatRequestSerializer 
@@ -211,7 +212,7 @@ class ConversationServiceExtractor(APIView):
                 
                 Recuerda que debes extraer información sobre estos campos a partir de lo que dice el usuario.
                 Utiliza la información proporcionada para determinar los valores apropiados.
-                
+
                 Tu respuesta debe ser un JSON con el siguiente formato exacto:
                 {{
                     "message": "tu mensaje para el usuario",
@@ -227,6 +228,7 @@ class ConversationServiceExtractor(APIView):
                 """
             if (request.user.rol == "client"):
                 latest_data = self._extract_latest_data(session)
+                moment_helper = datetime.now()
                 context_prompt = f"""
                 Estado actual de la información:
                 - Date: {latest_data.get('date', '') or 'No definido'}
@@ -238,6 +240,10 @@ class ConversationServiceExtractor(APIView):
                 Recuerda que debes extraer información sobre estos campos a partir de lo que dice el usuario.
                 Utiliza la información proporcionada para determinar los valores apropiados.
                 
+                Únicamente en caso de que el usuario haga alguna referencia a la fecha o hora actual aquí tienes dicho dato: {moment_helper.strftime('%Y-%m-%d %H:%M:%S')}, si
+                quieren reservar para hoy o para el momento actual, utiliza este dato como referencia para establecer "Date" como la fecha de hoy y "Start Time"
+                como la hora actual.
+
                 Tu respuesta debe ser un JSON con el siguiente formato exacto:
                 {{
                     "message": "tu mensaje para el usuario",

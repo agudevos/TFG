@@ -1,11 +1,14 @@
 from rest_framework import serializers
 from .models import Auction
 from django.db.models import Q
+from service.serializers import ServiceSerializer
 
 class AuctionSerializer(serializers.ModelSerializer):
+    service_details = ServiceSerializer(source='service', read_only=True)
     class Meta:
         model = Auction
-        fields = '__all__'
+        fields = ['id', 'service', 'starting_date', 'end_date', 'starting_bid', 'time_frame', 'service_details']
+        read_only_fields = ['id']
     
 
     def validate(self, data):
