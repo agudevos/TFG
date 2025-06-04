@@ -24,6 +24,8 @@ import EstablishmentServicesList from "./views/Services/EstablishmentServiceList
 import EstablishmentServiceDetail from "./views/Services/EstablishmentServiceDetail";
 import ClientReservationsList from "./views/Reservation/ClientReservationList";
 import SuccessCreditPayment from "./views/Pricing/SuccesCreditPayment";
+import MapaEstablecimientos from "./views/Maps";
+import ClientHomepage from "./views/ClientHomePage";
 
 
 const workerRoutes = [
@@ -86,6 +88,10 @@ const clientRoutes = [
     path: "success",
     element: <SuccessCreditPayment />
   },
+  {
+    path: "home-page",
+    element: <ClientHomepage />
+  },
 ]
 const router = createBrowserRouter([
     {
@@ -117,6 +123,10 @@ const router = createBrowserRouter([
         {
           path: "/services/list",
           element: <ServiceList />
+        },
+        {
+          path: "/maps/",
+          element: <MapaEstablecimientos />
         },
         
       ]

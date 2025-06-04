@@ -14,6 +14,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  console.log("USER", user);
 
   const handleMenu = useCallback(() => {
     setOpen(!open);
@@ -31,7 +32,7 @@ const Header = () => {
     <header className="sticky top-0 shadow-md bg-cyan-500 px-2 py-3 sm:px-10 font-sans min-h-[70px] z-10">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center">
-          <Link to="/" className="text-white font-bold text-xl mr-4">
+          <Link to={user ?  user.rol === "client" ? "/client/home-page" : "/worker/establishment/statistics" : "/"} className="text-white font-bold text-xl mr-4">
             UChoose
           </Link>
           
@@ -52,7 +53,6 @@ const Header = () => {
           <ul className="flex max-lg:flex-col max-lg:w-full lg:items-center lg:mr-10 max-lg:space-y-2 lg:space-x-8">
             {user?.rol === "worker" && selectedEstablishment ? (
               <>
-                <HeaderLink to="worker/auctions/create" >Crear Puja</HeaderLink>
                 <HeaderLink to="worker/my-services" >Mis Servicios</HeaderLink>
                 <HeaderLink to="worker/schedules/" >Horarios</HeaderLink>
                 {/* Dropdown */}
@@ -79,13 +79,15 @@ const Header = () => {
               </>
             ) : user?.rol === "client" ? (
               <>
-                <HeaderLink to="client/auctions/353817" >Pujar</HeaderLink>
                 <HeaderLink to="services/list" >Servicios</HeaderLink>
                 <HeaderLink to="client/reservations/list" >Reservas</HeaderLink>
               </>
             ) : (
               <>
+              {!user && (
+              
               <HeaderLink to="/services/list" >Servicios</HeaderLink>
+              )}
               </>
             )}
           </ul>

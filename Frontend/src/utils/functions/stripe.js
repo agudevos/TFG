@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 
 const STRIPE_SECRET_KEY = import.meta.env.VITE_STRIPE_SECRET_KEY;
+console.log('🗝️ API Key configurada:', STRIPE_SECRET_KEY ? 'Sí' : 'No');
 
 const stripe = new Stripe(STRIPE_SECRET_KEY)
 

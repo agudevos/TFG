@@ -3,6 +3,7 @@ import React, { createContext, useState, useEffect, useCallback } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
+import { set } from 'react-hook-form';
 
 
 const AuthContext = createContext();
@@ -37,12 +38,12 @@ export const AuthProvider = ({ children }) => {
             if (response.status === 200) {
                 setAuthTokens(data);
                 localStorage.setItem('authTokens', JSON.stringify(data));
-                console.log(data)
                 setUser(jwtDecode(data.access));
-                if (user.rol === "worker"){
+                setError('');
+                if (jwtDecode(data.access).rol === "worker"){
                     navigate('worker/establishment/select')
                 } else {
-                    navigate('/');
+                    navigate('client/home-page');
                 }
                 
             } else {
