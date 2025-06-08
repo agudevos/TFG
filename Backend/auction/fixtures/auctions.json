@@ -7,7 +7,7 @@
             "end_date": "2025-04-06T10:45:00Z",
             "starting_bid": 5,
             "time_frame": 30,
-            "service": 457582
+            "service": 457502
         }
     },
     {
@@ -18,7 +18,7 @@
             "end_date": "2025-04-06T12:15:00Z",
             "starting_bid": 8,
             "time_frame": 35,
-            "service": 457583
+            "service": 457502
         }
     },
     {
@@ -29,7 +29,7 @@
             "end_date": "2025-04-06T14:35:00Z",
             "starting_bid": 3,
             "time_frame": 28,
-            "service": 457584
+            "service": 457502
         }
     },
     {
@@ -40,7 +40,7 @@
             "end_date": "2025-04-06T17:00:00Z",
             "starting_bid": 6,
             "time_frame": 32,
-            "service": 457585
+            "service": 457502
         }
     },
     {
@@ -51,7 +51,7 @@
             "end_date": "2025-04-06T19:00:00Z",
             "starting_bid": 2,
             "time_frame": 25,
-            "service": 457586
+            "service": 457502
         }
     },
     {
@@ -62,7 +62,7 @@
             "end_date": "2025-04-07T11:00:00Z",
             "starting_bid": 10,
             "time_frame": 40,
-            "service": 457587
+            "service": 457502
         }
     },
     {
@@ -73,7 +73,7 @@
             "end_date": "2025-04-07T14:30:00Z",
             "starting_bid": 4,
             "time_frame": 30,
-            "service": 457588
+            "service": 457503
         }
     },
     {
@@ -84,7 +84,7 @@
             "end_date": "2025-04-07T18:45:00Z",
             "starting_bid": 9,
             "time_frame": 45,
-            "service": 457589
+            "service": 457503
         }
     },
     {
@@ -95,7 +95,7 @@
             "end_date": "2025-04-07T21:15:00Z",
             "starting_bid": 7,
             "time_frame": 35,
-            "service": 457590
+            "service": 457503
         }
     },
     {
@@ -106,7 +106,7 @@
             "end_date": "2025-04-08T08:45:00Z",
             "starting_bid": 1,
             "time_frame": 25,
-            "service": 457591
+            "service": 457503
         }
     },
     {
@@ -117,7 +117,7 @@
             "end_date": "2025-04-08T12:30:00Z",
             "starting_bid": 10,
             "time_frame": 50,
-            "service": 457592
+            "service": 457503
         }
     },
     {
@@ -128,7 +128,7 @@
             "end_date": "2025-04-08T15:45:00Z",
             "starting_bid": 8,
             "time_frame": 45,
-            "service": 457593
+            "service": 457504
         }
     },
     {
@@ -139,7 +139,7 @@
             "end_date": "2025-04-08T18:00:00Z",
             "starting_bid": 0,
             "time_frame": 20,
-            "service": 457594
+            "service": 457504
         }
     },
     {
@@ -150,7 +150,7 @@
             "end_date": "2025-04-08T20:30:00Z",
             "starting_bid": 5,
             "time_frame": 32,
-            "service": 457595
+            "service": 457504
         }
     },
     {
@@ -161,7 +161,7 @@
             "end_date": "2025-04-09T11:00:00Z",
             "starting_bid": 9,
             "time_frame": 45,
-            "service": 457596
+            "service": 457504
         }
     }
 ]

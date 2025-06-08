@@ -13,6 +13,7 @@ class Service(models.Model):
     name = models.CharField(max_length=75)
     description = models.CharField(max_length=350)
     category = models.CharField(max_length=100)
+    max_people = models.PositiveIntegerField()
     max_reservation = models.PositiveIntegerField()
     deposit = models.PositiveIntegerField()
     
