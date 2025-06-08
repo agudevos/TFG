@@ -1,0 +1,49 @@
+name: "Codacy Analysis Simplificado"
+
+on:
+  push:
+    branches: [ main, feat_development ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 6'  # Sábados a medianoche
+
+jobs:
+  codacy-analysis:
+    name: Codacy Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # Ejecutar el análisis de Codacy con salida directa a archivo
+      - name: Run Codacy Analysis
+        env:
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        run: |
+          # Crear directorio para resultados
+          mkdir -p codacy-results
+          
+          # Ejecutar Codacy y guardar la salida directamente en un archivo local
+          docker run --rm \
+            -v $(pwd):/code \
+            -e CODACY_PROJECT_TOKEN=$CODACY_PROJECT_TOKEN \
+            codacy/codacy-analysis-cli:latest \
+            analyze --directory /code --format json > codacy-results/codacy-result.json
+          
+          echo "Análisis completado. Resultados guardados en codacy-results/codacy-result.json"
+          
+          # Verificar el contenido del archivo
+          ls -la codacy-results/
+          echo "Primeras líneas del archivo de resultados:"
+          head -n 10 codacy-results/codacy-result.json
+      
+      # Guardar resultados como artefacto
+      - name: Guardar resultados como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: codacy-analysis-results
+          path: codacy-results/
+          retention-days: 30
