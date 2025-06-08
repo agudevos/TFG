@@ -93,7 +93,7 @@ def generate_service_price_recomendation(
     para tramos horarios con type weekly te fijaras unicamente en la media de precio para weekly. Para mayor precisión analiza también la categoría del servicio a reservar y compara los precios 
     de servicios unicamente con categorias similares en el análisis de datos historicos.    
 
-    1. Una recomendación de starting_bid óptimo (valor numérico)
+    1. Una recomendación de precio óptimo (valor numérico)
     2. Un rango recomendado (mínimo y máximo)
 
     responde unicamente con un JSON con el siguiente formato:
@@ -149,6 +149,7 @@ def generate_service_price_recomendation(
     cleaned = raw_content.strip("`")  # quita los backticks
     cleaned = cleaned.replace("json", "", 1).strip()  # quita la palabra "json" si está al inicio
 
+    recomendation = {}
     # 3. Parsear el contenido JSON
     try:
         recomendation = json.loads(cleaned)

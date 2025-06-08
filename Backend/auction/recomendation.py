@@ -128,6 +128,7 @@ def generate_starting_bid_recommendation(
     cleaned = raw_content.strip("`")  # quita los backticks
     cleaned = cleaned.replace("json", "", 1).strip()  # quita la palabra "json" si está al inicio
 
+    recomendation = {}
     # 3. Parsear el contenido JSON
     try:
         recomendation = json.loads(cleaned)

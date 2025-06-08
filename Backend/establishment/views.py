@@ -22,6 +22,9 @@ class EstablishmentListView(APIView):
             if (worker.rol == "owner"):
                 establishments = Establishment.objects.filter(owner=worker)
                 serializer = EstablishmentSerializer(establishments, many=True)
+            else:
+                establishments = Establishment.objects.all()
+                serializer = EstablishmentSerializer(establishments, many=True)
         else:
             establishments = Establishment.objects.all()
             serializer = EstablishmentSerializer(establishments, many=True)
