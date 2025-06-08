@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import SimpleServiceItem from '../../components/Service/SimpleService';
+import SimpleServiceItem from '../../components/Service/SimpleServiceItem';
 import { getFromApi } from '../../utils/functions/api';
 import AuthContext from "../../utils/context/AuthContext";
 import EstablishmentContext from '../../utils/context/EstablishmentContext';

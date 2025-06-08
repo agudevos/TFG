@@ -24,9 +24,13 @@ const SimpleServiceItem = ({ service, onClick, establishment }) => {
         </div>
         
         <div className="pt-4 border-t border-gray-100 grid grid-cols-2 gap-4 text-sm">
+          {service.max_reservation > 0 && <div className="text-gray-600">
+            <span className="font-medium text-gray-700">Máx. tiempo:</span>
+            <div className="text-gray-900">{service.max_reservation} minutos</div>
+          </div>}
           <div className="text-gray-600">
-            <span className="font-medium text-gray-700">Máx. reserva:</span>
-            <div className="text-gray-900">{service.max_reservation} personas</div>
+            <span className="font-medium text-gray-700">Máx. personas:</span>
+            <div className="text-gray-900">{service.max_people} personas</div>
           </div>
           <div className="text-gray-600">
             <span className="font-medium text-gray-700">Fianza:</span>
@@ -35,7 +39,7 @@ const SimpleServiceItem = ({ service, onClick, establishment }) => {
         </div>
         
         <div className="mt-3 pt-3 border-t border-gray-100 text-xs text-gray-500">
-          <span className="font-medium">Establecimiento:</span> {establishment.name}
+          <span className="font-medium">Establecimiento:</span> {service.establishment_details.name}
         </div>
       </div>
     </div>
