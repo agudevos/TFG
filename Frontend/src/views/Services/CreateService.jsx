@@ -44,23 +44,7 @@ const CreateService = () => {
       ]
     },
     {
-      title: "Categoría y Precio",
-      description: "Define la categoría de tu servicio y el precio por hora de reserva.",
-      fields: [
-        {
-          name: "category",
-          label: "Categoría",
-          type: "text",
-          placeholder: "Ingrese la categoría del servicio",
-          validation: {
-            required: messages.req,
-            minLength: { value: 3, message: "La categoría debe tener al menos 3 caracteres" }
-          }
-        }
-      ]
-    },
-    {
-      title: "Duración y Fianza",
+      title: "Datos Adicionales",
       description: "Incluye restricciones como la duración máxima de la reserva y una fianza a modo de seguro de reserva.(Opcional)", 
       fields: [
         {
@@ -68,10 +52,21 @@ const CreateService = () => {
           label: "Máxima Duración de Reserva",
           type: "number",
           min: "1",
-          placeholder: "Ingrese el número máximo de reservaciones",
+          placeholder: "Ingrese el tiempo máximo de reserva",
           validation: {
             required: messages.req,
-            min: { value: 1, message: "Debe permitir al menos 1 reservación" }
+            min: { value: 1, message: "Debe permitir al menos 1 reserva" }
+          }
+        },
+        {
+          name: "max_people",
+          label: "Número Máximo de Personas",
+          type: "number",
+          min: "1",
+          placeholder: "Ingrese el número máximo de personas",
+          validation: {
+            required: messages.req,
+            min: { value: 1, message: "Debe permitir al menos 1 persona" }
           }
         },
         {
@@ -95,6 +90,7 @@ const CreateService = () => {
     description: "",
     category: "",
     max_reservation: "",
+    max_people: "",
     deposit: ""
   };
   
@@ -107,14 +103,14 @@ const CreateService = () => {
       description: formData.description,
       category: formData.category,
       max_reservation: parseInt(formData.max_reservation),
+      max_people: parseInt(formData.max_people),
       deposit: parseInt(formData.deposit),
       establishment: selectedEstablishment.id,
     });
 
     console.log("Servicio agregado exitosamente", response);
     
-    // Opcional: redirigir después de crear el servicio
-    // setTimeout(() => navigate('/services'), 2000);
+    setTimeout(() => navigate('/worker/my-services'), 2000);
     
     return response;
   };
@@ -130,7 +126,7 @@ const CreateService = () => {
       finishButtonText="Finalizar"
       submitButtonText="Crear Servicio"
       backButtonText="Volver al formulario"
-      stepLabels={["Información Básica", "Categoría", "Restricciones"]}
+      stepLabels={["Información Básica", "Restricciones"]}
     />
   );
 };

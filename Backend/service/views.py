@@ -3,14 +3,18 @@ from datetime import datetime, time
 import os
 from django.shortcuts import get_object_or_404, render
 from dotenv import load_dotenv
+from openai import OpenAI
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
 
+from reservation.serializers import ReservationSerializer
+from reservation.models import Reservation
 from user.models import CustomUser
 from worker.models import Worker
+from client.models import Client
 from schedule.serializers import SlotAssignmentSerializer
 from schedule.models import SlotAssignment
 from service.models import Service, ServicePriceAssignment
@@ -19,11 +23,115 @@ from .serializers import ServicePriceAssignmentSerializer, ServiceSerializer
 from .recomendation import generate_service_price_recomendation
 
 from django.db.models import Q
+from collections import Counter
+import math
 
+load_dotenv()
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
 @permission_classes([IsAuthenticated])
 class ServiceCreateView(APIView):
     def post(self, request):
+        categories = set(Service.objects.values_list('category', flat=True))
+        prompt = f"""
+           Eres un experto en juegos y servicios que se pueden encontrar en un establecimiento de ocio.
+           Tu tarea es asignar una categoría al servicio que se te proporciona, basándote en su nombre y descripción.
+           El servicio se describe de la siguiente manera:
+           Nombre: {request.data.get('name')}
+           Descripción: {request.data.get('description')}
+
+           Categorías ya definidas:
+              {', '.join(categories)}
+              Si el servicio no encaja en ninguna de las categorías existentes, crea una nueva categoría. Recuerda que las categorías deben ser concisas es decir 
+              en general no deben tener más de 3 palabras, no es una descripción del servicio, simplemente una forma de clasificar los servicios que se 
+              puedan encontrar.
+              
+
+            Aqui tienes varios ejemplos de como se asignan las categorías en base a los nombres y descripciones de los servicios:
+            {{
+                "model": "service.service",
+                "pk": 457504,
+                "fields": {{
+                    "name": "Televisión Sony Bravia 50 pulgadas",
+                    "description": "Ideal para presentaciones o documentales. Conecta tu dispositivo y aprovecha sus aplicaciones.",
+                    "category": "televisión, smart TV, LED",
+                    "max_reservation": 28,
+                    "max_people": 0,
+                    "deposit": 18,
+                    "establishment": 901234
+                }}
+            }},
+            {{
+                "model": "service.service",
+                "pk": 457582,
+                "fields": {{
+                    "name": "Mesa de billar profesional",
+                    "description": "Mesa de billar americana de tamaño reglamentario perfecta para torneos entre amigos con tacos incluidos.",
+                    "category": "billar",
+                    "max_people": 4,
+                    "max_reservation": 120,
+                    "deposit": 25,
+                    "establishment": 123890
+                }}
+            }},
+            {{
+                "model": "service.service",
+                "pk": 457586,
+                "fields": {{
+                    "name": "Karaoke profesional con pantalla",
+                    "description": "Sistema completo de karaoke con miles de canciones en español e inglés y dos micrófonos inalámbricos.",
+                    "category": "karaoke",
+                    "max_reservation": 180,
+                    "max_people": 15,
+                    "deposit": 30,
+                    "establishment": 345678
+                }}
+            }},
+            {{
+                "model": "service.service",
+                "pk": 457587,
+                "fields": {{
+                    "name": "Mesa de air hockey LED",
+                    "description": "Mesa de hockey de aire con efectos LED y marcador electrónico para partidas rápidas y emocionantes.",
+                    "category": "air hockey",
+                    "max_reservation": 60,
+                    "max_people": 2,
+                    "deposit": 22,
+                    "establishment": 345678
+                }}
+            }},
+            {{
+                "model": "service.service",
+                "pk": 457588,
+                "fields": {{
+                    "name": "Máquina recreativa arcade retro",
+                    "description": "Máquina con más de 1000 juegos clásicos de los 80s y 90s perfecta para la nostalgia gamer.",
+                    "category": "arcade",
+                    "max_reservation": 120,
+                    "max_people": 2,
+                    "deposit": 25,
+                    "establishment": 456789
+                }}
+            }},
+            Responde únicamente con la categoría asignada, sin comillas ni ningún otro texto."""
+        
+        client = OpenAI(api_key=OPENAI_API_KEY)
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",  # o "gpt-4o-mini"
+            messages=[
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": "Asigna una categoría al servicio proporcionado."},
+            ],
+            temperature=0.7,
+        )
+        
+        raw_content = response.choices[0].message.content
+        print("RAW CONTENT:", raw_content)
+        # 2. Limpiar el bloque ```json ... ```
+        cleaned = raw_content.strip("`")  # quita los backticks
+        cleaned = cleaned.replace("json", "", 1).strip()  # quita la palabra "json" si está al inicio
+
+        request.data['category'] = cleaned
         serializer = ServiceSerializer(data=request.data)
         if serializer.is_valid():
             service = serializer.save()
@@ -37,6 +145,16 @@ class ServiceDetailView(APIView):
         service = get_object_or_404(Service, pk=pk)
         serializer = ServiceSerializer(service)
         return Response(serializer.data)
+    
+@permission_classes([IsAuthenticated])
+class ServiceUpdateView(APIView):
+    def put(self, request, pk):
+        service = get_object_or_404(Service, pk=pk)
+        serializer = ServiceSerializer(service, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
     
 @permission_classes([IsAuthenticated])
 class ServiceDeleteView(APIView):
@@ -89,6 +207,37 @@ def split_slot(slot, overlap):
         result.append(new_slot)
 
     return result
+
+
+@permission_classes([IsAuthenticated])
+class ServiceListForYou(APIView):
+    """
+    Lista de servicios más afines al usuario autenticado.
+    """
+    def get(self, request):
+        user = CustomUser.objects.get(username=request.user)
+        if user.rol == "client":
+            client= Client.objects.get(user=user)
+            reservations = Reservation.objects.filter(client=client)
+            if not reservations:
+                serializer = ServiceSerializer(reservations, many=True)
+                return Response(serializer.data)
+            reservation_serializer = ReservationSerializer(reservations, many=True)
+            reserved_services = [reservation["service_details"] for reservation in reservation_serializer.data]
+            # Contar las categorías más repetidas
+            category_list = [service["category"] for service in reserved_services]
+            most_common_categories = [cat for cat, _ in Counter(category_list).most_common(3)]
+            # Obtener mediana de max_people de los servicios reservados
+            avg_max_people = sum(service["max_people"] for service in reserved_services) / len(reserved_services)
+            floor_max_people = math.floor(avg_max_people-1)
+            ceiling_max_people = math.ceil(avg_max_people+1)
+            # Filtrar servicios por las categorías más comunes (excluyendo los ya reservados)
+            services = Service.objects.filter(category__in=most_common_categories, max_people__lte = ceiling_max_people, max_people__gte = floor_max_people)
+        else:
+            return Response("Inicia sesión como cliente para ver los servicios", status=403)
+
+        serializer = ServiceSerializer(services, many=True)
+        return Response(serializer.data)
 
 @authentication_classes([])  # Desactiva la autenticación
 @permission_classes([AllowAny])
@@ -164,12 +313,14 @@ class ServiceListRecomendations(APIView):
         hora_fin = request.query_params.get('end_time') if request.query_params.get('end_time') != "" else ""
         precio = float(request.query_params.get('price')) if request.query_params.get('price') != None else ""
         categoria = request.query_params.get('category') if request.query_params.get('category') != "" else ""
+        max_personas = int(request.query_params.get('max_people')) if request.query_params.get('max_people') != None else 0
         start_time = item['time_slot_details']['start_time']
         end_time = item['time_slot_details']['end_time']
         price = float(item['price'])
         category = item['service_details']['category']
+        max_people = item['service_details']['max_people']
     
-        if not start_time or not end_time or not price:
+        if not start_time or not end_time or not price or not max_people:
             cumple_filtro = False
             
         
@@ -188,6 +339,10 @@ class ServiceListRecomendations(APIView):
 
         if precio:
             if price > precio:
+                cumple_filtro = False
+
+        if max_people:
+            if max_people < max_personas:
                 cumple_filtro = False
 
         if categoria:
@@ -358,11 +513,6 @@ class ServicePriceRecomendation(APIView):
     """
 
     def get(self, request, assing_id, service_id):
-        load_dotenv()
-
-        # Acceder a las variables
-        OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
-        
         ids = ServicePriceAssignment.objects.filter(bookable = True)
         prices = ServicePriceAssignmentSerializer(ids, many=True)
         data_list = []
@@ -372,6 +522,7 @@ class ServicePriceRecomendation(APIView):
             dict['price'] = float(item['price'])
             dict['category'] = item['service_details']['category']
             dict['max_reservation'] = item['service_details']['max_reservation']
+            dict['max_people'] = item['service_details']['max_people']
             dict['start_time'] = item['time_slot_details']['start_time']
             dict['end_time'] =  item['time_slot_details']['end_time']
             dict['type'] = item['time_slot_details']['schedule_type']['type']
