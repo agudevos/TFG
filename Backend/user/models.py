@@ -21,7 +21,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     ROL_CHOICES = (
         ('admin', 'Admin'),
         ('client', 'Client'),
-        ('bar', 'Bar'),
+        ('worker', 'Worker'),
     )
 
     username_validator = UnicodeUsernameValidator()
@@ -39,11 +39,15 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         },
     )
     id = models.IntegerField(primary_key=False, auto_created=True,default=random_id, editable=False)
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, default="a@gmail.com")
+    name = models.CharField(max_length=75, default="a")
+    surname = models.CharField(max_length=75, default="a")
+    phone_number = models.PositiveIntegerField(default=123456789, validators=[RegexValidator(r'^[0-9]{6}', message="El número de teléfono debe contener solo dígitos y una longitud de 6 dígitos.")])
+    birthday = models.DateField(default="2000-01-01")
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
     rol = models.CharField(max_length=100, choices=ROL_CHOICES, default='client')
-    phone_number = models.PositiveIntegerField(validators=[RegexValidator(r'^[0-9]{6}', message="El número de teléfono debe contener solo dígitos y una longitud de 6 dígitos.")])
-    zipCode = models.PositiveIntegerField(validators=[RegexValidator(r'^[0-9]{5}$', message="El código postal debe contener 5 dígitos numéricos.")])
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_verified = models.BooleanField(default=False)
     groups = models.ManyToManyField(
         'auth.Group',
