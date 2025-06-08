@@ -1,11 +1,10 @@
 from datetime import datetime
 import os
-from urllib.request import Request
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404
 from dotenv import load_dotenv
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 from bid.serializers import BidSerializer
@@ -18,7 +17,6 @@ from service.views import ServicePriceForDateView
 from .models import Auction
 from .serializers import AuctionSerializer
 from .scraping import obtener_programacion
-import pandas as pd
 
 @permission_classes([IsAuthenticated])
 class AuctionListView(APIView):

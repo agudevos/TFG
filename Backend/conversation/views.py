@@ -3,17 +3,15 @@ import json
 import uuid
 from dotenv import load_dotenv
 import openai
-from rest_framework import viewsets, status
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import ConversationSession, ConversationMessages
 from service.models import Service
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
-from service.serializers import ServiceSerializer
 from datetime import datetime
 from .serializers import (
-    ConversationSessionSerializer,
     ChatRequestSerializer 
 )
 

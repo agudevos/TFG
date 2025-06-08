@@ -1,6 +1,4 @@
 import { Flex, Link as RLink } from "@radix-ui/themes";
-import React from "react";
-import { Link } from "react-router-dom";
 import backgroundImg from '../../assets/LogoUchoose-white1.png';  
 
 const Footer = () => {

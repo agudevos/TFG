@@ -1,12 +1,11 @@
 from datetime import datetime
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404
 import pandas as pd
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 
-from auction.serializers import AuctionSerializer
 from auction.models import Auction
 from worker.models import Worker
 from user.models import CustomUser

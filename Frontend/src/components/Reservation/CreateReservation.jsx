@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useContext} from 'react';
+import { useState, useEffect, useContext} from 'react';
 import { getFromApi, postToApi } from '../../utils/functions/api';
 import AuthContext from '../../utils/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { use } from 'react';
 import { CreateCheckoutCreditSession } from '../../utils/functions/stripe';
-import { set } from 'react-hook-form';
 
 
 const TimeSlotGrid = ({ serviceId }) => {

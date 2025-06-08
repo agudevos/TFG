@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Reservation, Client, Service
+from .models import Reservation, Service
 from client.serializers import ClientSerializer
 from django.db.models import Q
 

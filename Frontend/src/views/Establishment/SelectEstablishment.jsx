@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Flex } from "@radix-ui/themes";
 import { IoStorefront, IoLocationSharp, IoPeopleSharp, IoAddCircle, IoCheckmarkCircle } from "react-icons/io5";
 import { getFromApi } from '../../utils/functions/api';

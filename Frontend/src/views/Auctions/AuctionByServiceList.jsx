@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import SimpleAuctionItem from '../../components/Auction/SimpleAuctionItem';
-import { deleteFromApi, getFromApi, postToApi } from '../../utils/functions/api';
+import { deleteFromApi, getFromApi } from '../../utils/functions/api';
 import AuthContext from "../../utils/context/AuthContext";
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import { RiAuctionFill } from 'react-icons/ri';
-import { set } from 'react-hook-form';
 
 const WorkerAuctionByServiceList = ( serviceId ) => {
   const { user } = useContext(AuthContext);

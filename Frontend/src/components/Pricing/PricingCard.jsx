@@ -1,4 +1,3 @@
-import React from "react";
 import PricingButton from "../Pricing/PricingButton";
 import { Heading } from "@radix-ui/themes";
 import { FaCheck } from "react-icons/fa";

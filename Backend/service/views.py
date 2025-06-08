@@ -1,12 +1,11 @@
-from collections import defaultdict
 from datetime import datetime, time
 import os
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from dotenv import load_dotenv
 from openai import OpenAI
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
 

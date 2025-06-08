@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Navigate, useSearchParams } from 'react-router-dom';
 import Stripe from 'stripe'
-import { postToApi, putToApi } from '../../utils/functions/api';
+import { putToApi } from '../../utils/functions/api';
 import EstablishmentContext from '../../utils/context/EstablishmentContext';
 
 const STRIPE_SECRET_KEY = import.meta.env.VITE_STRIPE_SECRET_KEY

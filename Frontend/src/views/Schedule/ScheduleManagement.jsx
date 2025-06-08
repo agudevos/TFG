@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import TimeSlotTab from '../../components/Schedule/TimeSlotTab';
 import WeeklyScheduleTab from '../../components/Schedule/WeeklyScheduleTab';
 import SpecificScheduleTab from '../../components/Schedule/SpecificScheduleTab';

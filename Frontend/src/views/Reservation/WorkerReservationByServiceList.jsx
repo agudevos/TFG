@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import SimpleReservationItem from '../../components/Reservation/SimpleReservationItem';
-import { deleteFromApi, getFromApi, postToApi } from '../../utils/functions/api';
+import { deleteFromApi, getFromApi } from '../../utils/functions/api';
 import AuthContext from "../../utils/context/AuthContext";
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import { RiContactsBookFill } from 'react-icons/ri';
 
 const WorkerReservationByServiceList = ( serviceId ) => {

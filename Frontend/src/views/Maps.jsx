@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
-import { getFromApi } from '../utils/functions/api';
 
 const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 
