@@ -42,7 +42,19 @@ class ReservationListByClientView(APIView):
 @permission_classes([IsAuthenticated])
 class ReservationListByServiceView(APIView):
     def get(self, request, fk):
-        reservations = Reservation.objects.filter(service=fk).select_related('client', 'service').order_by('-starting_date')
+        date_str = request.query_params.get('date')
+        start_date = end_date = ""
+        if date_str:
+            try:
+                date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+                start_date = date_obj.replace(hour=0, minute=0, second=0, microsecond=0)
+                end_date = date_obj.replace(hour=23, minute=59, second=59, microsecond=999999)
+            except ValueError:
+                return Response("Formato de fecha inválido. Use YYYY-MM-DD.", status=400)
+        if start_date and end_date:
+            reservations = Reservation.objects.filter(service=fk, starting_date__gte = start_date, end_date__lte = end_date).select_related('client', 'service').order_by('-starting_date')
+        else:
+            reservations = Reservation.objects.filter(service=fk).select_related('client', 'service').order_by('-starting_date')
         serializer = ReservationSerializer(reservations, many=True)
         return Response(serializer.data)
 

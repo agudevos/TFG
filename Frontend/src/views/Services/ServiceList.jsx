@@ -28,6 +28,7 @@ const CombinedServiceView = () => {
     start_time: '',
     end_time: '',
     category: '',
+    max_people: '',
     price: '',
     finished: false
   });
@@ -56,6 +57,7 @@ const CombinedServiceView = () => {
     start_time: horaFormateada,
     end_time: '',
     category: '',
+    max_people: '',
     price: '',
     sortBy: 'price' // Por defecto ordenar por precio
   });
@@ -135,7 +137,7 @@ const CombinedServiceView = () => {
         setServiceData(response);
         
         // Si el servicio está actualizando datos, desactivar los filtros manuales
-        if (response.date || response.category || response.start_time || response.end_time) {
+        if (response.date || response.category || response.start_time || response.end_time || response.price || response.max_people) {
           setManualFiltersActive(false);
         }
       }
@@ -171,6 +173,7 @@ const CombinedServiceView = () => {
         start_time: serviceData.start_time,
         end_time: serviceData.end_time,
         category: serviceData.category,
+        max_people: serviceData.max_people,
         price: serviceData.price,
         sortBy: filters.sortBy // Siempre usamos la opción de ordenación seleccionada manualmente
       };
@@ -217,6 +220,7 @@ const CombinedServiceView = () => {
         start_time: '',
         end_time: '',
         category: '',
+        max_people: '',
         price: '',
         sortBy: 'price'
       });
@@ -251,6 +255,7 @@ const CombinedServiceView = () => {
       start_time: '',
       end_time: '',
       category: '',
+      max_people: '',
       sortBy: 'price'
     });
     setManualFiltersActive(true); // Mantener activos los filtros manuales pero vacíos
@@ -380,7 +385,31 @@ const CombinedServiceView = () => {
             </select>
           </div>
           
-          {/* Ordenar por precio */}
+          
+          {/* Filtro de personas máximas */}
+          <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Max. Personas</label>
+              <input
+                type="integer"
+                name="max_people"
+                value={manualFiltersActive ? filters.max_people: serviceData.max_people|| ''}
+                onChange={handleFilterChange}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              />
+          </div>
+
+          {/* Filtro de personas máximas */}
+          <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Max. Precio </label>
+              <input
+                type="integer"
+                name="price"
+                value={manualFiltersActive ? filters.price: serviceData.price|| ''}
+                onChange={handleFilterChange}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              />
+          </div>
+          {/* Ordenar por precio 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Ordenar por</label>
             <select
@@ -393,7 +422,7 @@ const CombinedServiceView = () => {
               <option value="price_asc">Precio: más bajo primero</option>
               <option value="price_desc">Precio: más alto primero</option>
             </select>
-          </div>
+          </div>*/}
         </div>
         
         {/* Indicador de filtros activos */}

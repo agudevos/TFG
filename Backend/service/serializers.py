@@ -6,7 +6,7 @@ class ServiceSerializer(serializers.ModelSerializer):
     establishment_details = EstablishmentSerializer(source='establishment', read_only=True)
     class Meta:
         model = Service
-        fields = ['id', 'name', 'description', 'category', 'max_reservation', 'deposit', 
+        fields = ['id', 'name', 'description', 'category', 'max_reservation', 'max_people', 'deposit', 
                   'establishment', 'establishment_details']
 
 class ServicePriceAssignmentSerializer(serializers.ModelSerializer):

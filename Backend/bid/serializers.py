@@ -25,9 +25,6 @@ class BidSerializer(serializers.ModelSerializer):
 
         if ((not bids.exists()) and data["quantity"] < data["auction"].starting_bid):
             raise serializers.ValidationError("The bid has to be greater than the starting amount")
-    
-        if (bids.exists() and max(bids, key=lambda obj: getattr(obj, 'quantity')).quantity >= data["quantity"]):
-            raise serializers.ValidationError("The bid has to be greater than the previous")
         
         return data
         

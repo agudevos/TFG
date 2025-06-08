@@ -5,7 +5,7 @@ import { getFromApi } from '../utils/functions/api';
 
 // Importar componentes existentes (asumiendo estas rutas)
 import SimpleAuctionItem from '../components/Auction/SimpleAuctionItem';
-import ServiceItem from '../components/Service/ServiceItem';
+import SimpleServiceItem from '../components/Service/SimpleServiceItem';
 import MapaEstablecimientos from '../views/Maps'; // Tu componente de mapa
 import { useNavigate } from 'react-router-dom';
 
@@ -48,7 +48,7 @@ const ClientHomepage = () => {
       setLoadingParticipated(true);
       const response = await getFromApi('auctions/bid/?active=true');
       const data = await response.json();
-      setParticipatedAuctions(data.map(obj => obj.auction_details)); // Solo las primeras 3
+      setParticipatedAuctions(data); 
     } catch (error) {
       console.error('Error cargando subastas participadas:', error);
     } finally {
@@ -59,7 +59,7 @@ const ClientHomepage = () => {
   const fetchRecommendedServices = async () => {
     try {
       setLoadingRecommended(true);
-      const response = await getFromApi('services/recommendations/');
+      const response = await getFromApi('services/fyp/');
       const data = await response.json();
       setRecommendedServices(data);
     } catch (error) {
@@ -84,8 +84,7 @@ const ClientHomepage = () => {
 
   // Función para manejar clics en servicios
   const handleServiceClick = (service) => {
-    // Navegar a detalles del servicio
-    console.log('Navegando a servicio:', service.id);
+    navigate(`/client/services/${service.id}`);
   };
 
   // Función para manejar clics en subastas
@@ -245,10 +244,11 @@ const ClientHomepage = () => {
                   ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {recommendedServices.map((service) => (
-                        <ServiceItem 
+                        <SimpleServiceItem
                           key={service.id}
                           service={service}
                           onClick={handleServiceClick}
+                          establishment={service.establishment_details.name}
                         />
                       ))}
                     </div>
@@ -258,7 +258,7 @@ const ClientHomepage = () => {
                 <div className="bg-gray-50 rounded-lg p-8 text-center">
                   <RiMapPin2Fill className="text-4xl text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-600">Vista de mapa para servicios recomendados</p>
-                  <MapaEstablecimientos establecimientos={listaObjetos.map(obj => obj.nombre)} />
+                  <MapaEstablecimientos establecimientos={recommendedServices} onClick={handleServiceClick} />
                 </div>
               )}
             </div>
@@ -299,7 +299,7 @@ const ClientHomepage = () => {
                 <div className="bg-gray-50 rounded-lg p-8 text-center">
                   <RiMapPin2Fill className="text-4xl text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-600">Vista de mapa para subastas activas</p>
-                  <MapaEstablecimientos establecimientos={activeAuctions.map(obj => obj.service_details.establishment_details)} />
+                  <MapaEstablecimientos establecimientos={activeAuctions} onClick={handleAuctionClick} auction={true}/>
                 </div>
               )}
             </div>

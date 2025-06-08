@@ -90,6 +90,7 @@ class ConversationServiceExtractor(APIView):
                 "description": "",
                 "category": "",
                 "max_reservation": "",
+                "max_people": "",
                 "deposit": "",
                 "finished": False,
                 "session_id": session.session_id
@@ -112,6 +113,7 @@ class ConversationServiceExtractor(APIView):
                 "start_time": "",
                 "end_time": "",
                 "category": "",
+                "max_people": "",
                 "price": "",
                 "finished": False,
                 "session_id": session.session_id
@@ -138,6 +140,7 @@ class ConversationServiceExtractor(APIView):
             - description: descripción breve del servicio (debe tener entre 0 y 354 caracteres)
             - category: categoría que clasifica al servicio puedes establecer hasta 3 categorias, todo en minusculas y separado por comas (debe tener entre 0 y 99 caracteres).
             - max_reservation: tiempo máximo de reserva en minutos, en caso de que el usuario no quiera establecer un tiempo máximo de reserva asignale el valor 0
+            - max_people: número máximo de personas que pueden reservar el servicio (valor numérico entero)
             - deposit: fianza o depósito requerido para la reserva (valor numérico entero)
             
             Pregunta toda la información necesaria al usuario, sin embargo, no debe darte la información de forma literal. De una descripción suficiente 
@@ -168,6 +171,7 @@ class ConversationServiceExtractor(APIView):
             - start_time: a que hora quiere empezar la actividad
             - end_time: a que hora quiere terminar la acitividad
             - category: categorías de la actividad a realizar o reservar, en grupo o individual, juegos de mesa, juegos de bar multimedia..
+            - max_people: número máximo de personas que van a participar
             - price: precio máximo que el usuario está dispuesto a pagar
 
             No es necesario rellenar todos los campos, pero al menos 3 campos deben ser rellenados para tener sugerencias más fiables. Debes conseguir esta información
@@ -208,6 +212,7 @@ class ConversationServiceExtractor(APIView):
                 - Descripción: {latest_data.get('description', '') or 'No definida'}
                 - Categoría: {latest_data.get('category', '') or 'No definida'}
                 - Tiempo máximo de reserva: {latest_data.get('max_reservation', '') or 'No definido'}
+                - Personas: {latest_data.get('max_people', '') or 'No definida'}
                 - Fianza: {latest_data.get('deposit', '') or 'No definida'}
                 
                 Recuerda que debes extraer información sobre estos campos a partir de lo que dice el usuario.
@@ -220,6 +225,7 @@ class ConversationServiceExtractor(APIView):
                     "description": "descripción del servicio",
                     "category": "categoría del servicio",
                     "max_reservation": "tiempo máximo de reserva (valor numérico)",
+                    "max_people": "número máximo de personas que pueden reservar (valor numérico)",
                     "deposit": "fianza requerida (valor numérico)",
                     "finished": false
                 }}
@@ -235,6 +241,7 @@ class ConversationServiceExtractor(APIView):
                 - Start Time: {latest_data.get('start_time', '') or 'No definida'}
                 - End Time: {latest_data.get('end_time', '') or 'No definida'}
                 - Categoría: {latest_data.get('category', '') or 'No definido'}
+                - Personas: {latest_data.get('max_people', '') or 'No definida'}
                 - Precio: {latest_data.get('price', '') or 'No definida'}
                 
                 Recuerda que debes extraer información sobre estos campos a partir de lo que dice el usuario.
@@ -251,6 +258,7 @@ class ConversationServiceExtractor(APIView):
                     "start_time": "a que hora quiere empezar la actividad (en formato HH:MM)",
                     "end_time": "a que hora quiere terminar la acitividad (en formato HH:MM)",
                     "category": "categorías de la actividad a realizar o reservar, en grupo o individual, juegos de mesa, juegos de bar multimedia",
+                    "max_people": "número máximo de personas que pueden participar (valor numérico)",
                     "price": "precio máximo que el usuario está dispuesto a pagar (valor numérico)",
                     "finished": false
                 }}
@@ -290,6 +298,7 @@ class ConversationServiceExtractor(APIView):
                 "description": "",
                 "category": "",
                 "max_reservation": "",
+                "max_people": "",
                 "deposit": "",
                 "finished": False
             }

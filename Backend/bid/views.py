@@ -21,7 +21,20 @@ class BidListByAuctionView(APIView):
     def get(self, request, fk):
         bids = Bid.objects.filter(auction = fk)
         serializer = BidSerializer(bids, many=True)
-        return Response(serializer.data)
+        summary = {}
+        for bid in bids:
+            key = (bid.event, bid.platform)
+            if key not in summary:
+                summary[key] = {
+                    "event": bid.event,
+                    "platform": bid.platform,
+                    "total_quantity": 0
+                }
+            summary[key]["total_quantity"] += bid.quantity
+
+        # Convertir el diccionario a lista
+        result = list(summary.values())
+        return Response(result)
 
 @permission_classes([IsAuthenticated])
 class BidCreateView(APIView):

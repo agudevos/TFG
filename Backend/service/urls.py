@@ -5,8 +5,10 @@ urlpatterns = [
     path('services/create/', views.ServiceCreateView.as_view(), name='service_list'),
     path('services/<int:pk>/', views.ServiceDetailView.as_view(), name='service_detail'),
     path('services/<int:pk>/delete/', views.ServiceDeleteView.as_view(), name='service_delete'),
+    path('services/<int:pk>/update/', views.ServiceUpdateView.as_view(), name='service_update'),
     path('services/establishment/<int:fk>/', views.ServiceListByEstablishmentView.as_view(), name='service_list_establishment'),
     path('services/recomendations/', views.ServiceListRecomendations.as_view(), name='service-list-recomendations'),
+    path('services/fyp/', views.ServiceListForYou.as_view(), name='service-fyp-list'),
 
     # ServicePriceAssignment endpoints
     path('services/service-prices/', views.ServicePriceAssignmentListView.as_view(), name='service-price-list'),

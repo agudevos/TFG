@@ -102,11 +102,15 @@ class AuctionBidListView(APIView):
             ).order_by('-starting_date')
             bids = Bid.objects.filter(client=client, auction__in=auctions)
             serializer = BidSerializer(bids, many=True)
-            print(serializer.data)
+            
+            participant_auctions = [bid["auction"] for bid in serializer.data]
+            auctions_serializer = AuctionSerializer(auctions, many=True)
+            filtered_auctions = [auction for auction in auctions_serializer.data if auction['id'] in participant_auctions]
+            
             
         else:
                 return Response("Inicia sesión como client para ver tus pujas activas", status=403)
-        return Response(serializer.data)
+        return Response(filtered_auctions)
 
     
 @permission_classes([IsAuthenticated])

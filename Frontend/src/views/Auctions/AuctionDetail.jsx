@@ -3,7 +3,7 @@ import { getFromApi, postToApi } from "../../utils/functions/api";
 import { FormContainer } from "../../components/Form";
 import { useParams } from "react-router-dom";
 import AuthContext from "../../utils/context/AuthContext";
-
+import { FaCrown } from "react-icons/fa";
 
 const AuctionDetail =  ({}) => {
     const { user } = useContext(AuthContext);
@@ -49,6 +49,7 @@ const AuctionDetail =  ({}) => {
         await getFromApi(`bids/auction/${auctionId}/`)
         .then((response) => response.json())
         .then((data) => {
+          data.sort((a, b) => b.total_quantity - a.total_quantity);
           setBids(data)});
         }
 
@@ -240,8 +241,8 @@ const AuctionDetail =  ({}) => {
         // Opcional: redirigir después de crear el servicio
         // setTimeout(() => navigate('/services'), 2000);
         }catch (error) {
-            setError(error.message)
-            console.error("Error en el submit:", error.message);
+            setError(error.message.non_field_errors)
+            console.error("Error en el submit:", error.message.non_field_errors);
         }
   };
 
@@ -256,7 +257,6 @@ const AuctionDetail =  ({}) => {
       minute: '2-digit',
     });
   };
-
   return (
     <div className="flex flex-col min-h-screen">
       {/* Detalles del objeto principal - Parte superior */}
@@ -311,50 +311,52 @@ const AuctionDetail =  ({}) => {
           </div>
       </div>
     
-          {/* Lista de objetos - Parte media */}
-          <div className="bg-white shadow-md rounded-md p-6 m-4 flex-grow">
-            <h2 className="text-xl font-semibold mb-4">Pujas realizadas</h2>
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
+            <div className="bg-white shadow-md rounded-md p-6 m-4 flex-grow">
+              <h2 className="text-xl font-semibold mb-4">Pujas realizadas</h2>
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-cyan-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Evento</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plataforma</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Evento</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plataforma</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {bids.length === 0 ? (
-                    <tr>
-                      <td colSpan="3" className="px-6 py-4 text-center text-sm text-gray-500">
-                        Todavía no hay pujas.
-                      </td>
-                    </tr>
+                  <tr>
+                    <td colSpan="3" className="px-6 py-4 text-center text-sm text-gray-500">
+                    Todavía no hay pujas.
+                    </td>
+                  </tr>
                   ) : (
-                    bids.map((objeto) => (
-                      <tr key={objeto.id}>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{objeto.event}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{objeto.platform}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{objeto.quantity}</td>
-                      </tr>
-                    ))
+                  bids.map((objeto, idx) => (
+                    <tr
+                    key={objeto.event}
+                    className={tiempoRestante.porcentaje === 100 && idx === 0 ? "bg-[#FFF8DC]" : ""}
+                    >
+                    <td className="flex px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{tiempoRestante.porcentaje === 100 && idx === 0 && <FaCrown className="mr-2"/>}{objeto.event}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{objeto.platform}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{objeto.total_quantity}</td>
+                    </tr>
+                  ))
                   )}
                 </tbody>
-              </table>
+                </table>
+              </div>
             </div>
-          </div>
-        {createSuccess && (
-          <div className="flex justify-center">
-            <FormContainer role="alert" className="border-2 border-cyan-300 w-11/12 bg-white">
-                <strong className="font-bold">Éxito!</strong>
-                <span className="block sm:inline">
-                  {" "}
-                  Se ha realizado la puja correctamente.
-                </span>
-            </FormContainer>
-          </div>
-        )}
-          {/* Formulario estático - Parte inferior */}
+              {createSuccess && (
+                <div className="flex justify-center">
+                <FormContainer role="alert" className="border-2 border-cyan-300 w-11/12 bg-white">
+                  <strong className="font-bold">Éxito!</strong>
+                  <span className="block sm:inline">
+                    {" "}
+                    Se ha realizado la puja correctamente.
+                  </span>
+                </FormContainer>
+                </div>
+              )}
+                {/* Formulario estático - Parte inferior */}
           {user.rol === "client" && <div className="bg-white shadow-md rounded-md p-6 m-4">
             <h2 className="text-xl font-semibold mb-4">Realizar una puja</h2>
             <form onSubmit={handleSubmit}>

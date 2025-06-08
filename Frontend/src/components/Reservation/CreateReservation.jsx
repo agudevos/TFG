@@ -4,6 +4,7 @@ import AuthContext from '../../utils/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { use } from 'react';
 import { CreateCheckoutCreditSession } from '../../utils/functions/stripe';
+import { set } from 'react-hook-form';
 
 
 const TimeSlotGrid = ({ serviceId }) => {
@@ -13,6 +14,7 @@ const TimeSlotGrid = ({ serviceId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
   const [serviceData, setServiceData] = useState([]);
+  const [reservations, setReservations] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [client, setClient] = useState(null);
   const navigate = useNavigate();
@@ -44,6 +46,7 @@ const TimeSlotGrid = ({ serviceId }) => {
     try {
     setIsLoading(true);
 
+    // Obtener datos del servicio
     const params = new URLSearchParams();
     params.append('service', serviceId);
     params.append('date', selectedDate);
@@ -52,6 +55,14 @@ const TimeSlotGrid = ({ serviceId }) => {
     let slotsData = await response.json();
     console.log('Datos del servicio obtenidos:', slotsData);
     setServiceData(slotsData[0]);
+
+    // Obtener reservas para el servicio en la fecha seleccionada
+    const reservation_params = new URLSearchParams();
+    reservation_params.append('date', selectedDate);
+    const reservations_response = await getFromApi(`reservations/service/${serviceId}/?${params.toString()}`);
+    let reservationData = await reservations_response.json();
+    console.log('Datos de reserva del servicio obtenidos:', reservationData);
+    setReservations(reservationData);
     setIsLoading(false);
     } catch (error) {   
     console.error('Error al obtener los datos del servicio:', error);
@@ -65,7 +76,6 @@ const TimeSlotGrid = ({ serviceId }) => {
     console.log(selectedDate);
     const start = new Date(`${selectedDate}T${startTime}`);
     const end = new Date(`${selectedDate}T${endTime}`);
-    console.log('Generando franjas horarias de:', startTime, 'a', endTime);
     
     let current = new Date(start);
     let slotId = 0;
@@ -73,6 +83,19 @@ const TimeSlotGrid = ({ serviceId }) => {
     while (current < end) {
       const next = new Date(current.getTime() + 30 * 60000); // +30 minutos
       if (next <= end) {
+        const slotStart = current.toTimeString().slice(0, 5);
+        const slotEnd = next.toTimeString().slice(0, 5);
+        const overlapsReservation = reservations.some(res => {
+          const resStart = res.starting_date.slice(11, 16);
+          const resEnd = res.end_date.slice(11, 16);
+          return (
+            (slotStart < resEnd && slotEnd > resStart)
+          );
+        });
+        if (overlapsReservation) {
+          current = next;
+          continue;
+        }
         slots.push({
           id: slotId++,
           startTime: current.toTimeString().slice(0, 5),
