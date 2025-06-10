@@ -1,8 +1,9 @@
 from django.db import models
 from random import randint
 from user.models import CustomUser
+from django.core.validators import RegexValidator
 
-class Client(models.Models):
+class Client(models.Model):
 
     def random_id():
         return randint(100000, 999999)
@@ -15,12 +16,9 @@ class Client(models.Models):
 
     id = models.PositiveIntegerField(primary_key=True, default=random_id, editable=False)
 
-    name = models.CharField(max_length=75)
-    surname = models.CharField(max_length=75)
-    birthday = models.DateField()
     gender = models.CharField(max_length=50, choices=GENDER_CHOICE)
-    description = models.CharField(max_length=100)
-    credits = models.IntegerField(max_length=100)
+    zip_code = models.PositiveIntegerField(default=12345, validators=[RegexValidator(r'^[0-9]{5}$', message="El código postal debe contener 5 dígitos numéricos.")])
+    credits = models.IntegerField()
     preferences = models.CharField(max_length=100)
     
 

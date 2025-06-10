@@ -1,0 +1,52 @@
+engines:
+  duplication:
+    enabled: true
+    exclude_paths:
+      - "frontend/node_modules/**"
+  metrics:
+    enabled: true
+  coverage:
+    enabled: true
+    exclude_paths:
+      - "frontend/node_modules/**"
+      - "*/migrations/*"
+      - "*/tests/*"
+  
+exclude_paths:
+  - ".github/**"
+  - "docs/**"
+  - "**/tests/**"
+  - "**/*.md"
+  - "**/migrations/**"
+  - "frontend/build/**"
+  - "**/node_modules/**"
+  - "**/static/vendor/**"
+
+# Configuraciones específicas para Python (Django)
+python:
+  enabled: true
+  pylint:
+    enabled: true
+    python_version: "3"
+    disable:
+      - "C0111"  # missing docstring
+  pep8:
+    enabled: true
+  bandit:
+    enabled: true
+  isort:
+    enabled: true
+  radon:
+    enabled: true
+
+# Configuraciones específicas para JavaScript (React)
+javascript:
+  enabled: true
+  eslint:
+    enabled: true
+    config:
+      extensions:
+        - ".js"
+        - ".jsx"
+  prettier:
+    enabled: true

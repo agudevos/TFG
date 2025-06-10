@@ -1,0 +1,67 @@
+name: "CodeQL Analysis"
+
+on:
+  push:
+    branches: [ main, feat_development ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 6'  # Sábados a medianoche
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'python', 'javascript' ]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        # Necesario para que CodeQL analice el historial completo
+        fetch-depth: 0
+
+    # Configuración del caché
+    - name: Setup CodeQL cache
+      uses: actions/cache@v4
+      with:
+        path: ~/.codeql/cache
+        key: ${{ runner.os }}-codeql-${{ hashFiles('**/*.py', '**/*.js', '**/*.jsx') }}
+        restore-keys: |
+          ${{ runner.os }}-codeql-
+
+    - name: Initialize CodeQL
+      # Actualizado a v3
+      uses: github/codeql-action/init@v3
+      with:
+        languages: ${{ matrix.language }}
+        queries: security-and-quality
+        # Usando la última versión de las herramientas para compatibilidad
+        tools: latest
+        # Optimizaciones para JavaScript
+        config: |
+          extraction:
+            javascript:
+              index:
+                exclude:
+                  - "**/node_modules/**"
+                  - "**/build/**"
+                  - "**/dist/**"
+                cache:
+                  force-rebuild: true
+
+    - name: Perform CodeQL Analysis
+      # Actualizado a v3
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:${{ matrix.language }}"
+        upload: true
+        wait-for-processing: true

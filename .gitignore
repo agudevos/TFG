@@ -129,5 +129,13 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# virtual enviroments
-venv
+# Entorno virtual
+venv/
+.venv
+
+# Cache
+__pycache__/
+
+# Database
+local_settings.py
+db.sqlite3
