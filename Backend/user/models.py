@@ -38,7 +38,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
             "unique": _("A user with that username already exists."),
         },
     )
-    id = models.IntegerField(primary_key=False, auto_created=True,default=random_id, editable=False)
     email = models.EmailField(unique=True, default="a@gmail.com")
     name = models.CharField(max_length=75, default="a")
     surname = models.CharField(max_length=75, default="a")

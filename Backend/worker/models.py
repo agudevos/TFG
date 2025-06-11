@@ -12,8 +12,6 @@ class Worker(models.Model):
         ("owner", "Owner"),
         ("regular", "Regular")
     )
-
-    id = models.PositiveIntegerField(primary_key=True, default=random_id, editable=False)
     rol = models.CharField(choices=WORKER_ROL)
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
