@@ -44,7 +44,7 @@
         "react-spinners": "^0.13.8",
         "recharts": "^2.15.3",
         "stripe": "^14.23.0",
-        "tailwindcss-radix": "^2.8.0"
+        "tailwindcss-radix": "^4.0.2"
     },
     "devDependencies": {
         "@types/react": "^18.2.55",
