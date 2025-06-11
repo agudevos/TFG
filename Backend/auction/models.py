@@ -7,8 +7,6 @@ class Auction(models.Model):
 
     def random_id():
         return randint(100000, 999999)
-    
-    id = models.PositiveIntegerField(primary_key=True, default=random_id, editable=False)
 
     starting_date = models.DateTimeField()
     end_date = models.DateTimeField()
