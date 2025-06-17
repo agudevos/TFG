@@ -31,8 +31,9 @@ jobs:
 
       - name: Run Django tests with coverage
         env:
-          DJANGO_SETTINGS_MODULE: Backend.settings  # Ajusta si tu settings.py está en otro lugar
+          DJANGO_SETTINGS_MODULE: Backend.uchoose.settings  # Ajusta si tu settings.py está en otro lugar
         run: |
+          cd Backend
           coverage run manage.py test
           coverage report
           coverage html -d coverage-report
