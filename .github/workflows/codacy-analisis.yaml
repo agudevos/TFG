@@ -2,7 +2,7 @@ name: "Codacy Analysis Simplificado"
 
 on:
   push:
-    branches: [ main, feat_development ]
+    branches: [ main, feat_development, testing ]
   pull_request:
     branches: [ main ]
   schedule:
@@ -18,32 +18,45 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install coverage
+
+      - name: Run Django tests with coverage
+        env:
+          DJANGO_SETTINGS_MODULE: Backend.settings  # Ajusta si tu settings.py está en otro lugar
+        run: |
+          coverage run manage.py test
+          coverage report
+          coverage html -d coverage-report
+
+      - name: Upload coverage report as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage-report
+
       # Ejecutar el análisis de Codacy con salida directa a archivo
       - name: Run Codacy Analysis
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
         run: |
-          # Crear directorio para resultados
           mkdir -p codacy-results
-          
-          # Ejecutar Codacy y guardar la salida directamente en un archivo local
           docker run --rm \
             -v $(pwd):/code \
-            -e CODACY_PROJECT_TOKEN=$CODACY_PROJECT_TOKEN \
-            codacy/codacy-analysis-cli:latest \
             analyze --directory /code --format json > codacy-results/codacy-result.json
-          
-          echo "Análisis completado. Resultados guardados en codacy-results/codacy-result.json"
-          
-          # Verificar el contenido del archivo
-          ls -la codacy-results/
-          echo "Primeras líneas del archivo de resultados:"
           head -n 10 codacy-results/codacy-result.json
-      
-      # Guardar resultados como artefacto
+
       - name: Guardar resultados como artefacto
         uses: actions/upload-artifact@v4
         with:
           name: codacy-analysis-results
-          path: codacy-results/
-          retention-days: 30
+          path: codacy-results
+          retention-

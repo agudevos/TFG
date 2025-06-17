@@ -83,17 +83,6 @@ class ReservationDetailView(APIView):
         return Response(serializer.data)
 
 @permission_classes([IsAuthenticated])
-class ReservationUpdateView(APIView):
-    def put(self, request, pk):
-        reservation = get_object_or_404(Reservation, pk=pk)
-        serializer = ReservationCreateSerializer(reservation, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            response_serializer = ReservationSerializer(reservation)
-            return Response(response_serializer.data)
-        return Response(serializer.errors, status=400)
-
-@permission_classes([IsAuthenticated])
 class ReservationDeleteView(APIView):
     def delete(self, request, pk):
         user = CustomUser.objects.get(username=request.user)

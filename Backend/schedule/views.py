@@ -228,43 +228,6 @@ class WeeklyScheduleDetailView(APIView):
         schedule.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
-@permission_classes([IsAuthenticated])
-class GroupScheduleListView(APIView):
-    def get(self, request):
-        schedules = GroupSchedule.objects.all()
-        serializer = GroupScheduleSerializer(schedules, many=True)
-        return Response(serializer.data)
-        
-    def post(self, request):
-        serializer = GroupScheduleSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-@permission_classes([IsAuthenticated])
-class GroupScheduleDetailView(APIView):
-    def get(self, request, pk):
-        schedule = get_object_or_404(GroupSchedule, pk=pk)
-        serializer = GroupScheduleSerializer(schedule)
-        return Response(serializer.data)
-        
-    def put(self, request, pk):
-        schedule = get_object_or_404(GroupSchedule, pk=pk)
-        serializer = GroupScheduleSerializer(schedule, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-    def delete(self, request, pk):
-        schedule = get_object_or_404(GroupSchedule, pk=pk)
-        schedule.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
 @permission_classes([IsAuthenticated])
 class SpecificScheduleListView(APIView):
     def get(self, request):

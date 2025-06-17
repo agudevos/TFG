@@ -52,6 +52,9 @@ const ServiceItem = ({ service, onClick }) => {
             <span className="font-medium">Máx. reserva:</span> {service.service_details.max_reservation || 'Sin máximo'}
           </div>
           <div>
+            <span className="font-medium">Máx. personas:</span> {service.service_details.max_people || 'Sin máximo'}
+          </div>
+          <div>
             <span className="font-medium">Fianza:</span> {`${service.service_details.deposit} €`}
           </div>
         </div>
