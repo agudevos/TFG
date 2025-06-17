@@ -33,6 +33,7 @@ jobs:
         env:
           DJANGO_SETTINGS_MODULE: Backend.uchoose.settings  # Ajusta si tu settings.py está en otro lugar
         run: |
+          ls
           cd Backend
           coverage run manage.py test
           coverage report
