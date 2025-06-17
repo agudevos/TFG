@@ -1,0 +1,31 @@
+version: 2
+updates:
+  # Configuración para npm (frontend React)
+  - package-ecosystem: "npm"
+    directory: "Frontend/"  # Ubicación del package.json
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    # Limitar el número de PR abiertos simultáneamente
+    open-pull-requests-limit: 10
+    # Configuraciones adicionales
+    versioning-strategy: auto
+    # Grupos de dependencias relacionadas en un solo PR
+    groups:
+      react-packages:
+        patterns:
+          - "react*"
+          - "@types/react*"
+      dev-dependencies:
+        patterns:
+          - "eslint*"
+          - "prettier*"
+          - "babel*"
+          - "jest*"
+    # Asignar revisores a los PRs
+    assignees:
+      - "agudevos"
+    # Aplicar etiquetas a los PRs
+    labels:
+      - "dependencies"
+      - "frontend"

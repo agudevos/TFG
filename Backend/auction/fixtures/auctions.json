@@ -1,0 +1,167 @@
+[
+    {
+        "model": "auction.auction",
+        "pk": 301,
+        "fields": {
+            "starting_date": "2025-04-06T10:00:00Z",
+            "end_date": "2025-04-06T10:45:00Z",
+            "starting_bid": 5,
+            "time_frame": 30,
+            "service": 457502
+        }
+    },
+    {
+        "model": "auction.auction",
+        "pk": 302,
+        "fields": {
+            "starting_date": "2025-04-06T11:30:00Z",
+            "end_date": "2025-04-06T12:15:00Z",
+            "starting_bid": 8,
+            "time_frame": 35,
+            "service": 457502
+        }
+    },
+    {
+        "model": "auction.auction",
+        "pk": 303,
+        "fields": {
+            "starting_date": "2025-04-06T14:00:00Z",
+            "end_date": "2025-04-06T14:35:00Z",
+            "starting_bid": 3,
+            "time_frame": 28,
+            "service": 457502
+        }
+    },
+    {
+        "model": "auction.auction",
+        "pk": 304,
+        "fields": {
+            "starting_date": "2025-04-06T16:15:00Z",
+            "end_date": "2025-04-06T17:00:00Z",
+            "starting_bid": 6,
+            "time_frame": 32,
+            "service": 457502
+        }
+    },
+    {
+        "model": "auction.auction",
+        "pk": 305,
+        "fields": {
+            "starting_date": "2025-04-06T18:30:00Z",
+            "end_date": "2025-04-06T19:00:00Z",
+            "starting_bid": 2,
+            "time_frame": 25,
+            "service": 457502
+        }
+    },
+    {
+        "model": "auction.auction",
+        "pk": 306,
+        "fields": {
+            "starting_date": "2025-04-07T09:00:00Z",
+            "end_date": "2025-04-07T11:00:00Z",
+            "starting_bid": 10,
+            "time_frame": 40,
+            "service": 457502
+        }
+    },
+    {
+        "model": "auction.auction",
+        "pk": 307,
+        "fields": {
+            "starting_date": "2025-04-07T13:30:00Z",
+            "end_date": "2025-04-07T14:30:00Z",
+            "starting_bid": 4,
+            "time_frame": 30,
+            "service": 457503
+        }
+    },
+    {
+        "model": "auction.auction",
+        "pk": 308,
+        "fields": {
+            "starting_date": "2025-04-07T16:45:00Z",
+            "end_date": "2025-04-07T18:45:00Z",
+            "starting_bid": 9,
+            "time_frame": 45,
+            "service": 457503
+        }
+    },
+    {
+        "model": "auction.auction",
+        "pk": 309,
+        "fields": {
+            "starting_date": "2025-04-07T20:00:00Z",
+            "end_date": "2025-04-07T21:15:00Z",
+            "starting_bid": 7,
+            "time_frame": 35,
+            "service": 457503
+        }
+    },
+    {
+        "model": "auction.auction",
+        "pk": 310,
+        "fields": {
+            "starting_date": "2025-04-08T08:15:00Z",
+            "end_date": "2025-04-08T08:45:00Z",
+            "starting_bid": 1,
+            "time_frame": 25,
+            "service": 457503
+        }
+    },
+    {
+        "model": "auction.auction",
+        "pk": 311,
+        "fields": {
+            "starting_date": "2025-04-08T10:30:00Z",
+            "end_date": "2025-04-08T12:30:00Z",
+            "starting_bid": 10,
+            "time_frame": 50,
+            "service": 457503
+        }
+    },
+    {
+        "model": "auction.auction",
+        "pk": 312,
+        "fields": {
+            "starting_date": "2025-04-08T14:00:00Z",
+            "end_date": "2025-04-08T15:45:00Z",
+            "starting_bid": 8,
+            "time_frame": 45,
+            "service": 457504
+        }
+    },
+    {
+        "model": "auction.auction",
+        "pk": 313,
+        "fields": {
+            "starting_date": "2025-04-08T17:30:00Z",
+            "end_date": "2025-04-08T18:00:00Z",
+            "starting_bid": 0,
+            "time_frame": 20,
+            "service": 457504
+        }
+    },
+    {
+        "model": "auction.auction",
+        "pk": 314,
+        "fields": {
+            "starting_date": "2025-04-08T19:45:00Z",
+            "end_date": "2025-04-08T20:30:00Z",
+            "starting_bid": 5,
+            "time_frame": 32,
+            "service": 457504
+        }
+    },
+    {
+        "model": "auction.auction",
+        "pk": 315,
+        "fields": {
+            "starting_date": "2025-04-09T09:15:00Z",
+            "end_date": "2025-04-09T11:00:00Z",
+            "starting_bid": 9,
+            "time_frame": 45,
+            "service": 457504
+        }
+    }
+]

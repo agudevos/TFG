@@ -1,0 +1,122 @@
+[
+    {
+        "model": "establishment.establishment",
+        "pk": 862691,
+        "fields": {
+            "name": "El Rincón del Juego",
+            "description": "Bar temático con juegos retro y ambiente relajado para todas las edades.",
+            "location": "Calle Sierpes 45, Sevilla",
+            "platforms": "movistar+, eurosport",
+            "subscription": "premium",
+            "owner": 502735
+        }
+    },
+    {
+        "model": "establishment.establishment",
+        "pk": 234567,
+        "fields": {
+            "name": "Sports Bar Alameda",
+            "description": "Pub deportivo con pantallas gigantes y zona de juegos para ver partidos.",
+            "location": "Alameda de Hércules 12, Sevilla",
+            "platforms": "dazn la liga, eurosport, movistar+",
+            "subscription": "free",
+            "owner": 502735
+        }
+    },
+    {
+        "model": "establishment.establishment",
+        "pk": 345678,
+        "fields": {
+            "name": "La Cantina Gamer",
+            "description": "Local especializado en gaming con consolas y torneos semanales.",
+            "location": "Calle Betis 78, Sevilla",
+            "platforms": "movistar+",
+            "subscription": "premium",
+            "owner": 502735
+        }
+    },
+    {
+        "model": "establishment.establishment",
+        "pk": 456789,
+        "fields": {
+            "name": "Pub Macarena Rock",
+            "description": "Bar de rock con karaoke y juegos tradicionales en el barrio de la Macarena.",
+            "location": "Calle Resolana 23, Sevilla",
+            "platforms": "eurosport, dazn f1",
+            "subscription": "free",
+            "owner": 502735
+        }
+    },
+    {
+        "model": "establishment.establishment",
+        "pk": 567890,
+        "fields": {
+            "name": "Nervión Gaming Lounge",
+            "description": "Lounge moderno con zona gaming y chill out para eventos privados.",
+            "location": "Avenida de la Buhaira 8, Sevilla",
+            "platforms": "movistar+, dazn la liga, dazn f1",
+            "subscription": "premium",
+            "owner": 502735
+        }
+    },
+    {
+        "model": "establishment.establishment",
+        "pk": 678901,
+        "fields": {
+            "name": "Bar Triana Clásico",
+            "description": "Taberna tradicional con juegos de mesa y ambiente familiar en Triana.",
+            "location": "Calle Pureza 156, Sevilla",
+            "platforms": "movistar+, eurosport",
+            "subscription": "free",
+            "owner": 502735
+        }
+    },
+    {
+        "model": "establishment.establishment",
+        "pk": 789012,
+        "fields": {
+            "name": "Los Remedios Sports Club",
+            "description": "Club social con múltiples actividades y terraza para eventos al aire libre.",
+            "location": "Calle Asunción 34, Sevilla",
+            "platforms": "dazn la liga, eurosport",
+            "subscription": "premium",
+            "owner": 502735
+        }
+    },
+    {
+        "model": "establishment.establishment",
+        "pk": 890123,
+        "fields": {
+            "name": "Arcade Vintage Sevilla",
+            "description": "Local retro dedicado exclusivamente a máquinas arcade y pinball clásicas.",
+            "location": "Calle Feria 67, Sevilla",
+            "platforms": "movistar+",
+            "subscription": "free",
+            "owner": 502735
+        }
+    },
+    {
+        "model": "establishment.establishment",
+        "pk": 901234,
+        "fields": {
+            "name": "Chill Bar Encarnación",
+            "description": "Bar lounge cerca de las Setas con zona tranquila y juegos relajados.",
+            "location": "Plaza de la Encarnación 3, Sevilla",
+            "platforms": "dazn f1, movistar+",
+            "subscription": "premium",
+            "owner": 502735
+        }
+    },
+    {
+        "model": "establishment.establishment",
+        "pk": 123890,
+        "fields": {
+            "name": "El Tablero Sevillano",
+            "description": "Especialistas en juegos de mesa con biblioteca de más de 200 juegos.",
+            "location": "Calle Amor de Dios 18, Sevilla",
+            "platforms": "eurosport, dazn la liga",
+            "subscription": "free",
+            "owner": 502735
+        }
+    }
+]

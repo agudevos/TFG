@@ -1,0 +1,639 @@
+[
+    {
+      "model": "bid.bid",
+      "pk": 1001,
+      "fields": {
+        "send_date": "2025-04-06T10:15:00Z",
+        "event": "Real Madrid vs Barcelona",
+        "platform": "DAZN LaLiga",
+        "quantity": 7,
+        "winner": false,
+        "auction": 301,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1002,
+      "fields": {
+        "send_date": "2025-04-06T10:25:00Z",
+        "event": "NBA: Lakers vs Warriors",
+        "platform": "Movistar+",
+        "quantity": 9,
+        "winner": false,
+        "auction": 301,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1003,
+      "fields": {
+        "send_date": "2025-04-06T10:40:00Z",
+        "event": "Fórmula 1: GP de Mónaco",
+        "platform": "DAZN F1",
+        "quantity": 12,
+        "winner": true,
+        "auction": 301,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1004,
+      "fields": {
+        "send_date": "2025-04-06T11:40:00Z",
+        "event": "UEFA Champions League: Manchester City vs PSG",
+        "platform": "Movistar+ Liga de Campeones",
+        "quantity": 10,
+        "winner": false,
+        "auction": 302,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1005,
+      "fields": {
+        "send_date": "2025-04-06T11:55:00Z",
+        "event": "MotoGP: GP de Catalunya",
+        "platform": "DAZN",
+        "quantity": 15,
+        "winner": false,
+        "auction": 302,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1006,
+      "fields": {
+        "send_date": "2025-04-06T12:10:00Z",
+        "event": "Roland Garros: Final Masculina",
+        "platform": "Eurosport",
+        "quantity": 18,
+        "winner": true,
+        "auction": 302,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1007,
+      "fields": {
+        "send_date": "2025-04-06T14:10:00Z",
+        "event": "Premier League: Liverpool vs Manchester United",
+        "platform": "DAZN",
+        "quantity": 5,
+        "winner": false,
+        "auction": 303,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1008,
+      "fields": {
+        "send_date": "2025-04-06T14:20:00Z",
+        "event": "UFC 300: Combate Estelar",
+        "platform": "DAZN",
+        "quantity": 8,
+        "winner": false,
+        "auction": 303,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1009,
+      "fields": {
+        "send_date": "2025-04-06T14:30:00Z",
+        "event": "Serie A: Juventus vs Inter de Milán",
+        "platform": "Movistar+",
+        "quantity": 11,
+        "winner": true,
+        "auction": 303,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1010,
+      "fields": {
+        "send_date": "2025-04-06T16:30:00Z",
+        "event": "NFL: Super Bowl",
+        "platform": "Movistar+",
+        "quantity": 8,
+        "winner": false,
+        "auction": 304,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1011,
+      "fields": {
+        "send_date": "2025-04-06T16:45:00Z",
+        "event": "WRC: Rally de Finlandia",
+        "platform": "DAZN",
+        "quantity": 10,
+        "winner": false,
+        "auction": 304,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1012,
+      "fields": {
+        "send_date": "2025-04-06T16:55:00Z",
+        "event": "Boxeo: Campeonato del Mundo Peso Pesado",
+        "platform": "DAZN",
+        "quantity": 13,
+        "winner": true,
+        "auction": 304,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1013,
+      "fields": {
+        "send_date": "2025-04-06T18:35:00Z",
+        "event": "Euroliga: Barcelona vs Real Madrid",
+        "platform": "DAZN",
+        "quantity": 3,
+        "winner": false,
+        "auction": 305,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1014,
+      "fields": {
+        "send_date": "2025-04-06T18:45:00Z",
+        "event": "FIFA Mundial de Clubes",
+        "platform": "Movistar+",
+        "quantity": 5,
+        "winner": false,
+        "auction": 305,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1015,
+      "fields": {
+        "send_date": "2025-04-06T18:55:00Z",
+        "event": "Copa del Rey: Semifinal",
+        "platform": "RTVE Play",
+        "quantity": 7,
+        "winner": true,
+        "auction": 305,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1016,
+      "fields": {
+        "send_date": "2025-04-07T09:20:00Z",
+        "event": "Tour de Francia: Etapa de Montaña",
+        "platform": "Eurosport",
+        "quantity": 12,
+        "winner": false,
+        "auction": 306,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1017,
+      "fields": {
+        "send_date": "2025-04-07T09:50:00Z",
+        "event": "LaLiga: Atlético de Madrid vs Sevilla",
+        "platform": "DAZN LaLiga",
+        "quantity": 15,
+        "winner": false,
+        "auction": 306,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1018,
+      "fields": {
+        "send_date": "2025-04-07T10:30:00Z",
+        "event": "Vuelta a España: Etapa Final",
+        "platform": "RTVE Play",
+        "quantity": 18,
+        "winner": false,
+        "auction": 306,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1019,
+      "fields": {
+        "send_date": "2025-04-07T10:50:00Z",
+        "event": "Campeonato del Mundo de Natación",
+        "platform": "Eurosport",
+        "quantity": 22,
+        "winner": true,
+        "auction": 306,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1020,
+      "fields": {
+        "send_date": "2025-04-07T13:45:00Z",
+        "event": "Wimbledon: Final Femenina",
+        "platform": "Movistar+",
+        "quantity": 6,
+        "winner": false,
+        "auction": 307,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1021,
+      "fields": {
+        "send_date": "2025-04-07T14:00:00Z",
+        "event": "Diamond League: Meeting de Mónaco",
+        "platform": "Teledeporte",
+        "quantity": 9,
+        "winner": false,
+        "auction": 307,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1022,
+      "fields": {
+        "send_date": "2025-04-07T14:20:00Z",
+        "event": "Mundial de Balonmano: Final",
+        "platform": "Eurosport",
+        "quantity": 12,
+        "winner": true,
+        "auction": 307,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1023,
+      "fields": {
+        "send_date": "2025-04-07T17:00:00Z",
+        "event": "Copa América: Brasil vs Argentina",
+        "platform": "DAZN",
+        "quantity": 11,
+        "winner": false,
+        "auction": 308,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1024,
+      "fields": {
+        "send_date": "2025-04-07T17:30:00Z",
+        "event": "Eurocopa: España vs Alemania",
+        "platform": "RTVE Play",
+        "quantity": 14,
+        "winner": false,
+        "auction": 308,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1025,
+      "fields": {
+        "send_date": "2025-04-07T18:00:00Z",
+        "event": "Maratón de Nueva York",
+        "platform": "Eurosport",
+        "quantity": 17,
+        "winner": false,
+        "auction": 308,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1026,
+      "fields": {
+        "send_date": "2025-04-07T18:30:00Z",
+        "event": "Campeonato Mundial de Hockey sobre Hielo",
+        "platform": "DAZN",
+        "quantity": 20,
+        "winner": true,
+        "auction": 308,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1027,
+      "fields": {
+        "send_date": "2025-04-07T20:15:00Z",
+        "event": "Bundesliga: Bayern Munich vs Dortmund",
+        "platform": "Movistar+",
+        "quantity": 9,
+        "winner": false,
+        "auction": 309,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1028,
+      "fields": {
+        "send_date": "2025-04-07T20:45:00Z",
+        "event": "Final ACB: Real Madrid vs Barcelona",
+        "platform": "Movistar+",
+        "quantity": 12,
+        "winner": false,
+        "auction": 309,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1029,
+      "fields": {
+        "send_date": "2025-04-07T21:05:00Z",
+        "event": "Ligue 1: PSG vs Marsella",
+        "platform": "DAZN",
+        "quantity": 15,
+        "winner": true,
+        "auction": 309,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1030,
+      "fields": {
+        "send_date": "2025-04-08T08:20:00Z",
+        "event": "Juegos Olímpicos: Ceremonia Inauguración",
+        "platform": "RTVE Play",
+        "quantity": 3,
+        "winner": false,
+        "auction": 310,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1031,
+      "fields": {
+        "send_date": "2025-04-08T08:30:00Z",
+        "event": "Triatlón Ironman de Hawái",
+        "platform": "Eurosport",
+        "quantity": 5,
+        "winner": false,
+        "auction": 310,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1032,
+      "fields": {
+        "send_date": "2025-04-08T08:40:00Z",
+        "event": "Juegos Olímpicos: Final 100m Masculinos",
+        "platform": "Eurosport",
+        "quantity": 8,
+        "winner": true,
+        "auction": 310,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1033,
+      "fields": {
+        "send_date": "2025-04-08T10:45:00Z",
+        "event": "Australian Open: Final Masculina",
+        "platform": "Eurosport",
+        "quantity": 12,
+        "winner": false,
+        "auction": 311,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1034,
+      "fields": {
+        "send_date": "2025-04-08T11:15:00Z",
+        "event": "MotoGP: GP de Jerez",
+        "platform": "DAZN",
+        "quantity": 15,
+        "winner": false,
+        "auction": 311,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1035,
+      "fields": {
+        "send_date": "2025-04-08T11:45:00Z",
+        "event": "Copa Davis: España vs Italia",
+        "platform": "Movistar+",
+        "quantity": 18,
+        "winner": false,
+        "auction": 311,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1036,
+      "fields": {
+        "send_date": "2025-04-08T12:15:00Z",
+        "event": "Mundial de Fútbol: Final",
+        "platform": "RTVE Play",
+        "quantity": 25,
+        "winner": true,
+        "auction": 311,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1037,
+      "fields": {
+        "send_date": "2025-04-08T14:20:00Z",
+        "event": "Liga Endesa: Playoffs",
+        "platform": "Movistar+",
+        "quantity": 10,
+        "winner": false,
+        "auction": 312,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1038,
+      "fields": {
+        "send_date": "2025-04-08T14:50:00Z",
+        "event": "Fórmula E: E-Prix de Berlín",
+        "platform": "DAZN",
+        "quantity": 14,
+        "winner": false,
+        "auction": 312,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1039,
+      "fields": {
+        "send_date": "2025-04-08T15:30:00Z",
+        "event": "WWE: Wrestlemania",
+        "platform": "WWE Network",
+        "quantity": 19,
+        "winner": true,
+        "auction": 312,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1040,
+      "fields": {
+        "send_date": "2025-04-08T17:35:00Z",
+        "event": "Mundial de Ciclismo en Pista",
+        "platform": "Eurosport",
+        "quantity": 2,
+        "winner": false,
+        "auction": 313,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1041,
+      "fields": {
+        "send_date": "2025-04-08T17:45:00Z",
+        "event": "Europeo de Waterpolo",
+        "platform": "Teledeporte",
+        "quantity": 4,
+        "winner": false,
+        "auction": 313,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1042,
+      "fields": {
+        "send_date": "2025-04-08T17:55:00Z",
+        "event": "Supercopa de España: Final",
+        "platform": "RTVE Play",
+        "quantity": 6,
+        "winner": true,
+        "auction": 313,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1043,
+      "fields": {
+        "send_date": "2025-04-08T19:55:00Z",
+        "event": "La Vuelta: Etapa de Montaña",
+        "platform": "RTVE Play",
+        "quantity": 7,
+        "winner": false,
+        "auction": 314,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1044,
+      "fields": {
+        "send_date": "2025-04-08T20:10:00Z",
+        "event": "Copa del Mundo de Esquí Alpino",
+        "platform": "Eurosport",
+        "quantity": 9,
+        "winner": false,
+        "auction": 314,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1045,
+      "fields": {
+        "send_date": "2025-04-08T20:25:00Z",
+        "event": "Champions League de Balonmano: Final Four",
+        "platform": "DAZN",
+        "quantity": 12,
+        "winner": true,
+        "auction": 314,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1046,
+      "fields": {
+        "send_date": "2025-04-09T09:30:00Z",
+        "event": "US Open: Final Masculina",
+        "platform": "Movistar+",
+        "quantity": 11,
+        "winner": false,
+        "auction": 315,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1047,
+      "fields": {
+        "send_date": "2025-04-09T10:00:00Z",
+        "event": "Seis Naciones: Francia vs Inglaterra",
+        "platform": "Movistar+",
+        "quantity": 14,
+        "winner": false,
+        "auction": 315,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1048,
+      "fields": {
+        "send_date": "2025-04-09T10:30:00Z",
+        "event": "Campeonato del Mundo de Rallies: Rally de Montecarlo",
+        "platform": "DAZN",
+        "quantity": 17,
+        "winner": false,
+        "auction": 315,
+        "client": 584723
+      }
+    },
+    {
+      "model": "bid.bid",
+      "pk": 1049,
+      "fields": {
+        "send_date": "2025-04-09T10:50:00Z",
+        "event": "Masters 1000 de Madrid: Final",
+        "platform": "Movistar+",
+        "quantity": 20,
+        "winner": true,
+        "auction": 315,
+        "client": 584723
+      }
+    }
+  ]

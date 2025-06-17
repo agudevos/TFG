@@ -1,0 +1,236 @@
+[
+    {
+        "model": "service.service",
+        "pk": 457502,
+        "fields": {
+            "name": "Televisión Samsung QLED 55 pulgadas",
+            "description": "Ideal para eventos deportivos con amigos gracias a su amplio ángulo de visión y colores vibrantes.",
+            "category": "televisión",
+            "max_reservation": 30,
+            "max_people": 0,
+            "deposit": 20,
+            "establishment": 862691
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457503,
+        "fields": {
+            "name": "Televisión LG OLED 65 pulgadas",
+            "description": "Perfecta para maratones de series con negros puros. Experiencia inmersiva en el establecimiento.",
+            "category": "televisión",
+            "max_reservation": 35,
+            "max_people": 0,
+            "deposit": 25,
+            "establishment": 862691
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457504,
+        "fields": {
+            "name": "Televisión Sony Bravia 50 pulgadas",
+            "description": "Ideal para presentaciones o documentales. Conecta tu dispositivo y aprovecha sus aplicaciones.",
+            "category": "televisión, smart TV, LED",
+            "max_reservation": 28,
+            "max_people": 0,
+            "deposit": 18,
+            "establishment": 901234
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457582,
+        "fields": {
+            "name": "Mesa de billar profesional",
+            "description": "Mesa de billar americana de tamaño reglamentario perfecta para torneos entre amigos con tacos incluidos.",
+            "category": "billar",
+            "max_people": 4,
+            "max_reservation": 120,
+            "deposit": 25,
+            "establishment": 123890
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457583,
+        "fields": {
+            "name": "Futbolín profesional Garlando",
+            "description": "Mesa de futbolín italiana de alta calidad ideal para competiciones y diversión en grupo.",
+            "category": "futbolín",
+            "max_reservation": 90,
+            "max_people": 4,
+            "deposit": 20,
+            "establishment": 123890
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457584,
+        "fields": {
+            "name": "Diana electrónica profesional",
+            "description": "Diana automática con marcador digital para partidas de dardos profesionales hasta 8 jugadores.",
+            "category": "dardos",
+            "max_reservation": 60,
+            "max_people": 8,
+            "deposit": 15,
+            "establishment": 234567
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457585,
+        "fields": {
+            "name": "Mesa de ping pong plegable",
+            "description": "Mesa de tenis de mesa oficial con raquetas y pelotas incluidas para partidos individuales o dobles.",
+            "category": "ping pong",
+            "max_reservation": 90,
+            "max_people": 4,
+            "deposit": 18,
+            "establishment": 234567
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457586,
+        "fields": {
+            "name": "Karaoke profesional con pantalla",
+            "description": "Sistema completo de karaoke con miles de canciones en español e inglés y dos micrófonos inalámbricos.",
+            "category": "karaoke",
+            "max_reservation": 180,
+            "max_people": 15,
+            "deposit": 30,
+            "establishment": 345678
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457587,
+        "fields": {
+            "name": "Mesa de air hockey LED",
+            "description": "Mesa de hockey de aire con efectos LED y marcador electrónico para partidas rápidas y emocionantes.",
+            "category": "air hockey",
+            "max_reservation": 60,
+            "max_people": 2,
+            "deposit": 22,
+            "establishment": 345678
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457588,
+        "fields": {
+            "name": "Máquina recreativa arcade retro",
+            "description": "Máquina con más de 1000 juegos clásicos de los 80s y 90s perfecta para la nostalgia gamer.",
+            "category": "arcade",
+            "max_reservation": 120,
+            "max_people": 2,
+            "deposit": 25,
+            "establishment": 456789
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457589,
+        "fields": {
+            "name": "Consola PlayStation 5 completa",
+            "description": "PS5 con dos mandos y los juegos más populares en pantalla grande para gaming en grupo.",
+            "category": "videojuegos",
+            "max_reservation": 180,
+            "max_people": 4,
+            "deposit": 35,
+            "establishment": 456789
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457590,
+        "fields": {
+            "name": "Set completo juegos mesa",
+            "description": "Colección de juegos de mesa clásicos: Monopoly, UNO, Jenga, cartas españolas y poker chips.",
+            "category": "juegos mesa",
+            "max_reservation": 120,
+            "max_people": 8,
+            "deposit": 12,
+            "establishment": 567890
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457591,
+        "fields": {
+            "name": "Mesa de poker profesional",
+            "description": "Mesa ovalada con fieltro verde profesional, cartas plastificadas y fichas de casino incluidas.",
+            "category": "poker",
+            "max_reservation": 240,
+            "max_people": 8,
+            "deposit": 40,
+            "establishment": 567890
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457592,
+        "fields": {
+            "name": "Diana tradicional con dardos",
+            "description": "Diana clásica de sisal con juego completo de dardos profesionales para partidas tradicionales.",
+            "category": "dardos",
+            "max_reservation": 60,
+            "max_people": 6,
+            "deposit": 10,
+            "establishment": 678901
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457593,
+        "fields": {
+            "name": "Sistema de sonido DJ",
+            "description": "Equipo completo de DJ con mesa de mezclas, altavoces y micrófono para eventos y fiestas privadas.",
+            "category": "sonido",
+            "max_reservation": 300,
+            "max_people": 50,
+            "deposit": 60,
+            "establishment": 678901
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457594,
+        "fields": {
+            "name": "Máquina de pinball clásica",
+            "description": "Máquina de pinball vintage en perfecto estado para revivir la época dorada de los flippers.",
+            "category": "pinball",
+            "max_reservation": 90,
+            "max_people": 1,
+            "deposit": 20,
+            "establishment": 789012
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457595,
+        "fields": {
+            "name": "Zona chill out privada",
+            "description": "Área reservada con sofás cómodos, mesa baja y ambiente relajado para grupos que buscan tranquilidad.",
+            "category": "chill out",
+            "max_reservation": 240,
+            "max_people": 12,
+            "deposit": 35,
+            "establishment": 789012
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 457596,
+        "fields": {
+            "name": "Tragaperras temática retro",
+            "description": "Máquina tragamonedas clásica de los 90 con temática de frutas y luces intermitentes nostálgicas.",
+            "category": "tragaperras",
+            "max_reservation": 120,
+            "max_people": 1,
+            "deposit": 15,
+            "establishment": 890123
+        }
+    }
+]
