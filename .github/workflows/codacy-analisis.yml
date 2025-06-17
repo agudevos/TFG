@@ -59,4 +59,4 @@ jobs:
         with:
           name: codacy-analysis-results
           path: codacy-results
-          retention-
+          retention-days: 30
