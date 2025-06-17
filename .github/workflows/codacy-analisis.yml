@@ -35,6 +35,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      
+      - name: Fix PYTHONPATH
+        run: echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |
@@ -45,6 +48,7 @@ jobs:
       - name: Run Django tests with coverage
         env:
           DJANGO_SETTINGS_MODULE: Backend.uchoose.settings  # Ajusta si tu settings.py está en otro lugar
+          PYTHONPATH: ${{ env.PYTHONPATH }}
         run: |
           coverage run --branch --source=. ./Backend/manage.py test --keepdb
           coverage xml
