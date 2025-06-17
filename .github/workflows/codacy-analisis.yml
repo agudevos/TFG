@@ -48,6 +48,7 @@ jobs:
       - name: Run Django tests with coverage
         env:
           DJANGO_SETTINGS_MODULE: Backend.uchoose.settings  # Ajusta si tu settings.py está en otro lugar
+          SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           PYTHONPATH: ${{ env.PYTHONPATH }}
         run: |
           coverage run --branch --source=. ./Backend/manage.py test --keepdb
