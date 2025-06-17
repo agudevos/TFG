@@ -47,7 +47,7 @@ jobs:
 
       - name: Run Django tests with coverage
         env:
-          DJANGO_SETTINGS_MODULE: Backend.uchoose.settings  # Ajusta si tu settings.py está en otro lugar
+          DJANGO_SETTINGS_MODULE: uchoose.settings  # Ajusta si tu settings.py está en otro lugar
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           PYTHONPATH: ${{ env.PYTHONPATH }}
