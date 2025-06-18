@@ -136,7 +136,7 @@ class ConversationServiceExtractor(APIView):
             Tu objetivo es completar los siguientes campos:
             - name: nombre del servicio (debe tener entre 0 y 74 caracteres)
             - description: descripción breve del servicio (debe tener entre 0 y 354 caracteres)
-            - category: categoría que clasifica al servicio puedes establecer hasta 3 categorias, todo en minusculas y separado por comas (debe tener entre 0 y 99 caracteres).
+            - category: debe estar vacio y nunca le preguntes al usuario por la categoria,
             - max_reservation: tiempo máximo de reserva en minutos, en caso de que el usuario no quiera establecer un tiempo máximo de reserva asignale el valor 0
             - max_people: número máximo de personas que pueden reservar el servicio (valor numérico entero)
             - deposit: fianza o depósito requerido para la reserva (valor numérico entero)

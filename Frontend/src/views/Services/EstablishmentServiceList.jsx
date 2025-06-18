@@ -4,6 +4,7 @@ import { getFromApi } from '../../utils/functions/api';
 import AuthContext from "../../utils/context/AuthContext";
 import EstablishmentContext from '../../utils/context/EstablishmentContext';
 import { useNavigate } from 'react-router';
+import { LuBrainCircuit } from 'react-icons/lu';
 
 const EstablishmentServicesList = () => {
   const { selectedEstablishment } = useContext(EstablishmentContext);
@@ -50,7 +51,7 @@ const EstablishmentServicesList = () => {
   };
 
   const handleNew = () => {
-    navigate('/worker/services/create')
+    navigate('/worker/conversations/service')
   }
 
   if (!user) {
@@ -74,6 +75,14 @@ const EstablishmentServicesList = () => {
         </h2>
         
         <div className="flex flex-col sm:flex-row gap-2 ml-auto">
+          <button 
+            onClick={handleNew}
+            disabled={isLoading}
+            className="w-32 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-400 text-white rounded-lg transition-colors duration-300 flex items-center justify-center"
+          >
+            <LuBrainCircuit className='mr-2'/> 
+            {isLoading ? 'Cargando...' : 'Crear'}
+          </button>
           <button 
             onClick={handleNew}
             disabled={isLoading}

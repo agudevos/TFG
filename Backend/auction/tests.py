@@ -49,7 +49,7 @@ class AuctionViewsTestCase(TestCase):
             name='Test Establishment',
             description='Descripción de prueba',
             location='Fake Street 123',
-            platforms='web',
+            platforms='movistar+',
             subscription='free',
             customer_id='CUST12345',
             owner=self.owner_worker
