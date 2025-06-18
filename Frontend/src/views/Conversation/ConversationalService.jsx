@@ -13,6 +13,7 @@ const ConversationalService = () => {
     description: '',
     category: '',
     max_reservation: '',
+    max_people: '',
     deposit: '',
     finished: false
   });
@@ -118,6 +119,7 @@ const ConversationalService = () => {
         description: serviceData.description,
         category: serviceData.category,
         max_reservation: parseInt(serviceData.max_reservation),
+        max_people: parseInt(serviceData.max_people),
         deposit: parseInt(serviceData.deposit),
         establishment: selectedEstablishment.id
       });
@@ -216,23 +218,23 @@ const ConversationalService = () => {
               </div>
             </div>
             
-            {/* Categoría */}
+            {/* Tiempo Máximo */}
             <div className={`transition-all duration-300 rounded-lg overflow-hidden ${
-              getFieldStatus('category') === 'filled' 
+              getFieldStatus('max_people') === 'filled' 
                 ? 'shadow-sm border-l-4 border-cyan-500' 
                 : 'shadow-sm border-l-4 border-gray-200'
             }`}>
               <div className="px-4 py-2 bg-gray-50 flex justify-between items-center">
-                <h3 className="font-medium text-gray-700">Categoría</h3>
-                {getFieldStatus('category') === 'filled' ? (
+                <h3 className="font-medium text-gray-700">Aforo Máximo</h3>
+                {getFieldStatus('max_people') === 'filled' ? (
                   <span className="text-xs bg-cyan-100 text-cyan-800 px-2 py-1 rounded-full">Completado</span>
                 ) : (
                   <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full">Pendiente</span>
                 )}
               </div>
               <div className="p-4 bg-white">
-                {serviceData && serviceData.category ? (
-                  <p className="text-gray-800">{serviceData.category}</p>
+                {serviceData && serviceData.max_people ? (
+                  <p className="text-gray-800">{serviceData.max_people}</p>
                 ) : (
                   <p className="text-gray-400 italic">Pendiente de información</p>
                 )}
@@ -265,6 +267,7 @@ const ConversationalService = () => {
               </div>
             </div>
             
+            
             {/* Fianza */}
             <div className={`transition-all duration-300 rounded-lg overflow-hidden ${
               getFieldStatus('deposit') === 'filled' 
@@ -287,9 +290,8 @@ const ConversationalService = () => {
                 )}
               </div>
             </div>
-            
             {/* Estado */}
-            <div className="rounded-lg overflow-hidden shadow-sm">
+            <div className="rounded-lg overflow-hidden shadow-sm mt-2">
               <div className="px-4 py-2 bg-gray-50">
                 <h3 className="font-medium text-gray-700">Estado general</h3>
               </div>
@@ -319,6 +321,7 @@ const ConversationalService = () => {
                 </div>
               </div>
             </div>
+            
           </div>
         </div>
         
@@ -386,7 +389,7 @@ const calculateProgress = (data) => {
   // Verificar que data no sea undefined
   if (!data) return 0;
   
-  const fields = ['name', 'description', 'category', 'max_reservation', 'deposit'];
+  const fields = ['name', 'description', 'max_people', 'max_reservation', 'deposit'];
   const completedFields = fields.filter(field => data[field]).length;
   return Math.round((completedFields / fields.length) * 100);
 };

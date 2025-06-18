@@ -63,20 +63,3 @@ class BidDetailView(APIView):
         bid = get_object_or_404(Bid, pk=pk)
         serializer = BidSerializer(bid)
         return Response(serializer.data)
-
-@permission_classes([IsAuthenticated])
-class BidUpdateView(APIView):
-    def put(self, request, pk):
-        bid = get_object_or_404(Bid, pk=pk)
-        serializer = BidSerializer(bid, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=400)
-
-@permission_classes([IsAuthenticated])
-class BidDeleteView(APIView):
-    def delete(self, request, pk):
-        bid = get_object_or_404(Bid, pk=pk)
-        bid.delete()
-        return Response(status=204)
