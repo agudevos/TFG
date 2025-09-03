@@ -8,8 +8,7 @@ class Service(models.Model):
 
     def random_id():
         return randint(100000, 999999)
-    
-    id = models.PositiveIntegerField(primary_key=True, default=random_id, editable=False)
+
     name = models.CharField(max_length=75)
     description = models.CharField(max_length=350)
     category = models.CharField(max_length=100)

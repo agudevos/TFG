@@ -9,8 +9,6 @@ class Bid(models.Model):
 
     def random_id():
         return randint(100000, 999999)
-    
-    id = models.PositiveIntegerField(primary_key=True, default=random_id, editable=False)
 
     send_date = models.DateTimeField()
     event = models.CharField(max_length=100)

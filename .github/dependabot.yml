@@ -7,7 +7,7 @@ updates:
       interval: "weekly"
       day: "monday"
     # Limitar el número de PR abiertos simultáneamente
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 20
     # Configuraciones adicionales
     versioning-strategy: auto
     # Grupos de dependencias relacionadas en un solo PR
@@ -28,4 +28,3 @@ updates:
     # Aplicar etiquetas a los PRs
     labels:
       - "dependencies"
-      - "frontend"

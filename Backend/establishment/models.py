@@ -13,8 +13,6 @@ class Establishment(models.Model):
         ('premium', 'Premium')
     )
 
-    id = models.PositiveIntegerField(primary_key=True, default=random_id, editable=False)
-
     name = models.CharField(max_length=75)
     description = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
